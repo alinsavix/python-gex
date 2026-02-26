@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "gex"
+version = "0.1.0"
+description = "Gauntlet II arcade ROM tile, stamp, and maze extractor"
+readme = "README.md"
+license = "GPL-3.0-only"
+requires-python = ">=3.12"
+authors = [ { name = "TDV Alinsa", email = "alinsa-github@lupine.org" } ]
+keywords = ["gauntlet", "arcade", "sprite", "retrogaming"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Games/Entertainment :: Arcade",
+    "Topic :: Multimedia :: Graphics",
+]
+
+dependencies = [
+    "Pillow>=10.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/alinsavix/python-gex"
+Repository = "https://github.com/alinsavix/python-gex"
+
+[project.scripts]
+gex = "gex.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

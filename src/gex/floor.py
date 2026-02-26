@@ -1,0 +1,74 @@
+"""Floor tile stamps and rendering."""
+
+from __future__ import annotations
+
+import re
+
+from .render import Stamp, blank_image, gen_stamp_from_array, write_stamp_to_image, save_to_png
+
+
+FLOOR_STAMPS = [
+    [0x11, 0x12, 0x13, 0x14], [0x15, 0x16, 0x17, 0x18],
+    [0x19, 0x1A, 0x1B, 0x1C], [0x1D, 0x1E, 0x1F, 0x20],
+    [0x21, 0x12, 0x22, 0x14], [0x23, 0x16, 0x24, 0x18],
+    [0x25, 0x1A, 0x26, 0x1C], [0x27, 0x1E, 0x28, 0x20],
+    [0x11, 0x12, 0x29, 0x14], [0x15, 0x16, 0x2A, 0x18],
+    [0x19, 0x1A, 0x2B, 0x1C], [0x1D, 0x1E, 0x2C, 0x20],
+    [0x2D, 0x12, 0x29, 0x14], [0x2E, 0x16, 0x2A, 0x18],
+    [0x2F, 0x1A, 0x2B, 0x1C], [0x30, 0x1E, 0x2C, 0x20],
+    [0x11, 0x12, 0x31, 0x32], [0x15, 0x16, 0x33, 0x34],
+    [0x19, 0x1A, 0x35, 0x36], [0x1D, 0x1E, 0x37, 0x38],
+    [0x21, 0x12, 0x39, 0x32], [0x23, 0x16, 0x3A, 0x34],
+    [0x25, 0x1A, 0x3B, 0x36], [0x27, 0x1E, 0x3C, 0x38],
+    [0x11, 0x12, 0x29, 0x3D], [0x15, 0x16, 0x2A, 0x3E],
+    [0x19, 0x1A, 0x2B, 0x3F], [0x1D, 0x1E, 0x2C, 0x40],
+    [0x2D, 0x12, 0x29, 0x3D], [0x2E, 0x16, 0x2A, 0x3E],
+    [0x2F, 0x1A, 0x2B, 0x3F], [0x30, 0x1E, 0x2C, 0x40],
+]
+
+
+def floor_get_tiles(floor_num: int, floor_adj: int) -> list[int]:
+    return [(floor_num * 48) + FLOOR_STAMPS[floor_adj][i] for i in range(4)]
+
+
+def floor_get_stamp(floor_num: int, floor_adj: int, floor_color: int) -> Stamp:
+    tiles = floor_get_tiles(floor_num, floor_adj)
+    return gen_stamp_from_array(tiles, 2, "floor", floor_color)
+
+
+RE_FLOOR_NUM = re.compile(r"^floor(\d+)")
+RE_FLOOR_COLOR = re.compile(r"^c(\d+)")
+RE_FLOOR_ADJ = re.compile(r"^var(\d+)|(hwall)|(vwall)|(dwall)")
+
+
+def dofloor(arg: str, output: str) -> None:
+    split = arg.split("-")
+    floor_num = -1
+    floor_color = 0
+    floor_adj = 0
+
+    for ss in split:
+        m = RE_FLOOR_NUM.match(ss)
+        if m:
+            floor_num = int(m.group(1))
+            continue
+        m = RE_FLOOR_COLOR.match(ss)
+        if m:
+            floor_color = int(m.group(1))
+            continue
+        m = RE_FLOOR_ADJ.match(ss)
+        if m:
+            if m.group(1):
+                floor_adj += int(m.group(1))
+            if m.group(2):
+                floor_adj += 4
+            if m.group(3):
+                floor_adj += 16
+            if m.group(4):
+                floor_adj += 8
+
+    print(f"Floor number: {floor_num}   color: {floor_color}    adj: {floor_adj}")
+    stamp = floor_get_stamp(floor_num, floor_adj, floor_color)
+    img = blank_image(2 * 8, 2 * 8)
+    write_stamp_to_image(img, stamp, 0, 0)
+    save_to_png(output, img)
