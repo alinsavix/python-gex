@@ -11,16 +11,38 @@ user_token*.json
 
 # python noise
 .env
-.venv
+.venv/
 env/
 venv/
 
 __pycache__/
 *.py[cod]
+*$py.class
+*.so
+*.egg-info/
+*.egg
+*.whl
 
 build/
 dist/
 sdist/
+
+# uv
+uv.lock
+
+# ROMs (binary assets)
+ROMs/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
 
 # testing bits (if we have them)
 .tox/
