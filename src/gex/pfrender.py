@@ -5,7 +5,7 @@ from __future__ import annotations
 from PIL import Image
 
 from .constants import (
-    LFLAG4_WRAP_H, LFLAG4_WRAP_V, MazeObj,
+    LFLAG4_WRAP_H, LFLAG4_WRAP_V, MazeObjIds,
 )
 from .door import DOOR_HORIZ, DOOR_VERT, door_get_stamp
 from .floor import floor_get_stamp
@@ -25,11 +25,11 @@ def whatis(maze: Maze, x: int, y: int) -> int:
 
 
 def isdoor(t: int) -> bool:
-    return t in (MazeObj.DOOR_HORIZ, MazeObj.DOOR_VERT)
+    return t in (MazeObjIds.DOOR_HORIZ, MazeObjIds.DOOR_VERT)
 
 
 def isforcefield(t: int) -> bool:
-    return t == MazeObj.FORCEFIELDHUB
+    return t == MazeObjIds.FORCEFIELDHUB
 
 
 def copyedges(maze: Maze) -> None:
@@ -190,154 +190,154 @@ def genpfimage(maze: Maze, output: str) -> None:
             dots = 0
             obj = whatis(maze, x, y)
 
-            if obj == MazeObj.TILE_FLOOR:
+            if obj == MazeObjIds.TILE_FLOOR:
                 pass
 
-            elif obj == MazeObj.TILE_STUN:
+            elif obj == MazeObjIds.TILE_STUN:
                 adj = checkwalladj3(maze, x, y) + mazedecode.gorand.intn(4)
                 stamp = floor_get_stamp(maze.floorpattern, adj, maze.floorcolor)
                 stamp.ptype = "stun"
                 stamp.pnum = 0
 
-            elif obj == MazeObj.TILE_TRAP1:
+            elif obj == MazeObjIds.TILE_TRAP1:
                 dots = 1
                 adj = checkwalladj3(maze, x, y) + mazedecode.gorand.intn(4)
                 stamp = floor_get_stamp(maze.floorpattern, adj, maze.floorcolor)
                 stamp.ptype = "trap"
                 stamp.pnum = 0
-            elif obj == MazeObj.TILE_TRAP2:
+            elif obj == MazeObjIds.TILE_TRAP2:
                 dots = 2
                 adj = checkwalladj3(maze, x, y) + mazedecode.gorand.intn(4)
                 stamp = floor_get_stamp(maze.floorpattern, adj, maze.floorcolor)
                 stamp.ptype = "trap"
                 stamp.pnum = 0
-            elif obj == MazeObj.TILE_TRAP3:
+            elif obj == MazeObjIds.TILE_TRAP3:
                 dots = 3
                 adj = checkwalladj3(maze, x, y) + mazedecode.gorand.intn(4)
                 stamp = floor_get_stamp(maze.floorpattern, adj, maze.floorcolor)
                 stamp.ptype = "trap"
                 stamp.pnum = 0
 
-            elif obj == MazeObj.WALL_DESTRUCTABLE:
+            elif obj == MazeObjIds.WALL_DESTRUCTABLE:
                 adj = checkwalladj8(maze, x, y)
                 stamp = wall_get_destructable_stamp(maze.wallpattern, adj, maze.wallcolor)
-            elif obj == MazeObj.WALL_SECRET:
+            elif obj == MazeObjIds.WALL_SECRET:
                 adj = checkwalladj8(maze, x, y)
                 stamp = wall_get_stamp(maze.wallpattern, adj, maze.wallcolor)
                 stamp.ptype = "secret"
                 stamp.pnum = 0
 
-            elif obj == MazeObj.WALL_TRAPCYC1:
+            elif obj == MazeObjIds.WALL_TRAPCYC1:
                 dots = 1
                 adj = checkwalladj8(maze, x, y)
                 stamp = wall_get_stamp(maze.wallpattern, adj, maze.wallcolor)
-            elif obj == MazeObj.WALL_TRAPCYC2:
+            elif obj == MazeObjIds.WALL_TRAPCYC2:
                 dots = 2
                 adj = checkwalladj8(maze, x, y)
                 stamp = wall_get_stamp(maze.wallpattern, adj, maze.wallcolor)
-            elif obj == MazeObj.WALL_TRAPCYC3:
+            elif obj == MazeObjIds.WALL_TRAPCYC3:
                 dots = 3
                 adj = checkwalladj8(maze, x, y)
                 stamp = wall_get_stamp(maze.wallpattern, adj, maze.wallcolor)
-            elif obj == MazeObj.WALL_RANDOM:
+            elif obj == MazeObjIds.WALL_RANDOM:
                 dots = 4
                 adj = checkwalladj8(maze, x, y)
                 stamp = wall_get_stamp(maze.wallpattern, adj, maze.wallcolor)
-            elif obj == MazeObj.WALL_REGULAR:
+            elif obj == MazeObjIds.WALL_REGULAR:
                 adj = checkwalladj8(maze, x, y)
                 stamp = wall_get_stamp(maze.wallpattern, adj, maze.wallcolor)
 
-            elif obj == MazeObj.WALL_MOVABLE:
+            elif obj == MazeObjIds.WALL_MOVABLE:
                 stamp = item_get_stamp("pushwall")
-            elif obj == MazeObj.KEY:
+            elif obj == MazeObjIds.KEY:
                 stamp = item_get_stamp("key")
 
-            elif obj == MazeObj.POWER_INVIS:
+            elif obj == MazeObjIds.POWER_INVIS:
                 stamp = item_get_stamp("invis")
-            elif obj == MazeObj.POWER_REPULSE:
+            elif obj == MazeObjIds.POWER_REPULSE:
                 stamp = item_get_stamp("repulse")
-            elif obj == MazeObj.POWER_REFLECT:
+            elif obj == MazeObjIds.POWER_REFLECT:
                 stamp = item_get_stamp("reflect")
-            elif obj == MazeObj.POWER_TRANSPORT:
+            elif obj == MazeObjIds.POWER_TRANSPORT:
                 stamp = item_get_stamp("transportability")
-            elif obj == MazeObj.POWER_SUPERSHOT:
+            elif obj == MazeObjIds.POWER_SUPERSHOT:
                 stamp = item_get_stamp("supershot")
-            elif obj == MazeObj.POWER_INVULN:
+            elif obj == MazeObjIds.POWER_INVULN:
                 stamp = item_get_stamp("invuln")
 
-            elif obj == MazeObj.DOOR_HORIZ:
+            elif obj == MazeObjIds.DOOR_HORIZ:
                 adj = checkdooradj4(maze, x, y)
                 stamp = door_get_stamp(DOOR_HORIZ, adj)
-            elif obj == MazeObj.DOOR_VERT:
+            elif obj == MazeObjIds.DOOR_VERT:
                 adj = checkdooradj4(maze, x, y)
                 stamp = door_get_stamp(DOOR_VERT, adj)
 
-            elif obj == MazeObj.PLAYERSTART:
+            elif obj == MazeObjIds.PLAYERSTART:
                 stamp = item_get_stamp("plus")
-            elif obj == MazeObj.EXIT:
+            elif obj == MazeObjIds.EXIT:
                 stamp = item_get_stamp("exit")
-            elif obj == MazeObj.EXITTO6:
+            elif obj == MazeObjIds.EXITTO6:
                 stamp = item_get_stamp("exit6")
 
-            elif obj == MazeObj.MONST_GHOST:
+            elif obj == MazeObjIds.MONST_GHOST:
                 stamp = item_get_stamp("ghost")
-            elif obj == MazeObj.MONST_GRUNT:
+            elif obj == MazeObjIds.MONST_GRUNT:
                 stamp = item_get_stamp("grunt")
-            elif obj == MazeObj.MONST_DEMON:
+            elif obj == MazeObjIds.MONST_DEMON:
                 stamp = item_get_stamp("demon")
-            elif obj == MazeObj.MONST_LOBBER:
+            elif obj == MazeObjIds.MONST_LOBBER:
                 stamp = item_get_stamp("lobber")
-            elif obj == MazeObj.MONST_SORC:
+            elif obj == MazeObjIds.MONST_SORC:
                 stamp = item_get_stamp("sorcerer")
-            elif obj == MazeObj.MONST_AUX_GRUNT:
+            elif obj == MazeObjIds.MONST_AUX_GRUNT:
                 stamp = item_get_stamp("auxgrunt")
-            elif obj == MazeObj.MONST_DEATH:
+            elif obj == MazeObjIds.MONST_DEATH:
                 stamp = item_get_stamp("death")
-            elif obj == MazeObj.MONST_ACID:
+            elif obj == MazeObjIds.MONST_ACID:
                 stamp = item_get_stamp("acid")
-            elif obj == MazeObj.MONST_SUPERSORC:
+            elif obj == MazeObjIds.MONST_SUPERSORC:
                 stamp = item_get_stamp("supersorc")
-            elif obj == MazeObj.MONST_IT:
+            elif obj == MazeObjIds.MONST_IT:
                 stamp = item_get_stamp("it")
-            elif obj == MazeObj.MONST_DRAGON:
+            elif obj == MazeObjIds.MONST_DRAGON:
                 stamp = item_get_stamp("dragon")
 
-            elif obj == MazeObj.GEN_GHOST1:
+            elif obj == MazeObjIds.GEN_GHOST1:
                 stamp = item_get_stamp("ghostgen1")
-            elif obj == MazeObj.GEN_GHOST2:
+            elif obj == MazeObjIds.GEN_GHOST2:
                 stamp = item_get_stamp("ghostgen2")
-            elif obj == MazeObj.GEN_GHOST3:
+            elif obj == MazeObjIds.GEN_GHOST3:
                 stamp = item_get_stamp("ghostgen3")
 
-            elif obj in (MazeObj.GEN_GRUNT1, MazeObj.GEN_DEMON1, MazeObj.GEN_LOBBER1,
-                         MazeObj.GEN_SORC1, MazeObj.GEN_AUX_GRUNT1):
+            elif obj in (MazeObjIds.GEN_GRUNT1, MazeObjIds.GEN_DEMON1, MazeObjIds.GEN_LOBBER1,
+                         MazeObjIds.GEN_SORC1, MazeObjIds.GEN_AUX_GRUNT1):
                 stamp = item_get_stamp("generator1")
-            elif obj in (MazeObj.GEN_GRUNT2, MazeObj.GEN_DEMON2, MazeObj.GEN_LOBBER2,
-                         MazeObj.GEN_SORC2, MazeObj.GEN_AUX_GRUNT2):
+            elif obj in (MazeObjIds.GEN_GRUNT2, MazeObjIds.GEN_DEMON2, MazeObjIds.GEN_LOBBER2,
+                         MazeObjIds.GEN_SORC2, MazeObjIds.GEN_AUX_GRUNT2):
                 stamp = item_get_stamp("generator2")
-            elif obj in (MazeObj.GEN_GRUNT3, MazeObj.GEN_DEMON3, MazeObj.GEN_LOBBER3,
-                         MazeObj.GEN_SORC3, MazeObj.GEN_AUX_GRUNT3):
+            elif obj in (MazeObjIds.GEN_GRUNT3, MazeObjIds.GEN_DEMON3, MazeObjIds.GEN_LOBBER3,
+                         MazeObjIds.GEN_SORC3, MazeObjIds.GEN_AUX_GRUNT3):
                 stamp = item_get_stamp("generator3")
 
-            elif obj == MazeObj.TREASURE:
+            elif obj == MazeObjIds.TREASURE:
                 stamp = item_get_stamp("treasure")
-            elif obj == MazeObj.TREASURE_LOCKED:
+            elif obj == MazeObjIds.TREASURE_LOCKED:
                 stamp = item_get_stamp("treasurelocked")
-            elif obj == MazeObj.TREASURE_BAG:
+            elif obj == MazeObjIds.TREASURE_BAG:
                 stamp = item_get_stamp("goldbag")
-            elif obj == MazeObj.FOOD_DESTRUCTABLE:
+            elif obj == MazeObjIds.FOOD_DESTRUCTABLE:
                 stamp = item_get_stamp("food")
-            elif obj == MazeObj.FOOD_INVULN:
+            elif obj == MazeObjIds.FOOD_INVULN:
                 stamp = item_get_stamp(FOODS[mazedecode.gorand.intn(3)])
-            elif obj == MazeObj.POT_DESTRUCTABLE:
+            elif obj == MazeObjIds.POT_DESTRUCTABLE:
                 stamp = item_get_stamp("potion")
-            elif obj == MazeObj.POT_INVULN:
+            elif obj == MazeObjIds.POT_INVULN:
                 stamp = item_get_stamp("ipotion")
 
-            elif obj == MazeObj.FORCEFIELDHUB:
+            elif obj == MazeObjIds.FORCEFIELDHUB:
                 adj = checkffadj4(maze, x, y)
                 stamp = ff_get_stamp(adj)
-            elif obj == MazeObj.TRANSPORTER:
+            elif obj == MazeObjIds.TRANSPORTER:
                 stamp = item_get_stamp("tport")
 
             if stamp is not None:

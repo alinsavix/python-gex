@@ -5,7 +5,7 @@ from __future__ import annotations
 import struct
 from dataclasses import dataclass, field
 
-from .constants import MazeObj
+from .constants import MazeObjIds
 from .gorand import GoRand
 
 # Module-level GoRand instance shared with pfrender and wall
@@ -34,36 +34,36 @@ def index2xy(index: int) -> tuple[int, int]:
 
 def iswall(t: int) -> bool:
     return t in (
-        MazeObj.WALL_REGULAR, MazeObj.WALL_SECRET, MazeObj.WALL_DESTRUCTABLE,
-        MazeObj.WALL_RANDOM, MazeObj.WALL_TRAPCYC1, MazeObj.WALL_TRAPCYC2,
-        MazeObj.WALL_TRAPCYC3,
+        MazeObjIds.WALL_REGULAR, MazeObjIds.WALL_SECRET, MazeObjIds.WALL_DESTRUCTABLE,
+        MazeObjIds.WALL_RANDOM, MazeObjIds.WALL_TRAPCYC1, MazeObjIds.WALL_TRAPCYC2,
+        MazeObjIds.WALL_TRAPCYC3,
     )
 
 
 def isspecialfloor(t: int) -> bool:
     return t in (
-        MazeObj.TILE_STUN, MazeObj.TILE_TRAP1, MazeObj.TILE_TRAP2,
-        MazeObj.TILE_TRAP3, MazeObj.EXIT, MazeObj.EXITTO6,
-        MazeObj.TRANSPORTER,
+        MazeObjIds.TILE_STUN, MazeObjIds.TILE_TRAP1, MazeObjIds.TILE_TRAP2,
+        MazeObjIds.TILE_TRAP3, MazeObjIds.EXIT, MazeObjIds.EXITTO6,
+        MazeObjIds.TRANSPORTER,
     )
 
 
 def expand(maze: Maze, location: int, t: int, count: int) -> int:
-    if t == MazeObj.TILE_FLOOR:
+    if t == MazeObjIds.TILE_FLOOR:
         return location + count
 
     i = 0
     while i < count:
         x, y = index2xy(location + i)
         maze.data[(x, y)] = t
-        if t == MazeObj.MONST_DRAGON:
+        if t == MazeObjIds.MONST_DRAGON:
             i += 1  # extra increment matching Go's in-loop i++
         i += 1
     return location + count
 
 
 def vexpand(maze: Maze, location: int, t: int, count: int) -> int:
-    if t == MazeObj.TILE_FLOOR:
+    if t == MazeObjIds.TILE_FLOOR:
         return location + 1
 
     for i in range(count):
@@ -99,7 +99,7 @@ def maze_decompress(compressed: list[int], metaonly: bool = False) -> Maze:
 
     # Fill first row with walls
     for i in range(32):
-        maze.data[(i, 0)] = MazeObj.WALL_REGULAR
+        maze.data[(i, 0)] = MazeObjIds.WALL_REGULAR
 
     location = 32
     compressed = compressed[11:]
@@ -141,30 +141,30 @@ def maze_decompress(compressed: list[int], metaonly: bool = False) -> Maze:
                 else:
                     location = expand(maze, location, previtem, count)
             elif prevtop == 0x40:
-                location = expand(maze, location, MazeObj.TILE_FLOOR, count)
+                location = expand(maze, location, MazeObjIds.TILE_FLOOR, count)
                 location = expand(maze, location, previtem, 1)
             elif prevtop == 0x80:
                 location = expand(maze, location, previtem, 1)
-                location = expand(maze, location, MazeObj.TILE_FLOOR, count)
+                location = expand(maze, location, MazeObjIds.TILE_FLOOR, count)
             elif prevtop == 0xC0:
-                location = expand(maze, location, MazeObj.WALL_REGULAR, count)
+                location = expand(maze, location, MazeObjIds.WALL_REGULAR, count)
                 location = expand(maze, location, previtem, 1)
 
         elif top2 == 0x80:
             if (token & 0x20) != 0:
                 if (token & 0x10) != 0:
-                    location = vexpand(maze, location, MazeObj.WALL_REGULAR, count)
+                    location = vexpand(maze, location, MazeObjIds.WALL_REGULAR, count)
                 else:
-                    location = expand(maze, location, MazeObj.WALL_REGULAR, count)
+                    location = expand(maze, location, MazeObjIds.WALL_REGULAR, count)
             else:
                 location = expand(maze, location, prev & 0x3F, longcount)
 
         elif top2 == 0xC0:
             if (token & 0x20) != 0:
-                location = expand(maze, location, MazeObj.TILE_FLOOR, longcount)
-                location = expand(maze, location, MazeObj.WALL_REGULAR, 1)
+                location = expand(maze, location, MazeObjIds.TILE_FLOOR, longcount)
+                location = expand(maze, location, MazeObjIds.WALL_REGULAR, 1)
             else:
-                location = expand(maze, location, MazeObj.TILE_FLOOR, longcount)
+                location = expand(maze, location, MazeObjIds.TILE_FLOOR, longcount)
 
     if len(compressed) != 1 or compressed[0] != 0:
         print(f"WARNING: Incomplete maze decode? ({len(compressed)} bytes remaining)")
