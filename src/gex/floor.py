@@ -2,9 +2,13 @@
 
 from __future__ import annotations
 
-from .render import Stamp, blank_image, gen_stamp_from_array, write_stamp_to_image, save_to_png
+from .render import Stamp, gen_stamp_from_array, render_stamp_to_file
 
 
+# Tile ROM indices for floor variants (offsets within a floor pattern block).
+# Each floor pattern occupies 48 consecutive tiles; the values below are
+# intra-block offsets.  32 adjacency variants are defined (4 wall-adj bits × 2
+# diagonal variants × 4 random variants).
 FLOOR_STAMPS = [
     [0x11, 0x12, 0x13, 0x14], [0x15, 0x16, 0x17, 0x18],
     [0x19, 0x1A, 0x1B, 0x1C], [0x1D, 0x1E, 0x1F, 0x20],
@@ -54,7 +58,4 @@ def dofloor(arg: str, output: str) -> None:
             floor_adj += int(ss[3:])
 
     print(f"Floor number: {floor_num}   color: {floor_color}    adj: {floor_adj}")
-    stamp = floor_get_stamp(floor_num, floor_adj, floor_color)
-    img = blank_image(2 * 8, 2 * 8)
-    write_stamp_to_image(img, stamp, 0, 0)
-    save_to_png(output, img)
+    render_stamp_to_file(floor_get_stamp(floor_num, floor_adj, floor_color), output)

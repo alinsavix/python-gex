@@ -17,6 +17,18 @@ class GexError(Exception):
     """Application-level error for gex."""
 
 
+class ROMError(GexError):
+    """Error reading or accessing ROM files."""
+
+
+class MazeDecodeError(GexError):
+    """Error decoding maze data."""
+
+
+class TileError(GexError):
+    """Error accessing or parsing tile data."""
+
+
 def _rom_dir() -> Path:
     """Return the directory containing ROM files.
 
@@ -59,7 +71,7 @@ def rom_split_read(roms: list[str], offset: int, count: int, exact: bool = True)
             buf.append(b[0])
 
     if exact and len(buf) != expected:
-        raise GexError(
+        raise ROMError(
             f"rom_split_read: short read ({len(buf)} of {expected} bytes)"
             f" at offset {offset} in {roms}"
         )
@@ -163,7 +175,7 @@ def get_tile_data_from_file(filepath: str, tilenum: int) -> bytes:
         f.seek(tilenum * 8)
         data = f.read(8)
     if len(data) != 8:
-        raise RuntimeError("Failed to read full tile from file")
+        raise TileError("Failed to read full tile from file")
     return data
 
 
@@ -175,7 +187,7 @@ def slapstic_read_bytes(offset: int, count: int, exact: bool = True) -> bytes:
 
 def slapstic_maze_get_bank(mazenum: int) -> int:
     if mazenum < 0 or mazenum > MAX_MAZE_NUM:
-        raise GexError(f"Invalid maze number requested (must be 0 <= x <= {MAX_MAZE_NUM})")
+        raise ROMError(f"Invalid maze number requested (must be 0 <= x <= {MAX_MAZE_NUM})")
     bank_byte = SLAPSTIC_BANK_INFO[mazenum // 4]
     shift = (mazenum % 4) * 2
     return (bank_byte >> shift) & 0x3

@@ -1,6 +1,9 @@
 """Tests for door stamp logic."""
 
+import pytest
+
 from gex.door import door_get_tiles, DOOR_STAMPS, DOOR_HORIZ, DOOR_VERT
+from gex.roms import GexError
 
 
 class TestDoorConstants:
@@ -13,28 +16,28 @@ class TestDoorConstants:
 
 
 class TestDoorGetTiles:
-    def test_no_adjacency_returns_none(self):
-        assert door_get_tiles(DOOR_HORIZ, 0) is None
+    def test_no_adjacency_raises(self):
+        with pytest.raises(GexError):
+            door_get_tiles(DOOR_HORIZ, 0)
 
-    def test_up_only_returns_none(self):
-        assert door_get_tiles(DOOR_HORIZ, 1) is None
+    def test_up_only_raises(self):
+        with pytest.raises(GexError):
+            door_get_tiles(DOOR_HORIZ, 1)
 
     def test_valid_adjacency_returns_four_tiles(self):
-        # adj=3 (up-right) has stamp 0x1D34
         tiles = door_get_tiles(DOOR_HORIZ, 3)
-        assert tiles is not None
         assert len(tiles) == 4
         assert tiles == [0x1D34, 0x1D35, 0x1D36, 0x1D37]
 
     def test_all_adjacent(self):
-        # adj=15 (all four) has stamp 0x1D28
         tiles = door_get_tiles(DOOR_HORIZ, 15)
-        assert tiles is not None
         assert tiles[0] == 0x1D28
 
-    def test_zero_stamps_return_none(self):
+    def test_zero_stamps_raise(self):
         for adj in range(16):
             if DOOR_STAMPS[adj] == 0:
-                assert door_get_tiles(DOOR_HORIZ, adj) is None
+                with pytest.raises(GexError):
+                    door_get_tiles(DOOR_HORIZ, adj)
             else:
-                assert door_get_tiles(DOOR_HORIZ, adj) is not None
+                tiles = door_get_tiles(DOOR_HORIZ, adj)
+                assert tiles is not None

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from .render import Stamp, gen_stamp_from_array
+from .roms import GexError
 
 DOOR_HORIZ = 0
 DOOR_VERT = 1
@@ -28,16 +29,17 @@ DOOR_STAMPS = [
 ]
 
 
-def door_get_tiles(door_dir: int, door_adj: int) -> list[int] | None:
+def door_get_tiles(door_dir: int, door_adj: int) -> list[int]:
     m = DOOR_STAMPS[door_adj]
     if m == 0:
-        return None
+        raise GexError(f"No door stamp for adjacency {door_adj}")
     return list(range(m, m + 4))
 
 
 def door_get_stamp(door_dir: int, door_adj: int) -> Stamp:
-    tiles = door_get_tiles(door_dir, door_adj)
-    if tiles is None:
+    try:
+        tiles = door_get_tiles(door_dir, door_adj)
+    except GexError:
         from .items import item_get_stamp
         return item_get_stamp("hdoor" if door_dir == DOOR_HORIZ else "vdoor")
     stamp = gen_stamp_from_array(tiles, 2, "base", 0)

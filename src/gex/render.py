@@ -120,3 +120,11 @@ def gen_image_from_array(
 
 def save_to_png(filename: str, img: Image.Image) -> None:
     img.save(filename, "PNG")
+
+
+def render_stamp_to_file(stamp: Stamp, output: str) -> None:
+    """Render a single stamp to a PNG file."""
+    height = len(stamp.numbers) // stamp.width
+    img = blank_image(8 * stamp.width, 8 * height)
+    write_stamp_to_image(img, stamp, 0, 0)
+    save_to_png(output, img)

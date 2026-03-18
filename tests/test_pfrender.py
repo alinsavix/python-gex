@@ -5,19 +5,12 @@ from PIL import Image
 
 from gex.constants import MazeObjIds
 from gex.mazedecode import Maze
-from gex.pfrender import (
-    whatis,
-    isdoor,
-    isforcefield,
-    checkwalladj3,
-    checkwalladj8,
-    checkdooradj4,
-    checkffadj4,
-    copyedges,
-    dotat,
-    renderdots,
-    ff_make_map,
+from gex.adjacency import (
+    whatis, isdoor, isforcefield,
+    checkwalladj3, checkwalladj8, checkdooradj4, checkffadj4,
+    copyedges, ff_make_map,
 )
+from gex.pfrender import dotat, renderdots
 from gex.palettes import IRGB
 
 

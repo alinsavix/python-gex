@@ -38,17 +38,13 @@ class TestDoitem:
             doitem("item-unknowntype", "out.png")
 
     def test_doitem_key_calls_save(self):
-        mock_img = MagicMock()
         mock_stamp = MagicMock()
         mock_stamp.width = 2
         mock_stamp.numbers = [0] * 4
-        mock_stamp.data = [[None] * 4]
 
         with patch("gex.items.item_get_stamp", return_value=mock_stamp) as mock_get:
-            with patch("gex.items.blank_image", return_value=mock_img):
-                with patch("gex.items.write_stamp_to_image"):
-                    with patch("gex.items.save_to_png") as mock_save:
-                        doitem("item-key", "out.png")
+            with patch("gex.items.render_stamp_to_file") as mock_render:
+                doitem("item-key", "out.png")
 
         mock_get.assert_called_once_with("key")
-        mock_save.assert_called_once_with("out.png", mock_img)
+        mock_render.assert_called_once_with(mock_stamp, "out.png")

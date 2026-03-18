@@ -6,6 +6,11 @@ import dataclasses
 
 from PIL import Image
 
+from .adjacency import (
+    whatis, isdoor, isforcefield,
+    checkwalladj3, checkwalladj8, checkdooradj4, checkffadj4,
+    copyedges, ff_make_map, FFMap,
+)
 from .constants import (
     LFLAG4_WRAP_H, LFLAG4_WRAP_V, MazeObjIds,
 )
@@ -93,89 +98,6 @@ _WALL_TILE_DOTS: dict[int, int] = {
 }
 
 
-def whatis(maze: Maze, x: int, y: int) -> int:
-    return maze.data.get((x, y), 0)
-
-
-def isdoor(t: int) -> bool:
-    return t in (MazeObjIds.DOOR_HORIZ, MazeObjIds.DOOR_VERT)
-
-
-def isforcefield(t: int) -> bool:
-    return t == MazeObjIds.FORCEFIELDHUB
-
-
-def copyedges(maze: Maze) -> None:
-    if not maze.flags & LFLAG4_WRAP_H:
-        maze.data.update({(32, i): maze.data.get((0, i), 0) for i in range(33)})
-    if not maze.flags & LFLAG4_WRAP_V:
-        maze.data.update({(i, 32): maze.data.get((i, 0), 0) for i in range(33)})
-
-
-_WALLADJ3_CHECKS = [(-1, 0, 4), (0, 1, 16), (-1, 1, 8)]
-_WALLADJ8_CHECKS = [
-    (-1, -1, 0x01), (0, -1, 0x02), (1, -1, 0x04),
-    (-1,  0, 0x08),                (1,  0, 0x10),
-    (-1,  1, 0x20), (0,  1, 0x40), (1,  1, 0x80),
-]
-_DOORADJ4_CHECKS = [(0, -1, 0x01), (1, 0, 0x02), (0, 1, 0x04), (-1, 0, 0x08)]
-
-
-def checkwalladj3(maze: Maze, x: int, y: int) -> int:
-    return sum(val for dx, dy, val in _WALLADJ3_CHECKS if iswall(whatis(maze, x + dx, y + dy)))
-
-
-def checkwalladj8(maze: Maze, x: int, y: int) -> int:
-    return sum(val for dx, dy, val in _WALLADJ8_CHECKS if iswall(whatis(maze, x + dx, y + dy)))
-
-
-def checkdooradj4(maze: Maze, x: int, y: int) -> int:
-    return sum(val for dx, dy, val in _DOORADJ4_CHECKS if isdoor(whatis(maze, x + dx, y + dy)))
-
-
-FF_LOOP_DIRS = [(0, -1), (1, 0), (0, 1), (-1, 0)]
-ADJ_VALUES = [0x01, 0x02, 0x04, 0x08]
-
-
-def checkffadj4(maze: Maze, x: int, y: int) -> int:
-    adj = 0
-    for (dx, dy), adj_val in zip(FF_LOOP_DIRS, ADJ_VALUES):
-        for j in range(1, 16):
-            t = whatis(maze, x + j * dx, y + j * dy)
-            if j > 1 and isforcefield(t):
-                adj += adj_val
-                break
-            elif iswall(t):
-                break
-    return adj
-
-
-FFMap = set[tuple[int, int]]
-
-
-def ff_mark(ffmap: FFMap, maze: Maze, x: int, y: int, direction: int) -> None:
-    dx, dy = FF_LOOP_DIRS[direction]
-    for i in range(1, 33):
-        nx = x + dx * i
-        ny = y + dy * i
-        if isforcefield(maze.data.get((nx, ny), 0)):
-            return
-        ffmap.add((nx, ny))
-
-
-def ff_make_map(maze: Maze) -> FFMap:
-    ffmap: FFMap = set()
-    for (kx, ky), v in maze.data.items():
-        if not isforcefield(v):
-            continue
-        adj = checkffadj4(maze, kx, ky)
-        if adj & 0x02:
-            ff_mark(ffmap, maze, kx, ky, 1)
-        if adj & 0x04:
-            ff_mark(ffmap, maze, kx, ky, 2)
-    return ffmap
-
-
 def dotat(img: Image.Image, xloc: int, yloc: int) -> None:
     c = IRGB(0xFFFF).to_rgba()
     pixels = img.load()
@@ -204,17 +126,8 @@ def renderdots(img: Image.Image, xloc: int, yloc: int, count: int) -> None:
         dotat(img, xloc + 9, yloc + 9)
 
 
-def genpfimage(maze: Maze, output: str) -> None:
-    extrax = 0 if maze.flags & LFLAG4_WRAP_H else 16
-    extray = 0 if maze.flags & LFLAG4_WRAP_V else 16
-
-    img = blank_image(8 * 2 * 32 + 32 + extrax, 8 * 2 * 32 + 32 + extray)
-
-    ffmap = ff_make_map(maze)
-    copyedges(maze)
-    palette_make_special(maze.floorpattern, maze.floorcolor, maze.wallpattern, maze.wallcolor)
-
-    # Draw floor tiles
+def _render_floors(img: Image.Image, maze: Maze, ffmap: FFMap) -> None:
+    """Draw floor tiles for all 32×32 cells."""
     for y in range(32):
         for x in range(32):
             adj = checkwalladj3(maze, x, y) if maze.wallpattern < 11 else 0
@@ -223,10 +136,9 @@ def genpfimage(maze: Maze, output: str) -> None:
                 stamp = dataclasses.replace(stamp, ptype="forcefield", pnum=0)
             write_stamp_to_image(img, stamp, x * 16 + 16, y * 16 + 16)
 
-    lastx = 31 if maze.flags & LFLAG4_WRAP_H else 32
-    lasty = 31 if maze.flags & LFLAG4_WRAP_V else 32
 
-    # Draw objects on top of floors
+def _render_objects(img: Image.Image, maze: Maze, lastx: int, lasty: int) -> None:
+    """Draw walls, doors, items, and other objects on top of floors."""
     for y in range(lasty + 1):
         for x in range(lastx + 1):
             stamp = None
@@ -277,7 +189,9 @@ def genpfimage(maze: Maze, output: str) -> None:
             if dots:
                 renderdots(img, x * 16 + 16, y * 16 + 16, dots)
 
-    # Wrap arrows
+
+def _render_wrap_arrows(img: Image.Image, maze: Maze) -> None:
+    """Draw wrap-around arrow indicators on the image border."""
     if maze.flags & LFLAG4_WRAP_H:
         left = item_get_stamp("arrowleft")
         right = item_get_stamp("arrowright")
@@ -292,4 +206,17 @@ def genpfimage(maze: Maze, output: str) -> None:
             write_stamp_to_image(img, up, i * 16 + 16, 0)
             write_stamp_to_image(img, down, i * 16 + 16, 32 * 16 + 16)
 
+
+def genpfimage(maze: Maze, output: str) -> None:
+    extrax = 0 if maze.flags & LFLAG4_WRAP_H else 16
+    extray = 0 if maze.flags & LFLAG4_WRAP_V else 16
+    img = blank_image(8 * 2 * 32 + 32 + extrax, 8 * 2 * 32 + 32 + extray)
+    ffmap = ff_make_map(maze)
+    copyedges(maze)
+    palette_make_special(maze.floorpattern, maze.floorcolor, maze.wallpattern, maze.wallcolor)
+    _render_floors(img, maze, ffmap)
+    lastx = 31 if maze.flags & LFLAG4_WRAP_H else 32
+    lasty = 31 if maze.flags & LFLAG4_WRAP_V else 32
+    _render_objects(img, maze, lastx, lasty)
+    _render_wrap_arrows(img, maze)
     save_to_png(output, img)
