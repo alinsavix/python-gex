@@ -1,6 +1,6 @@
 """Tests for floor stamp logic."""
 
-from gex.floor import floor_get_tiles, FLOOR_STAMPS, RE_FLOOR_NUM, RE_FLOOR_COLOR, RE_FLOOR_ADJ
+from gex.floor import floor_get_tiles, FLOOR_STAMPS, _FLOOR_ADJ_KEYWORDS
 
 
 class TestFloorGetTiles:
@@ -35,30 +35,12 @@ class TestFloorStamps:
             assert len(stamp) == 4, f"FLOOR_STAMPS[{i}] has {len(stamp)} tiles"
 
 
-class TestFloorRegexes:
-    def test_floor_num_pattern(self):
-        m = RE_FLOOR_NUM.match("floor5")
-        assert m and m.group(1) == "5"
-
-    def test_floor_num_no_match(self):
-        assert RE_FLOOR_NUM.match("wall5") is None
-
-    def test_floor_color_pattern(self):
-        m = RE_FLOOR_COLOR.match("c12")
-        assert m and m.group(1) == "12"
-
-    def test_floor_adj_var(self):
-        m = RE_FLOOR_ADJ.match("var3")
-        assert m and m.group(1) == "3"
-
+class TestFloorParsing:
     def test_floor_adj_hwall(self):
-        m = RE_FLOOR_ADJ.match("hwall")
-        assert m and m.group(2) == "hwall"
+        assert _FLOOR_ADJ_KEYWORDS["hwall"] == 4
 
     def test_floor_adj_vwall(self):
-        m = RE_FLOOR_ADJ.match("vwall")
-        assert m and m.group(3) == "vwall"
+        assert _FLOOR_ADJ_KEYWORDS["vwall"] == 16
 
     def test_floor_adj_dwall(self):
-        m = RE_FLOOR_ADJ.match("dwall")
-        assert m and m.group(4) == "dwall"
+        assert _FLOOR_ADJ_KEYWORDS["dwall"] == 8

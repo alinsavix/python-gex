@@ -9,7 +9,6 @@ Gauntlet II arcade ROMs.
 from __future__ import annotations
 
 import argparse
-import re
 import sys
 from enum import IntEnum
 
@@ -23,13 +22,6 @@ class RunType(IntEnum):
     WALL = 3
     ITEM = 4
     MAZE = 5
-
-
-RE_MONSTERS = re.compile(r"^(ghost)")
-RE_FLOOR = re.compile(r"^(floor)")
-RE_WALL = re.compile(r"^(wall)")
-RE_ITEM = re.compile(r"^(item)")
-RE_MAZE = re.compile(r"^(maze)")
 
 
 def parse_args() -> tuple[argparse.Namespace, list[str]]:
@@ -60,19 +52,19 @@ def main() -> None:
     run_type = RunType.NONE
     if args:
         arg = args[0]
-        if RE_MONSTERS.match(arg):
+        if arg.startswith("ghost"):
             run_type = RunType.MONSTER
-        elif RE_FLOOR.match(arg):
+        elif arg.startswith("floor"):
             run_type = RunType.FLOOR
-        elif RE_WALL.match(arg):
+        elif arg.startswith("wall"):
             run_type = RunType.WALL
-        elif RE_ITEM.match(arg):
+        elif arg.startswith("item"):
             run_type = RunType.ITEM
-        elif RE_MAZE.match(arg):
+        elif arg.startswith("maze"):
             run_type = RunType.MAZE
 
     if run_type == RunType.NONE:
-        if tile > 0:
+        if tile:
             img = gen_image(tile, opts.x, opts.y, pal_type, pal_num)
             save_to_png(opts.output, img)
         else:

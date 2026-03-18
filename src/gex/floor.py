@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-import re
-
 from .render import Stamp, blank_image, gen_stamp_from_array, write_stamp_to_image, save_to_png
 
 
@@ -28,7 +26,7 @@ FLOOR_STAMPS = [
 
 
 def floor_get_tiles(floor_num: int, floor_adj: int) -> list[int]:
-    return [(floor_num * 48) + FLOOR_STAMPS[floor_adj][i] for i in range(4)]
+    return [(floor_num * 48) + tile for tile in FLOOR_STAMPS[floor_adj]]
 
 
 def floor_get_stamp(floor_num: int, floor_adj: int, floor_color: int) -> Stamp:
@@ -36,9 +34,7 @@ def floor_get_stamp(floor_num: int, floor_adj: int, floor_color: int) -> Stamp:
     return gen_stamp_from_array(tiles, 2, "floor", floor_color)
 
 
-RE_FLOOR_NUM = re.compile(r"^floor(\d+)")
-RE_FLOOR_COLOR = re.compile(r"^c(\d+)")
-RE_FLOOR_ADJ = re.compile(r"^var(\d+)|(hwall)|(vwall)|(dwall)")
+_FLOOR_ADJ_KEYWORDS = {"hwall": 4, "dwall": 8, "vwall": 16}
 
 
 def dofloor(arg: str, output: str) -> None:
@@ -48,24 +44,14 @@ def dofloor(arg: str, output: str) -> None:
     floor_adj = 0
 
     for ss in split:
-        m = RE_FLOOR_NUM.match(ss)
-        if m:
-            floor_num = int(m.group(1))
-            continue
-        m = RE_FLOOR_COLOR.match(ss)
-        if m:
-            floor_color = int(m.group(1))
-            continue
-        m = RE_FLOOR_ADJ.match(ss)
-        if m:
-            if m.group(1):
-                floor_adj += int(m.group(1))
-            if m.group(2):
-                floor_adj += 4
-            if m.group(3):
-                floor_adj += 16
-            if m.group(4):
-                floor_adj += 8
+        if ss.startswith("floor") and ss[5:].isdigit():
+            floor_num = int(ss[5:])
+        elif ss.startswith("c") and ss[1:].isdigit():
+            floor_color = int(ss[1:])
+        elif ss in _FLOOR_ADJ_KEYWORDS:
+            floor_adj += _FLOOR_ADJ_KEYWORDS[ss]
+        elif ss.startswith("var") and ss[3:].isdigit():
+            floor_adj += int(ss[3:])
 
     print(f"Floor number: {floor_num}   color: {floor_color}    adj: {floor_adj}")
     stamp = floor_get_stamp(floor_num, floor_adj, floor_color)

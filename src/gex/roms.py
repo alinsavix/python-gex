@@ -5,6 +5,7 @@ from __future__ import annotations
 import os
 import struct
 from pathlib import Path
+from typing import NamedTuple
 
 from .constants import MAX_MAZE_NUM
 
@@ -43,22 +44,19 @@ def rom_split_read(roms: list[str], offset: int, count: int, exact: bool = True)
     expected = count
     rom_dir = _rom_dir()
     with open(rom_dir / roms[0], "rb") as f0, open(rom_dir / roms[1], "rb") as f1:
-        handles = [f0, f1]
-        handles[0].seek(offset // 2)
-        handles[1].seek(offset // 2)
+        f0.seek(offset // 2)
+        f1.seek(offset // 2)
 
+        if offset % 2:
+            f0.read(1)  # skip misaligned byte
+
+        handles = (f0, f1)
         buf = bytearray()
-        i = 0
-        while i < count:
-            if i == 0 and (offset % 2) > 0:
-                handles[0].read(1)
-                i += 1
-                count += 1
-            b = handles[i % 2].read(1)
+        for i in range(count):
+            b = handles[(i + offset) % 2].read(1)
             if not b:
                 break
             buf.append(b[0])
-            i += 1
 
     if exact and len(buf) != expected:
         raise GexError(
@@ -72,12 +70,9 @@ def rom_split_read(roms: list[str], offset: int, count: int, exact: bool = True)
 # Tile ROMs
 # ---------------------------------------------------------------------------
 
-class Romset:
-    __slots__ = ("offset", "roms")
-
-    def __init__(self, offset: int, roms: list[str]) -> None:
-        self.offset = offset
-        self.roms = roms
+class Romset(NamedTuple):
+    offset: int
+    roms: list[str]
 
 
 TILE_ROMS = [
@@ -181,12 +176,9 @@ def slapstic_read_bytes(offset: int, count: int, exact: bool = True) -> bytes:
 def slapstic_maze_get_bank(mazenum: int) -> int:
     if mazenum < 0 or mazenum > MAX_MAZE_NUM:
         raise GexError(f"Invalid maze number requested (must be 0 <= x <= {MAX_MAZE_NUM})")
-    offset = mazenum // 4
-    bi = SLAPSTIC_BANK_INFO[offset]
-    offset = (mazenum % 4) * 2
-    bi = bi >> offset
-    bi = bi & 0x3
-    return bi
+    bank_byte = SLAPSTIC_BANK_INFO[mazenum // 4]
+    shift = (mazenum % 4) * 2
+    return (bank_byte >> shift) & 0x3
 
 
 def slapstic_read_maze_offset(mazenum: int) -> int:
@@ -202,9 +194,7 @@ def slapstic_maze_get_real_addr(mazenum: int) -> int:
 def slapstic_read_maze(mazenum: int) -> list[int]:
     addr = slapstic_maze_get_real_addr(mazenum)
     b = slapstic_read_bytes(addr, 512, exact=False)
-    intbuf: list[int] = []
-    for i in range(len(b)):
-        intbuf.append(b[i])
-        if i >= 11 and b[i] == 0:
-            break
-    return intbuf
+    for i, byte in enumerate(b):
+        if i >= 11 and byte == 0:
+            return list(b[:i + 1])
+    return list(b)

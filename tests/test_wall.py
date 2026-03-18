@@ -7,9 +7,7 @@ from gex.wall import (
     FF_MAP,
     WALL_MAP,
     SHRUB_WALL_MAP,
-    RE_WALL_NUM,
-    RE_WALL_COLOR,
-    RE_WALL_ADJ,
+    _WALL_ADJ_MAP,
 )
 
 
@@ -38,25 +36,11 @@ class TestWallData:
         assert len(SHRUB_WALL_MAP) == 256
 
 
-class TestWallRegexes:
-    def test_wall_num(self):
-        m = RE_WALL_NUM.match("wall3")
-        assert m and m.group(1) == "3"
-
-    def test_wall_num_no_match(self):
-        assert RE_WALL_NUM.match("wall") is None
-        assert RE_WALL_NUM.match("floor3") is None
-
-    def test_wall_color(self):
-        m = RE_WALL_COLOR.match("c5")
-        assert m and m.group(1) == "5"
-
+class TestWallParsing:
     def test_wall_adj_directions(self):
         for d in ["u", "ur", "r", "dr", "d", "dl", "l", "ul"]:
-            m = RE_WALL_ADJ.match(d)
-            assert m is not None, f"Direction '{d}' should match"
-            assert m.group(1) == d
+            assert d in _WALL_ADJ_MAP, f"Direction '{d}' should be in _WALL_ADJ_MAP"
 
     def test_wall_adj_no_match(self):
-        assert RE_WALL_ADJ.match("x") is None
-        assert RE_WALL_ADJ.match("up") is None
+        assert "x" not in _WALL_ADJ_MAP
+        assert "up" not in _WALL_ADJ_MAP

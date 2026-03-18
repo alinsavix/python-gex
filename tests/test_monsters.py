@@ -7,9 +7,8 @@ from gex.monsters import (
     GHOST_ANIMS,
     MONSTERS,
     Monster,
-    RE_MONSTER_TYPE,
-    RE_MONSTER_ACTION,
-    RE_MONSTER_DIR,
+    _MONSTER_ACTIONS,
+    _MONSTER_DIRS,
     domonster,
 )
 
@@ -62,47 +61,50 @@ class TestMonsters:
         assert MONSTERS["ghost"].anims is GHOST_ANIMS
 
 
-class TestMonsterRegexes:
+def _match_monster_type(ss: str) -> tuple[str | None, str]:
+    """Helper replicating domonster's type-matching logic."""
+    matched = next(
+        (t for t in MONSTERS if ss == t or (ss.startswith(t) and ss[len(t):].isdigit())),
+        None,
+    )
+    return matched, (ss[len(matched):] if matched else "")
+
+
+class TestMonsterParsing:
     def test_monster_type_ghost(self):
-        m = RE_MONSTER_TYPE.match("ghost")
-        assert m is not None
-        assert m.group(1) == "ghost"
-        assert m.group(2) is None
+        matched, level_str = _match_monster_type("ghost")
+        assert matched == "ghost"
+        assert level_str == ""
 
     def test_monster_type_ghost_with_level(self):
-        m = RE_MONSTER_TYPE.match("ghost3")
-        assert m is not None
-        assert m.group(1) == "ghost"
-        assert m.group(2) == "3"
+        matched, level_str = _match_monster_type("ghost3")
+        assert matched == "ghost"
+        assert level_str == "3"
 
     def test_monster_type_no_match(self):
-        assert RE_MONSTER_TYPE.match("grunt") is None
-        assert RE_MONSTER_TYPE.match("") is None
+        assert _match_monster_type("grunt")[0] is None
+        assert _match_monster_type("")[0] is None
 
     def test_monster_action_walk(self):
-        m = RE_MONSTER_ACTION.match("walk")
-        assert m is not None and m.group(1) == "walk"
+        assert "walk" in _MONSTER_ACTIONS
 
     def test_monster_action_fight(self):
-        m = RE_MONSTER_ACTION.match("fight")
-        assert m is not None and m.group(1) == "fight"
+        assert "fight" in _MONSTER_ACTIONS
 
     def test_monster_action_attack(self):
-        m = RE_MONSTER_ACTION.match("attack")
-        assert m is not None and m.group(1) == "attack"
+        assert "attack" in _MONSTER_ACTIONS
 
     def test_monster_action_no_match(self):
-        assert RE_MONSTER_ACTION.match("run") is None
+        assert "run" not in _MONSTER_ACTIONS
 
     def test_monster_dir_all_eight(self):
         dirs = ["up", "upright", "right", "downright", "down", "downleft", "left", "upleft"]
         for d in dirs:
-            m = RE_MONSTER_DIR.match(d)
-            assert m is not None and m.group(1) == d, f"Direction '{d}' should match"
+            assert d in _MONSTER_DIRS, f"Direction '{d}' should be in _MONSTER_DIRS"
 
     def test_monster_dir_no_match(self):
-        assert RE_MONSTER_DIR.match("north") is None
-        assert RE_MONSTER_DIR.match("") is None
+        assert "north" not in _MONSTER_DIRS
+        assert "" not in _MONSTER_DIRS
 
 
 class TestDomonster:

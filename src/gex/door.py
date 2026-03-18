@@ -32,19 +32,14 @@ def door_get_tiles(door_dir: int, door_adj: int) -> list[int] | None:
     m = DOOR_STAMPS[door_adj]
     if m == 0:
         return None
-    return [m + i for i in range(4)]
+    return list(range(m, m + 4))
 
 
 def door_get_stamp(door_dir: int, door_adj: int) -> Stamp:
     tiles = door_get_tiles(door_dir, door_adj)
     if tiles is None:
-        if door_dir == DOOR_HORIZ:
-            from .items import item_get_stamp
-            return item_get_stamp("hdoor")
-        else:
-            from .items import item_get_stamp
-            return item_get_stamp("vdoor")
-    else:
-        stamp = gen_stamp_from_array(tiles, 2, "base", 0)
-        stamp.trans0 = True
-        return stamp
+        from .items import item_get_stamp
+        return item_get_stamp("hdoor" if door_dir == DOOR_HORIZ else "vdoor")
+    stamp = gen_stamp_from_array(tiles, 2, "base", 0)
+    stamp.trans0 = True
+    return stamp

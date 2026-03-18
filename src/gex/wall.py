@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-import re
-
 from .rand import SeededRandom
 from .render import Stamp, blank_image, gen_stamp_from_array, write_stamp_to_image, save_to_png
 
@@ -570,19 +568,16 @@ SHRUB_WALL_MAP = [
 
 
 def wall_get_tiles(wall_num: int, wall_adj: int, rand: SeededRandom) -> list[int]:
-    t = [0] * 4
     wm = WALL_MAP
     st = WALL_STAMPS
 
     # shrub level, but not 6 or 11
-    if wall_num >= 6 and (wall_num != 6 and wall_num != 11):
+    if wall_num >= 6 and wall_num not in (6, 11):
         adder = 0
-        if wall_num == 7 or wall_num == 12:
+        if wall_num in (7, 12):
             adder = 6
         r = rand.intn(6)
-        for i in range(4):
-            t[i] = SHRUB_OTHER_ORDER_STAMPS[r + adder][i]
-        return t
+        return list(SHRUB_OTHER_ORDER_STAMPS[r + adder])
 
     # shrub level, exactly 6 or 11
     if wall_num >= 6:
@@ -590,21 +585,15 @@ def wall_get_tiles(wall_num: int, wall_adj: int, rand: SeededRandom) -> list[int
         st = SHRUB_STAMPS
         wall_num = 0
 
-    for i in range(4):
-        m = wm[wall_adj]
-        t[i] = st[(68 * wall_num) + m][i]
-    return t
+    m = wm[wall_adj]
+    return list(st[(68 * wall_num) + m])
 
 
 def wall_get_stamp(wall_num: int, wall_adj: int, wall_color: int, rand: SeededRandom | None = None) -> Stamp:
     if rand is None:
         rand = SeededRandom(5)
     tiles = wall_get_tiles(wall_num, wall_adj, rand)
-    wp = "wall"
-    wc = wall_color
-    if wall_num >= 6:
-        wp = "shrub"
-        wc = 0
+    wp, wc = ("shrub", 0) if wall_num >= 6 else ("wall", wall_color)
     return gen_stamp_from_array(tiles, 2, wp, wc)
 
 
@@ -620,9 +609,8 @@ def ff_get_stamp(ff_adj: int) -> Stamp:
     return gen_stamp_from_array(tiles, 2, "teleff", 0)
 
 
-RE_WALL_NUM = re.compile(r"^wall(\d+)$")
-RE_WALL_COLOR = re.compile(r"^c(\d+)$")
-RE_WALL_ADJ = re.compile(r"^(u|ur|r|dr|d|dl|l|ul)$")
+_WALL_ADJ_MAP = {"ul": 0x01, "u": 0x02, "ur": 0x04, "l": 0x08,
+                 "r": 0x10, "dl": 0x20, "d": 0x40, "dr": 0x80}
 
 
 def dowall(arg: str, output: str) -> None:
@@ -632,20 +620,12 @@ def dowall(arg: str, output: str) -> None:
     wall_adj = 0
 
     for ss in split:
-        m = RE_WALL_NUM.match(ss)
-        if m:
-            wall_num = int(m.group(1))
-            continue
-        m = RE_WALL_COLOR.match(ss)
-        if m:
-            wall_color = int(m.group(1))
-            continue
-        m = RE_WALL_ADJ.match(ss)
-        if m:
-            d = m.group(1)
-            adj_map = {"ul": 0x01, "u": 0x02, "ur": 0x04, "l": 0x08,
-                       "r": 0x10, "dl": 0x20, "d": 0x40, "dr": 0x80}
-            wall_adj += adj_map.get(d, 0)
+        if ss.startswith("wall") and ss[4:].isdigit():
+            wall_num = int(ss[4:])
+        elif ss.startswith("c") and ss[1:].isdigit():
+            wall_color = int(ss[1:])
+        elif ss in _WALL_ADJ_MAP:
+            wall_adj += _WALL_ADJ_MAP[ss]
 
     print(f"Wall number: {wall_num}   color: {wall_color}   adj: {wall_adj}")
     stamp = wall_get_stamp(wall_num, wall_adj, wall_color)

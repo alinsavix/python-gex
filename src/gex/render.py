@@ -34,33 +34,24 @@ class Stamp:
 
 def byte_to_bits(databyte: int) -> list[int]:
     """Convert a byte to 8 bit values (MSB first), where 0 means bit was set."""
-    res: list[int] = []
-    for i in range(7, -1, -1):
-        if (databyte >> i) & 1:
-            res.append(0)
-        else:
-            res.append(1)
-    return res
+    return [0 if (databyte >> i) & 1 else 1 for i in range(7, -1, -1)]
 
 
 def merge_planes(planes: list[list[int]]) -> TileLineMerged:
-    merged: TileLineMerged = []
-    for i in range(8):
-        val = (planes[3][i] * 8) + (planes[2][i] * 4) + (planes[1][i] * 2) + planes[0][i]
-        merged.append(val)
-    return merged
+    return [
+        p3 * 8 + p2 * 4 + p1 * 2 + p0
+        for p0, p1, p2, p3 in zip(planes[0], planes[1], planes[2], planes[3])
+    ]
 
 
 @lru_cache(maxsize=None)
 def get_parsed_tile(tilenum: int) -> TileData:
     realtilenum, rom_files = get_romset(tilenum)
-    planedata = [get_tile_data_from_file(rom_files[p], realtilenum) for p in range(4)]
-
-    fulltile: TileData = []
-    for line in range(8):
-        linedata = [byte_to_bits(planedata[p][line]) for p in range(4)]
-        fulltile.append(merge_planes(linedata))
-    return fulltile
+    planedata = [get_tile_data_from_file(rf, realtilenum) for rf in rom_files]
+    return [
+        merge_planes([byte_to_bits(plane[line]) for plane in planedata])
+        for line in range(8)
+    ]
 
 
 # ---------------------------------------------------------------------------
@@ -93,13 +84,7 @@ def write_tile_to_image(
 
 
 def fill_stamp(stamp: Stamp) -> None:
-    height = len(stamp.numbers) // stamp.width
-    stamp.data = [None] * len(stamp.numbers)  # type: ignore[list-item]
-    tc = 0
-    for y in range(height):
-        for x in range(stamp.width):
-            stamp.data[(stamp.width * y) + x] = get_parsed_tile(stamp.numbers[tc])
-            tc += 1
+    stamp.data = [get_parsed_tile(num) for num in stamp.numbers]
 
 
 def gen_stamp_from_array(
@@ -114,21 +99,13 @@ def write_stamp_to_image(
     img: Image.Image, stamp: Stamp, xloc: int, yloc: int
 ) -> None:
     p = GAUNTLET_PALETTES[stamp.ptype][stamp.pnum]
-    height = len(stamp.data) // stamp.width
-    for y in range(height):
-        for x in range(stamp.width):
-            write_tile_to_image(
-                img,
-                stamp.data[(stamp.width * y) + x],
-                p,
-                stamp.trans0,
-                xloc + (x * 8),
-                yloc + (y * 8),
-            )
+    for idx, tile in enumerate(stamp.data):
+        y, x = divmod(idx, stamp.width)
+        write_tile_to_image(img, tile, p, stamp.trans0, xloc + x * 8, yloc + y * 8)
 
 
 def gen_image(tilenum: int, xtiles: int, ytiles: int, pal_type: str = "base", pal_num: int = 0) -> Image.Image:
-    t = [tilenum + i for i in range(xtiles * ytiles)]
+    t = list(range(tilenum, tilenum + xtiles * ytiles))
     return gen_image_from_array(t, xtiles, ytiles, pal_type, pal_num)
 
 

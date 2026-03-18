@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import re
 from functools import lru_cache
 
 from .render import Stamp, blank_image, fill_stamp, write_stamp_to_image, save_to_png
@@ -94,17 +93,9 @@ def item_get_stamp(item_type: str) -> Stamp:
     return stamp
 
 
-RE_ITEM_TYPE = re.compile(r"^(key)$")
-
-
 def doitem(arg: str, output: str) -> None:
     split = arg.split("-")
-    item_type = ""
-
-    for ss in split:
-        m = RE_ITEM_TYPE.match(ss)
-        if m:
-            item_type = m.group(1)
+    item_type = next((ss for ss in split if ss in ITEM_STAMPS), "")
 
     stamp = item_get_stamp(item_type)
     height = len(stamp.numbers) // stamp.width

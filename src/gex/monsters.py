@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import re
 from dataclasses import dataclass, field
 
 from .render import Stamp, gen_image, save_to_png
@@ -40,9 +39,8 @@ MONSTERS: dict[str, Monster] = {
     "ghost": Monster(xsize=3, ysize=3, ptype="base", pnum=0, anims=GHOST_ANIMS),
 }
 
-RE_MONSTER_TYPE = re.compile(r"^(ghost)(\d+)?")
-RE_MONSTER_ACTION = re.compile(r"^(walk|fight|attack)")
-RE_MONSTER_DIR = re.compile(r"^(upright|upleft|downright|downleft|up|right|down|left)")
+_MONSTER_ACTIONS = {"walk", "fight", "attack"}
+_MONSTER_DIRS = {"upright", "upleft", "downright", "downleft", "up", "right", "down", "left"}
 
 
 def domonster(arg: str, output: str, pal_type: str, pal_num: int, animate: bool) -> tuple[str, int]:
@@ -54,19 +52,19 @@ def domonster(arg: str, output: str, pal_type: str, pal_num: int, animate: bool)
     monster_level = 1
 
     for ss in split:
-        m = RE_MONSTER_TYPE.match(ss)
-        if m:
-            monster_type = m.group(1)
-            if m.group(2):
-                monster_level = int(m.group(2))
-            continue
-        m = RE_MONSTER_ACTION.match(ss)
-        if m:
-            monster_action = m.group(1)
-            continue
-        m = RE_MONSTER_DIR.match(ss)
-        if m:
-            monster_dir = m.group(1)
+        matched_type = next(
+            (t for t in MONSTERS if ss == t or (ss.startswith(t) and ss[len(t):].isdigit())),
+            None,
+        )
+        if matched_type:
+            monster_type = matched_type
+            level_str = ss[len(matched_type):]
+            if level_str:
+                monster_level = int(level_str)
+        elif ss in _MONSTER_ACTIONS:
+            monster_action = ss
+        elif ss in _MONSTER_DIRS:
+            monster_dir = ss
 
     mon = MONSTERS[monster_type]
     pal_type = mon.ptype

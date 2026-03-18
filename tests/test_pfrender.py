@@ -222,4 +222,4 @@ class TestFfMakeMap:
         ffmap = ff_make_map(maze)
         # Should mark cells between (5,5) and (5,10) downward
         for y in range(6, 10):
-            assert ffmap.get((5, y), False) is True
+            assert (5, y) in ffmap

@@ -25,9 +25,7 @@ class Maze:
 def index2xy(index: int) -> tuple[int, int]:
     if index < 0:
         raise ValueError(f"Coordinates requested for index < 0: {index}")
-    y = index // 32
-    x = index - (y * 32)
-    return x, y
+    return index % 32, index // 32
 
 
 def iswall(t: int) -> bool:
@@ -50,13 +48,10 @@ def expand(maze: Maze, location: int, t: int, count: int) -> int:
     if t == MazeObjIds.TILE_FLOOR:
         return location + count
 
-    i = 0
-    while i < count:
+    step = 2 if t == MazeObjIds.MONST_DRAGON else 1
+    for i in range(0, count, step):
         x, y = index2xy(location + i)
         maze.data[(x, y)] = t
-        if t == MazeObjIds.MONST_DRAGON:
-            i += 1  # extra increment matching Go's in-loop i++
-        i += 1
     return location + count
 
 
@@ -76,8 +71,7 @@ def maze_decompress(compressed: list[int], metaonly: bool = False) -> Maze:
     maze.encodedbytes = len(compressed)
     maze.secret = compressed[0] & 0x1F
 
-    flagbytes = bytes([compressed[1], compressed[2], compressed[3], compressed[4]])
-    maze.flags = struct.unpack(">I", flagbytes)[0]
+    maze.flags = struct.unpack(">I", bytes(compressed[1:5]))[0]
 
     maze.wallpattern = compressed[5] & 0x0F
     maze.floorpattern = (compressed[5] & 0xF0) >> 4
@@ -94,8 +88,7 @@ def maze_decompress(compressed: list[int], metaonly: bool = False) -> Maze:
     prev = htype2
 
     # Fill first row with walls
-    for i in range(32):
-        maze.data[(i, 0)] = MazeObjIds.WALL_REGULAR
+    maze.data.update({(i, 0): MazeObjIds.WALL_REGULAR for i in range(32)})
 
     location = 32
     pos = 11
@@ -133,7 +126,7 @@ def maze_decompress(compressed: list[int], metaonly: bool = False) -> Maze:
             prevtop = prev & 0xC0
 
             if prevtop == 0x00:
-                if (token & 0x10) != 0:
+                if token & 0x10:
                     location = vexpand(maze, location, previtem, count)
                 else:
                     location = expand(maze, location, previtem, count)
@@ -148,8 +141,8 @@ def maze_decompress(compressed: list[int], metaonly: bool = False) -> Maze:
                 location = expand(maze, location, previtem, 1)
 
         elif top2 == 0x80:
-            if (token & 0x20) != 0:
-                if (token & 0x10) != 0:
+            if token & 0x20:
+                if token & 0x10:
                     location = vexpand(maze, location, MazeObjIds.WALL_REGULAR, count)
                 else:
                     location = expand(maze, location, MazeObjIds.WALL_REGULAR, count)
@@ -157,7 +150,7 @@ def maze_decompress(compressed: list[int], metaonly: bool = False) -> Maze:
                 location = expand(maze, location, prev & 0x3F, longcount)
 
         elif top2 == 0xC0:
-            if (token & 0x20) != 0:
+            if token & 0x20:
                 location = expand(maze, location, MazeObjIds.TILE_FLOOR, longcount)
                 location = expand(maze, location, MazeObjIds.WALL_REGULAR, 1)
             else:

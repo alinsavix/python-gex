@@ -230,8 +230,7 @@ SHRUB_FLOOR_COLOR_NUMS = [
 
 
 def palette_clone(dest: Palette, src: Palette) -> None:
-    for i in range(16):
-        dest[i] = src[i]
+    dest[:] = src[:]
 
 
 def palette_make_special(
@@ -249,22 +248,17 @@ def palette_make_special(
     FORCEFIELD_PALETTE[0][S_COLORS_1[floorpattern]] = IRGB(0xAA00)
     FORCEFIELD_PALETTE[0][S_COLORS_2[floorpattern]] = IRGB(0xDA60)
 
-    for i in range(16):
-        c = WALL_PALETTES[0][i]
-        c2 = (c.irgb & 0xF000) >> 12
-        c2 += 4
-        if c2 > 0xF:
-            c2 = 0xF
-        c2 = (c.irgb & 0x0FFF) + (c2 << 12)
-        SECRET_PALETTE[0][i] = IRGB(c2)
+    SECRET_PALETTE[0][:] = [
+        IRGB((c.irgb & 0x0FFF) + (min((c.irgb >> 12) + 4, 0xF) << 12))
+        for c in WALL_PALETTES[0]
+    ]
 
     if wallpattern >= 6:
-        if wallcolor > 0:
+        if wallcolor:
             palette_clone(SHRUB_PALETTE[0], WALL_PALETTES[wallcolor - 1])
 
         z = 0
         if wallpattern >= 11:
             z = 3
         cn = SHRUB_FLOOR_COLOR_NUMS[floorpattern]
-        for i in range(3):
-            SHRUB_PALETTE[0][13 + i] = FLOOR_PALETTES[floorcolor][cn[z + i]]
+        SHRUB_PALETTE[0][13:16] = [FLOOR_PALETTES[floorcolor][c] for c in cn[z:z + 3]]
