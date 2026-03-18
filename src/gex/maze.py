@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import re
 
-from .constants import LFLAG3_RANDOMFOOD_MASK, MAZE_FLAG_STRINGS, MAZE_SECRET_STRINGS
+from .constants import LFLAG3_RANDOMFOOD_MASK, MAZE_FLAG_STRINGS, MAZE_SECRET_STRINGS, MAX_MAZE_NUM
 from .mazedecode import Maze, maze_decompress
 from .roms import slapstic_read_maze
 
@@ -36,7 +36,7 @@ def domaze(arg: str, output: str, verbose: bool) -> None:
         m = RE_MAZE_NUM.match(ss)
         if m:
             maze_num = int(m.group(1))
-            if maze_num < 0 or maze_num > 117:
+            if maze_num < 0 or maze_num > MAX_MAZE_NUM:
                 raise ValueError("Invalid maze number specified.")
             continue
         if RE_MAZE_META.match(ss):

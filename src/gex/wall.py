@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import re
 
-from . import mazedecode
+from .rand import SeededRandom
 from .render import Stamp, blank_image, gen_stamp_from_array, write_stamp_to_image, save_to_png
 
 
@@ -569,17 +569,17 @@ SHRUB_WALL_MAP = [
 ]
 
 
-def wall_get_tiles(wall_num: int, wall_adj: int) -> list[int]:
+def wall_get_tiles(wall_num: int, wall_adj: int, rand: SeededRandom) -> list[int]:
     t = [0] * 4
     wm = WALL_MAP
     st = WALL_STAMPS
 
     # shrub level, but not 6 or 11
-    if wall_num >= 6 and wall_num != 6 and wall_num != 11:
+    if wall_num >= 6 and (wall_num != 6 and wall_num != 11):
         adder = 0
         if wall_num == 7 or wall_num == 12:
             adder = 6
-        r = mazedecode.gorand.intn(6)
+        r = rand.intn(6)
         for i in range(4):
             t[i] = SHRUB_OTHER_ORDER_STAMPS[r + adder][i]
         return t
@@ -596,8 +596,10 @@ def wall_get_tiles(wall_num: int, wall_adj: int) -> list[int]:
     return t
 
 
-def wall_get_stamp(wall_num: int, wall_adj: int, wall_color: int) -> Stamp:
-    tiles = wall_get_tiles(wall_num, wall_adj)
+def wall_get_stamp(wall_num: int, wall_adj: int, wall_color: int, rand: SeededRandom | None = None) -> Stamp:
+    if rand is None:
+        rand = SeededRandom(5)
+    tiles = wall_get_tiles(wall_num, wall_adj, rand)
     wp = "wall"
     wc = wall_color
     if wall_num >= 6:
@@ -606,9 +608,9 @@ def wall_get_stamp(wall_num: int, wall_adj: int, wall_color: int) -> Stamp:
     return gen_stamp_from_array(tiles, 2, wp, wc)
 
 
-def wall_get_destructable_stamp(wall_num: int, wall_adj: int, wall_color: int) -> Stamp:
+def wall_get_destructable_stamp(wall_num: int, wall_adj: int, wall_color: int, rand: SeededRandom | None = None) -> Stamp:
     if wall_num < 6:
-        return wall_get_stamp(5, wall_adj, wall_color)
+        return wall_get_stamp(5, wall_adj, wall_color, rand)
     tiles = SHRUB_DESTRUCT_STAMPS[0]
     return gen_stamp_from_array(tiles, 2, "shrub", 0)
 
@@ -650,4 +652,3 @@ def dowall(arg: str, output: str) -> None:
     img = blank_image(2 * 8, 2 * 8)
     write_stamp_to_image(img, stamp, 0, 0)
     save_to_png(output, img)
-

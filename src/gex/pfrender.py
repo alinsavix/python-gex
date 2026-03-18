@@ -10,8 +10,7 @@ from .constants import (
 from .door import DOOR_HORIZ, DOOR_VERT, door_get_stamp
 from .floor import floor_get_stamp
 from .items import item_get_stamp
-from .mazedecode import Maze, iswall, isspecialfloor, gorand as _gorand_ref
-from . import mazedecode
+from .mazedecode import Maze, iswall, isspecialfloor
 from .palettes import IRGB, palette_make_special
 from .render import Stamp, blank_image, write_stamp_to_image, save_to_png
 from .wall import wall_get_stamp, wall_get_destructable_stamp, ff_get_stamp
@@ -174,7 +173,7 @@ def genpfimage(maze: Maze, output: str) -> None:
             adj = 0
             if maze.wallpattern < 11:
                 adj = checkwalladj3(maze, x, y)
-            stamp = floor_get_stamp(maze.floorpattern, adj + mazedecode.gorand.intn(4), maze.floorcolor)
+            stamp = floor_get_stamp(maze.floorpattern, adj + maze.rand.intn(4), maze.floorcolor)
             if ffmap.get((x, y), False):
                 stamp.ptype = "forcefield"
                 stamp.pnum = 0
@@ -194,58 +193,58 @@ def genpfimage(maze: Maze, output: str) -> None:
                 pass
 
             elif obj == MazeObjIds.TILE_STUN:
-                adj = checkwalladj3(maze, x, y) + mazedecode.gorand.intn(4)
+                adj = checkwalladj3(maze, x, y) + maze.rand.intn(4)
                 stamp = floor_get_stamp(maze.floorpattern, adj, maze.floorcolor)
                 stamp.ptype = "stun"
                 stamp.pnum = 0
 
             elif obj == MazeObjIds.TILE_TRAP1:
                 dots = 1
-                adj = checkwalladj3(maze, x, y) + mazedecode.gorand.intn(4)
+                adj = checkwalladj3(maze, x, y) + maze.rand.intn(4)
                 stamp = floor_get_stamp(maze.floorpattern, adj, maze.floorcolor)
                 stamp.ptype = "trap"
                 stamp.pnum = 0
             elif obj == MazeObjIds.TILE_TRAP2:
                 dots = 2
-                adj = checkwalladj3(maze, x, y) + mazedecode.gorand.intn(4)
+                adj = checkwalladj3(maze, x, y) + maze.rand.intn(4)
                 stamp = floor_get_stamp(maze.floorpattern, adj, maze.floorcolor)
                 stamp.ptype = "trap"
                 stamp.pnum = 0
             elif obj == MazeObjIds.TILE_TRAP3:
                 dots = 3
-                adj = checkwalladj3(maze, x, y) + mazedecode.gorand.intn(4)
+                adj = checkwalladj3(maze, x, y) + maze.rand.intn(4)
                 stamp = floor_get_stamp(maze.floorpattern, adj, maze.floorcolor)
                 stamp.ptype = "trap"
                 stamp.pnum = 0
 
             elif obj == MazeObjIds.WALL_DESTRUCTABLE:
                 adj = checkwalladj8(maze, x, y)
-                stamp = wall_get_destructable_stamp(maze.wallpattern, adj, maze.wallcolor)
+                stamp = wall_get_destructable_stamp(maze.wallpattern, adj, maze.wallcolor, maze.rand)
             elif obj == MazeObjIds.WALL_SECRET:
                 adj = checkwalladj8(maze, x, y)
-                stamp = wall_get_stamp(maze.wallpattern, adj, maze.wallcolor)
+                stamp = wall_get_stamp(maze.wallpattern, adj, maze.wallcolor, maze.rand)
                 stamp.ptype = "secret"
                 stamp.pnum = 0
 
             elif obj == MazeObjIds.WALL_TRAPCYC1:
                 dots = 1
                 adj = checkwalladj8(maze, x, y)
-                stamp = wall_get_stamp(maze.wallpattern, adj, maze.wallcolor)
+                stamp = wall_get_stamp(maze.wallpattern, adj, maze.wallcolor, maze.rand)
             elif obj == MazeObjIds.WALL_TRAPCYC2:
                 dots = 2
                 adj = checkwalladj8(maze, x, y)
-                stamp = wall_get_stamp(maze.wallpattern, adj, maze.wallcolor)
+                stamp = wall_get_stamp(maze.wallpattern, adj, maze.wallcolor, maze.rand)
             elif obj == MazeObjIds.WALL_TRAPCYC3:
                 dots = 3
                 adj = checkwalladj8(maze, x, y)
-                stamp = wall_get_stamp(maze.wallpattern, adj, maze.wallcolor)
+                stamp = wall_get_stamp(maze.wallpattern, adj, maze.wallcolor, maze.rand)
             elif obj == MazeObjIds.WALL_RANDOM:
                 dots = 4
                 adj = checkwalladj8(maze, x, y)
-                stamp = wall_get_stamp(maze.wallpattern, adj, maze.wallcolor)
+                stamp = wall_get_stamp(maze.wallpattern, adj, maze.wallcolor, maze.rand)
             elif obj == MazeObjIds.WALL_REGULAR:
                 adj = checkwalladj8(maze, x, y)
-                stamp = wall_get_stamp(maze.wallpattern, adj, maze.wallcolor)
+                stamp = wall_get_stamp(maze.wallpattern, adj, maze.wallcolor, maze.rand)
 
             elif obj == MazeObjIds.WALL_MOVABLE:
                 stamp = item_get_stamp("pushwall")
@@ -328,7 +327,7 @@ def genpfimage(maze: Maze, output: str) -> None:
             elif obj == MazeObjIds.FOOD_DESTRUCTABLE:
                 stamp = item_get_stamp("food")
             elif obj == MazeObjIds.FOOD_INVULN:
-                stamp = item_get_stamp(FOODS[mazedecode.gorand.intn(3)])
+                stamp = item_get_stamp(FOODS[maze.rand.intn(3)])
             elif obj == MazeObjIds.POT_DESTRUCTABLE:
                 stamp = item_get_stamp("potion")
             elif obj == MazeObjIds.POT_INVULN:

@@ -6,6 +6,8 @@ import os
 import struct
 from pathlib import Path
 
+from .constants import MAX_MAZE_NUM
+
 SLAPSTIC_START = 0x038000
 CODE_ROM_START = 0x040000
 
@@ -27,11 +29,18 @@ def _rom_dir() -> Path:
 # ROM split read -- interleaved byte reading from paired ROM files
 # ---------------------------------------------------------------------------
 
-def rom_split_read(roms: list[str], offset: int, count: int) -> bytes:
-    """Read interleaved bytes from a pair of ROM files."""
+def rom_split_read(roms: list[str], offset: int, count: int, exact: bool = True) -> bytes:
+    """Read interleaved bytes from a pair of ROM files.
+
+    When *exact* is True (the default) a GexError is raised if fewer than
+    *count* bytes are available.  Pass exact=False for callers that treat
+    *count* as an upper bound (e.g. reading a variable-length record with a
+    known maximum size).
+    """
     if offset >= SLAPSTIC_START:
         offset -= SLAPSTIC_START
 
+    expected = count
     rom_dir = _rom_dir()
     with open(rom_dir / roms[0], "rb") as f0, open(rom_dir / roms[1], "rb") as f1:
         handles = [f0, f1]
@@ -51,6 +60,11 @@ def rom_split_read(roms: list[str], offset: int, count: int) -> bytes:
             buf.append(b[0])
             i += 1
 
+    if exact and len(buf) != expected:
+        raise GexError(
+            f"rom_split_read: short read ({len(buf)} of {expected} bytes)"
+            f" at offset {offset} in {roms}"
+        )
     return bytes(buf)
 
 
@@ -148,15 +162,15 @@ SLAPSTIC_BANK_INFO = [
 ]
 
 
-def slapstic_read_bytes(offset: int, count: int) -> bytes:
+def slapstic_read_bytes(offset: int, count: int, exact: bool = True) -> bytes:
     if offset >= SLAPSTIC_START:
         offset -= SLAPSTIC_START
-    return rom_split_read(SLAPSTIC_ROMS, offset, count)
+    return rom_split_read(SLAPSTIC_ROMS, offset, count, exact=exact)
 
 
 def slapstic_maze_get_bank(mazenum: int) -> int:
-    if mazenum < 0 or mazenum > 116:
-        raise GexError("Invalid maze number requested (must be 0 <= x <= 116)")
+    if mazenum < 0 or mazenum > MAX_MAZE_NUM:
+        raise GexError(f"Invalid maze number requested (must be 0 <= x <= {MAX_MAZE_NUM})")
     offset = mazenum // 4
     bi = SLAPSTIC_BANK_INFO[offset]
     offset = (mazenum % 4) * 2
@@ -177,7 +191,7 @@ def slapstic_maze_get_real_addr(mazenum: int) -> int:
 
 def slapstic_read_maze(mazenum: int) -> list[int]:
     addr = slapstic_maze_get_real_addr(mazenum)
-    b = slapstic_read_bytes(addr, 512)
+    b = slapstic_read_bytes(addr, 512, exact=False)
     intbuf: list[int] = []
     for i in range(len(b)):
         intbuf.append(b[i])

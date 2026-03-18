@@ -247,8 +247,14 @@ class TestMonsterGolden:
 # Maze golden tests
 # ===================================================================
 
+import os as _os
+_ALL_MAZES = list(range(117))
+_DEFAULT_MAZES = [0, 10, 25, 50, 100, 116]
+_MAZE_PARAMS = _ALL_MAZES if _os.environ.get("GEX_TEST_ALL_MAZES") else _DEFAULT_MAZES
+
+
 class TestMazeGolden:
-    @pytest.mark.parametrize("maze_num", [0, 10, 50, 100])
+    @pytest.mark.parametrize("maze_num", _MAZE_PARAMS)
     def test_maze(self, maze_num, manifest, tmp_path):
         from gex.maze import domaze
         name = f"maze_{maze_num}"

@@ -172,8 +172,8 @@ def main() -> None:
         img = Image.open(path)
         manifest[name] = {"pixel_sha256": _pixel_sha256(img), "size": list(img.size)}
 
-    # --- Mazes (full render, small sample) ---
-    for maze_num in [0, 10, 50, 100]:
+    # --- Mazes (full render, all 117 levels) ---
+    for maze_num in range(117):
         name = f"maze_{maze_num}"
         path = str(REF_DIR / f"{name}.png")
         domaze(f"maze{maze_num}", path, False)

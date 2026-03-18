@@ -8,9 +8,6 @@ from dataclasses import dataclass, field
 from .constants import MazeObjIds
 from .rand import SeededRandom
 
-# Module-level PRNG instance shared with pfrender and wall
-gorand: SeededRandom = SeededRandom(5)
-
 
 @dataclass
 class Maze:
@@ -22,6 +19,7 @@ class Maze:
     wallcolor: int = 0
     floorpattern: int = 0
     floorcolor: int = 0
+    rand: SeededRandom = field(default_factory=lambda: SeededRandom(5))
 
 
 def index2xy(index: int) -> tuple[int, int]:
@@ -74,9 +72,8 @@ def vexpand(maze: Maze, location: int, t: int, count: int) -> int:
 
 
 def maze_decompress(compressed: list[int], metaonly: bool = False) -> Maze:
-    global gorand
-    gorand = SeededRandom(5)
     maze = Maze()
+    maze.rand = SeededRandom(5)
     maze.encodedbytes = len(compressed)
     maze.secret = compressed[0] & 0x1F
 
