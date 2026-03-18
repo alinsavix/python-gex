@@ -73,7 +73,6 @@ def vexpand(maze: Maze, location: int, t: int, count: int) -> int:
 
 def maze_decompress(compressed: list[int], metaonly: bool = False) -> Maze:
     maze = Maze()
-    maze.rand = SeededRandom(5)
     maze.encodedbytes = len(compressed)
     maze.secret = compressed[0] & 0x1F
 
@@ -99,15 +98,16 @@ def maze_decompress(compressed: list[int], metaonly: bool = False) -> Maze:
         maze.data[(i, 0)] = MazeObjIds.WALL_REGULAR
 
     location = 32
-    compressed = compressed[11:]
+    pos = 11
+    end = len(compressed)
 
     while location < 1024:
-        if compressed[0] == 0:
+        if pos >= end or compressed[pos] == 0:
             print("WARNING: Read end of maze datastream before maze full.")
             break
 
-        token = compressed[0]
-        compressed = compressed[1:]
+        token = compressed[pos]
+        pos += 1
         count = (token & 0x0F) + 1
         longcount = (token & 0x1F) + 1
 
@@ -163,7 +163,8 @@ def maze_decompress(compressed: list[int], metaonly: bool = False) -> Maze:
             else:
                 location = expand(maze, location, MazeObjIds.TILE_FLOOR, longcount)
 
-    if len(compressed) != 1 or compressed[0] != 0:
-        print(f"WARNING: Incomplete maze decode? ({len(compressed)} bytes remaining)")
+    remaining = end - pos
+    if remaining != 1 or compressed[pos] != 0:
+        print(f"WARNING: Incomplete maze decode? ({remaining} bytes remaining)")
 
     return maze

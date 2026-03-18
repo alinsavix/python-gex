@@ -9,7 +9,6 @@ from gex.render import (
     byte_to_bits,
     merge_planes,
     blank_image,
-    irgb_to_rgba,
     write_tile_to_image,
     Stamp,
 )
@@ -93,12 +92,6 @@ class TestBlankImage:
         for y in range(4):
             for x in range(4):
                 assert pixels[x, y] == (0, 0, 0, 0)
-
-
-class TestIrgbToRgba:
-    def test_delegates_to_irgb(self):
-        c = IRGB(0xFFFF)
-        assert irgb_to_rgba(c) == c.to_rgba()
 
 
 class TestWriteTileToImage:

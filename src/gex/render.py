@@ -4,13 +4,11 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from functools import lru_cache
-from pathlib import Path
-from typing import Optional
 
 from PIL import Image
 
 from .palettes import IRGB, GAUNTLET_PALETTES, Palette
-from .roms import get_romset, _rom_dir
+from .roms import get_romset, get_tile_data_from_file
 
 
 # ---------------------------------------------------------------------------
@@ -32,20 +30,6 @@ class Stamp:
     nudgex: int = 0
     nudgey: int = 0
     data: list[TileData] = field(default_factory=list)
-
-
-# ---------------------------------------------------------------------------
-# Tile data reading
-# ---------------------------------------------------------------------------
-
-def get_tile_data_from_file(filepath: str, tilenum: int) -> bytes:
-    rom_dir = _rom_dir()
-    with open(rom_dir / filepath, "rb") as f:
-        f.seek(tilenum * 8)
-        data = f.read(8)
-    if len(data) != 8:
-        raise RuntimeError("Failed to read full tile from file")
-    return data
 
 
 def byte_to_bits(databyte: int) -> list[int]:
@@ -85,10 +69,6 @@ def get_parsed_tile(tilenum: int) -> TileData:
 
 def blank_image(x: int, y: int) -> Image.Image:
     return Image.new("RGBA", (x, y), (0, 0, 0, 0))
-
-
-def irgb_to_rgba(color: IRGB) -> tuple[int, int, int, int]:
-    return color.to_rgba()
 
 
 def write_tile_to_image(

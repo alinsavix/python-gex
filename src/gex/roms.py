@@ -162,6 +162,16 @@ SLAPSTIC_BANK_INFO = [
 ]
 
 
+def get_tile_data_from_file(filepath: str, tilenum: int) -> bytes:
+    """Read 8 bytes of tile data from a ROM file at the given tile index."""
+    with open(_rom_dir() / filepath, "rb") as f:
+        f.seek(tilenum * 8)
+        data = f.read(8)
+    if len(data) != 8:
+        raise RuntimeError("Failed to read full tile from file")
+    return data
+
+
 def slapstic_read_bytes(offset: int, count: int, exact: bool = True) -> bytes:
     if offset >= SLAPSTIC_START:
         offset -= SLAPSTIC_START
