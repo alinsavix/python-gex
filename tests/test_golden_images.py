@@ -17,6 +17,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import tempfile
 from pathlib import Path
 
 import pytest
@@ -63,6 +64,14 @@ def _stamp_to_image(stamp) -> Image.Image:
     return img
 
 
+def _save_failure_image(name: str, img: Image.Image, ref_path: Path) -> None:
+    """Save the rendered image to a temp file and print both paths."""
+    out_path = Path(tempfile.gettempdir()) / f"gex_fail_{name}.png"
+    img.save(out_path)
+    print(f"\n  reference image : {ref_path}")
+    print(f"  rendered image  : {out_path}")
+
+
 def _assert_matches_ref(name: str, img: Image.Image, manifest: dict) -> None:
     """Assert that a rendered image's pixels match the reference."""
     ref_path = REF_DIR / f"{name}.png"
@@ -70,19 +79,23 @@ def _assert_matches_ref(name: str, img: Image.Image, manifest: dict) -> None:
     entry = manifest[name]
 
     # Check size
-    assert list(img.size) == entry["size"], (
-        f"{name}: size mismatch: got {list(img.size)}, expected {entry['size']}"
-    )
+    if list(img.size) != entry["size"]:
+        _save_failure_image(name, img, ref_path)
+        raise AssertionError(
+            f"{name}: size mismatch: got {list(img.size)}, expected {entry['size']}"
+        )
 
     # Compare pixel data against the reference PNG (loaded and decoded)
     ref_img = Image.open(ref_path)
     rendered_sha = _pixel_sha256(img)
     ref_sha = _pixel_sha256(ref_img)
-    assert rendered_sha == ref_sha, (
-        f"{name}: pixel data mismatch.\n"
-        f"  rendered: {rendered_sha}\n"
-        f"  reference: {ref_sha}"
-    )
+    if rendered_sha != ref_sha:
+        _save_failure_image(name, img, ref_path)
+        raise AssertionError(
+            f"{name}: pixel data mismatch.\n"
+            f"  rendered: {rendered_sha}\n"
+            f"  reference: {ref_sha}"
+        )
 
     # Also verify manifest hash is consistent with the reference file
     assert ref_sha == entry["pixel_sha256"], (

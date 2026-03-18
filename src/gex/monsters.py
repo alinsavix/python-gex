@@ -42,7 +42,7 @@ MONSTERS: dict[str, Monster] = {
 
 RE_MONSTER_TYPE = re.compile(r"^(ghost)(\d+)?")
 RE_MONSTER_ACTION = re.compile(r"^(walk|fight|attack)")
-RE_MONSTER_DIR = re.compile(r"^(up|upright|right|downright|down|downleft|left|upleft)")
+RE_MONSTER_DIR = re.compile(r"^(upright|upleft|downright|downleft|up|right|down|left)")
 
 
 def domonster(arg: str, output: str, pal_type: str, pal_num: int, animate: bool) -> tuple[str, int]:

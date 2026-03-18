@@ -579,7 +579,6 @@ def wall_get_tiles(wall_num: int, wall_adj: int) -> list[int]:
         adder = 0
         if wall_num == 7 or wall_num == 12:
             adder = 6
-        adder = 0
         r = mazedecode.gorand.intn(6)
         for i in range(4):
             t[i] = SHRUB_OTHER_ORDER_STAMPS[r + adder][i]

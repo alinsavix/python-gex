@@ -448,7 +448,7 @@
     ]
   },
   "ghost_walk_downleft": {
-    "pixel_sha256": "ff15c8cfcafe6df46ed4c6fad5b5afcefc922e23fb461e286841ed22ace46ea8",
+    "pixel_sha256": "4c6a50a0e8ee1ae8c4346254024ba0aeb12960bd1d7e42f51599b0142e62b0e0",
     "size": [
       24,
       24
@@ -476,7 +476,7 @@
     ]
   },
   "ghost_walk_upright": {
-    "pixel_sha256": "1200acd8738feca459412ff7b8df7120222d29456f38a02bce3b153a0f2be9bf",
+    "pixel_sha256": "b96e8847ac9a4773694e127b29fa55b84c3999380f4080119bb7dea1a6cedb90",
     "size": [
       24,
       24
