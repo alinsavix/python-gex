@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import re
+from functools import lru_cache
 
 from .render import Stamp, blank_image, fill_stamp, write_stamp_to_image, save_to_png
 from .roms import GexError
@@ -75,6 +76,7 @@ ITEM_STAMPS: dict[str, dict] = {
 }
 
 
+@lru_cache(maxsize=None)
 def item_get_stamp(item_type: str) -> Stamp:
     info = ITEM_STAMPS.get(item_type)
     if info is None:

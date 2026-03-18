@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+from functools import lru_cache
 from pathlib import Path
 from typing import Optional
 
@@ -66,6 +67,7 @@ def merge_planes(planes: list[list[int]]) -> TileLineMerged:
     return merged
 
 
+@lru_cache(maxsize=None)
 def get_parsed_tile(tilenum: int) -> TileData:
     realtilenum, rom_files = get_romset(tilenum)
     planedata = [get_tile_data_from_file(rom_files[p], realtilenum) for p in range(4)]
