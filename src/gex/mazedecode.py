@@ -66,6 +66,65 @@ def vexpand(maze: Maze, location: int, t: int, count: int) -> int:
     return location + 1
 
 
+def _token_literal(maze: Maze, location: int, token: int) -> tuple[int, int]:
+    """top2 == 0x00: place one literal object; new prev = token."""
+    location = expand(maze, location, token & 0x3F, 1)
+    return location, token
+
+
+def _token_repeat(
+    maze: Maze, location: int, token: int, prev: int,
+    htype1: int, htype2: int, vtype1: int, vtype2: int,
+) -> tuple[int, int]:
+    """top2 == 0x40: repeat a special typed object."""
+    count = (token & 0x0F) + 1
+    sub = token & 0x30
+    prev = {0x00: htype1, 0x10: vtype1, 0x20: htype2, 0x30: vtype2}[sub]
+
+    previtem = prev & 0x3F
+    prevtop = prev & 0xC0
+
+    if prevtop == 0x00:
+        if token & 0x10:
+            location = vexpand(maze, location, previtem, count)
+        else:
+            location = expand(maze, location, previtem, count)
+    elif prevtop == 0x40:
+        location = expand(maze, location, MazeObjIds.TILE_FLOOR, count)
+        location = expand(maze, location, previtem, 1)
+    elif prevtop == 0x80:
+        location = expand(maze, location, previtem, 1)
+        location = expand(maze, location, MazeObjIds.TILE_FLOOR, count)
+    elif prevtop == 0xC0:
+        location = expand(maze, location, MazeObjIds.WALL_REGULAR, count)
+        location = expand(maze, location, previtem, 1)
+
+    return location, prev
+
+
+def _token_wall_or_prev(maze: Maze, location: int, token: int, prev: int) -> int:
+    """top2 == 0x80: place walls or repeat prev object."""
+    count = (token & 0x0F) + 1
+    longcount = (token & 0x1F) + 1
+    if token & 0x20:
+        if token & 0x10:
+            location = vexpand(maze, location, MazeObjIds.WALL_REGULAR, count)
+        else:
+            location = expand(maze, location, MazeObjIds.WALL_REGULAR, count)
+    else:
+        location = expand(maze, location, prev & 0x3F, longcount)
+    return location
+
+
+def _token_floor(maze: Maze, location: int, token: int) -> int:
+    """top2 == 0xC0: place a run of floor tiles, optionally capped with a wall."""
+    longcount = (token & 0x1F) + 1
+    location = expand(maze, location, MazeObjIds.TILE_FLOOR, longcount)
+    if token & 0x20:
+        location = expand(maze, location, MazeObjIds.WALL_REGULAR, 1)
+    return location
+
+
 def maze_decompress(compressed: list[int], metaonly: bool = False) -> Maze:
     maze = Maze()
     maze.encodedbytes = len(compressed)
@@ -101,60 +160,16 @@ def maze_decompress(compressed: list[int], metaonly: bool = False) -> Maze:
 
         token = compressed[pos]
         pos += 1
-        count = (token & 0x0F) + 1
-        longcount = (token & 0x1F) + 1
 
         top2 = token & 0xC0
         if top2 == 0x00:
-            # Place one literal object
-            location = expand(maze, location, token & 0x3F, 1)
-            prev = token
-
+            location, prev = _token_literal(maze, location, token)
         elif top2 == 0x40:
-            # Repeat special type
-            sub = token & 0x30
-            if sub == 0x00:
-                prev = htype1
-            elif sub == 0x10:
-                prev = vtype1
-            elif sub == 0x20:
-                prev = htype2
-            elif sub == 0x30:
-                prev = vtype2
-
-            previtem = prev & 0x3F
-            prevtop = prev & 0xC0
-
-            if prevtop == 0x00:
-                if token & 0x10:
-                    location = vexpand(maze, location, previtem, count)
-                else:
-                    location = expand(maze, location, previtem, count)
-            elif prevtop == 0x40:
-                location = expand(maze, location, MazeObjIds.TILE_FLOOR, count)
-                location = expand(maze, location, previtem, 1)
-            elif prevtop == 0x80:
-                location = expand(maze, location, previtem, 1)
-                location = expand(maze, location, MazeObjIds.TILE_FLOOR, count)
-            elif prevtop == 0xC0:
-                location = expand(maze, location, MazeObjIds.WALL_REGULAR, count)
-                location = expand(maze, location, previtem, 1)
-
+            location, prev = _token_repeat(maze, location, token, prev, htype1, htype2, vtype1, vtype2)
         elif top2 == 0x80:
-            if token & 0x20:
-                if token & 0x10:
-                    location = vexpand(maze, location, MazeObjIds.WALL_REGULAR, count)
-                else:
-                    location = expand(maze, location, MazeObjIds.WALL_REGULAR, count)
-            else:
-                location = expand(maze, location, prev & 0x3F, longcount)
-
+            location = _token_wall_or_prev(maze, location, token, prev)
         elif top2 == 0xC0:
-            if token & 0x20:
-                location = expand(maze, location, MazeObjIds.TILE_FLOOR, longcount)
-                location = expand(maze, location, MazeObjIds.WALL_REGULAR, 1)
-            else:
-                location = expand(maze, location, MazeObjIds.TILE_FLOOR, longcount)
+            location = _token_floor(maze, location, token)
 
     remaining = end - pos
     if remaining != 1 or compressed[pos] != 0:

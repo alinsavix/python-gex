@@ -98,6 +98,14 @@ _WALL_TILE_DOTS: dict[int, int] = {
 }
 
 
+_DOT_POSITIONS: dict[int, list[tuple[int, int]]] = {
+    1: [(7, 7)],
+    2: [(9, 5), (5, 9)],
+    3: [(7, 7), (9, 5), (5, 9)],
+    4: [(9, 5), (5, 9), (5, 5), (9, 9)],
+}
+
+
 def dotat(img: Image.Image, xloc: int, yloc: int) -> None:
     c = IRGB(0xFFFF).to_rgba()
     pixels = img.load()
@@ -110,20 +118,8 @@ def dotat(img: Image.Image, xloc: int, yloc: int) -> None:
 
 
 def renderdots(img: Image.Image, xloc: int, yloc: int, count: int) -> None:
-    if count == 1:
-        dotat(img, xloc + 7, yloc + 7)
-    elif count == 2:
-        dotat(img, xloc + 9, yloc + 5)
-        dotat(img, xloc + 5, yloc + 9)
-    elif count == 3:
-        dotat(img, xloc + 7, yloc + 7)
-        dotat(img, xloc + 9, yloc + 5)
-        dotat(img, xloc + 5, yloc + 9)
-    elif count == 4:
-        dotat(img, xloc + 9, yloc + 5)
-        dotat(img, xloc + 5, yloc + 9)
-        dotat(img, xloc + 5, yloc + 5)
-        dotat(img, xloc + 9, yloc + 9)
+    for dx, dy in _DOT_POSITIONS.get(count, []):
+        dotat(img, xloc + dx, yloc + dy)
 
 
 def _render_floors(img: Image.Image, maze: Maze, ffmap: FFMap) -> None:
@@ -137,55 +133,56 @@ def _render_floors(img: Image.Image, maze: Maze, ffmap: FFMap) -> None:
             write_stamp_to_image(img, stamp, x * 16 + 16, y * 16 + 16)
 
 
+def _get_stamp_for_obj(maze: Maze, x: int, y: int, obj: int) -> tuple[Stamp | None, int]:
+    """Return (stamp, dots) for the object at (x, y), or (None, 0) if nothing to draw."""
+    if obj in _FLOOR_TILE_INFO:
+        ptype_override, dots = _FLOOR_TILE_INFO[obj]
+        adj = checkwalladj3(maze, x, y) + maze.rand.intn(4)
+        return dataclasses.replace(
+            floor_get_stamp(maze.floorpattern, adj, maze.floorcolor),
+            ptype=ptype_override, pnum=0,
+        ), dots
+
+    if obj == MazeObjIds.WALL_DESTRUCTABLE:
+        adj = checkwalladj8(maze, x, y)
+        return wall_get_destructable_stamp(maze.wallpattern, adj, maze.wallcolor, maze.rand), 0
+
+    if obj == MazeObjIds.WALL_SECRET:
+        adj = checkwalladj8(maze, x, y)
+        return dataclasses.replace(
+            wall_get_stamp(maze.wallpattern, adj, maze.wallcolor, maze.rand),
+            ptype="secret", pnum=0,
+        ), 0
+
+    if obj in _WALL_TILE_DOTS:
+        adj = checkwalladj8(maze, x, y)
+        return wall_get_stamp(maze.wallpattern, adj, maze.wallcolor, maze.rand), _WALL_TILE_DOTS[obj]
+
+    if isdoor(obj):
+        adj = checkdooradj4(maze, x, y)
+        return door_get_stamp(DOOR_HORIZ if obj == MazeObjIds.DOOR_HORIZ else DOOR_VERT, adj), 0
+
+    if obj == MazeObjIds.FOOD_INVULN:
+        return item_get_stamp(FOODS[maze.rand.intn(3)]), 0
+
+    if obj == MazeObjIds.FORCEFIELDHUB:
+        adj = checkffadj4(maze, x, y)
+        return ff_get_stamp(adj), 0
+
+    if obj in _ITEM_STAMP_NAMES:
+        return item_get_stamp(_ITEM_STAMP_NAMES[obj]), 0
+
+    return None, 0
+
+
 def _render_objects(img: Image.Image, maze: Maze, lastx: int, lasty: int) -> None:
     """Draw walls, doors, items, and other objects on top of floors."""
     for y in range(lasty + 1):
         for x in range(lastx + 1):
-            stamp = None
-            dots = 0
             obj = whatis(maze, x, y)
-
-            if obj in _FLOOR_TILE_INFO:
-                ptype_override, dots = _FLOOR_TILE_INFO[obj]
-                adj = checkwalladj3(maze, x, y) + maze.rand.intn(4)
-                stamp = dataclasses.replace(
-                    floor_get_stamp(maze.floorpattern, adj, maze.floorcolor),
-                    ptype=ptype_override, pnum=0,
-                )
-
-            elif obj == MazeObjIds.WALL_DESTRUCTABLE:
-                adj = checkwalladj8(maze, x, y)
-                stamp = wall_get_destructable_stamp(maze.wallpattern, adj, maze.wallcolor, maze.rand)
-
-            elif obj == MazeObjIds.WALL_SECRET:
-                adj = checkwalladj8(maze, x, y)
-                stamp = dataclasses.replace(
-                    wall_get_stamp(maze.wallpattern, adj, maze.wallcolor, maze.rand),
-                    ptype="secret", pnum=0,
-                )
-
-            elif obj in _WALL_TILE_DOTS:
-                dots = _WALL_TILE_DOTS[obj]
-                adj = checkwalladj8(maze, x, y)
-                stamp = wall_get_stamp(maze.wallpattern, adj, maze.wallcolor, maze.rand)
-
-            elif isdoor(obj):
-                adj = checkdooradj4(maze, x, y)
-                stamp = door_get_stamp(DOOR_HORIZ if obj == MazeObjIds.DOOR_HORIZ else DOOR_VERT, adj)
-
-            elif obj == MazeObjIds.FOOD_INVULN:
-                stamp = item_get_stamp(FOODS[maze.rand.intn(3)])
-
-            elif obj == MazeObjIds.FORCEFIELDHUB:
-                adj = checkffadj4(maze, x, y)
-                stamp = ff_get_stamp(adj)
-
-            elif obj in _ITEM_STAMP_NAMES:
-                stamp = item_get_stamp(_ITEM_STAMP_NAMES[obj])
-
+            stamp, dots = _get_stamp_for_obj(maze, x, y, obj)
             if stamp is not None:
                 write_stamp_to_image(img, stamp, x * 16 + 16 + stamp.nudgex, y * 16 + 16 + stamp.nudgey)
-
             if dots:
                 renderdots(img, x * 16 + 16, y * 16 + 16, dots)
 
