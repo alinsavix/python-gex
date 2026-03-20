@@ -1,0 +1,36 @@
+{
+  // ---------------------------------------------------------------------------
+  // DOOR_STAMPS
+  // 16-entry lookup table indexed by a 4-bit door adjacency mask from
+  // checkdooradj4():
+  //   bit 0 = door above   bit 1 = door right
+  //   bit 2 = door below   bit 3 = door left
+  //
+  // Each non-zero value is the first tile number of a 4-tile sequential 2×2
+  // stamp.  Zero means that adjacency combination has no stamp — door_get_tiles
+  // raises GexError for those indices and door_get_stamp falls back to the
+  // plain horizontal/vertical door item sprite.
+  //
+  // Only certain combinations appear in actual mazes (a door must connect to
+  // at least two perpendicular neighbours to form a valid doorway), so many
+  // entries are legitimately zero.
+  // ---------------------------------------------------------------------------
+  "door_stamps": [
+       0,  // 0b0000 — isolated door
+       0,  // 0b0001 — above only
+       0,  // 0b0010 — right only
+    7476,  // 0b0011 — above + right
+       0,  // 0b0100 — below only
+       0,  // 0b0101 — above + below
+    7468,  // 0b0110 — right + below
+    7452,  // 0b0111 — above + right + below
+       0,  // 0b1000 — left only
+    7480,  // 0b1001 — above + left
+       0,  // 0b1010 — right + left (straight horizontal — no stamp)
+    7460,  // 0b1011 — above + right + left
+    7472,  // 0b1100 — below + left
+    7448,  // 0b1101 — above + below + left
+    7456,  // 0b1110 — right + below + left
+    7464   // 0b1111 — all four neighbours
+  ]
+}

@@ -2,10 +2,14 @@
 
 from __future__ import annotations
 
+import json
+import re
 from dataclasses import dataclass, field
+from pathlib import Path
 
 from .render import Stamp, gen_image, save_to_png
 
+_DATA_DIR = Path(__file__).parent / "data"
 
 # Animation types
 MobAnimFrames = list[int]
@@ -22,22 +26,23 @@ class Monster:
     anims: MobAnims = field(default_factory=dict)
 
 
-GHOST_ANIMS: MobAnims = {
-    "walk": {
-        "up":        [0x890, 0x899, 0x8A2, 0x8AB],
-        "upright":   [0x86C, 0x875, 0x87E, 0x887],
-        "right":     [0x848, 0x851, 0x85A, 0x863],
-        "downright": [0x824, 0x82D, 0x836, 0x83F],
-        "down":      [0x800, 0x809, 0x812, 0x81B],
-        "downleft":  [0x900, 0x909, 0x912, 0x91B],
-        "left":      [0x8D8, 0x8E1, 0x8EA, 0x8F3],
-        "upleft":    [0x8B4, 0x8BD, 0x8C6, 0x8CF],
-    },
-}
+def _load_jsonc(path: Path):
+    """Load a JSON-with-comments (.jsonc) file, stripping // and /* */ comments."""
+    text = path.read_text()
+    text = re.sub(r"//[^\n]*", "", text)
+    text = re.sub(r"/\*.*?\*/", "", text, flags=re.DOTALL)
+    return json.loads(text)
 
-MONSTERS: dict[str, Monster] = {
-    "ghost": Monster(xsize=3, ysize=3, ptype="base", pnum=0, anims=GHOST_ANIMS),
-}
+
+def _load_monsters() -> dict[str, Monster]:
+    raw = _load_jsonc(_DATA_DIR / "monsters.jsonc")
+    return {name: Monster(**entry) for name, entry in raw.items()}
+
+
+MONSTERS: dict[str, Monster] = _load_monsters()
+
+# Convenience alias kept for backwards compatibility.
+GHOST_ANIMS: MobAnims = MONSTERS["ghost"].anims
 
 _MONSTER_ACTIONS = {"walk", "fight", "attack"}
 _MONSTER_DIRS = {"upright", "upleft", "downright", "downleft", "up", "right", "down", "left"}

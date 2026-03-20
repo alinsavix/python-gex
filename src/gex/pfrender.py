@@ -56,21 +56,9 @@ _ITEM_STAMP_NAMES: dict[int, str] = {
     MazeObjIds.GEN_GHOST1:        "ghostgen1",
     MazeObjIds.GEN_GHOST2:        "ghostgen2",
     MazeObjIds.GEN_GHOST3:        "ghostgen3",
-    MazeObjIds.GEN_GRUNT1:        "generator1",
-    MazeObjIds.GEN_DEMON1:        "generator1",
-    MazeObjIds.GEN_LOBBER1:       "generator1",
-    MazeObjIds.GEN_SORC1:         "generator1",
-    MazeObjIds.GEN_AUX_GRUNT1:    "generator1",
-    MazeObjIds.GEN_GRUNT2:        "generator2",
-    MazeObjIds.GEN_DEMON2:        "generator2",
-    MazeObjIds.GEN_LOBBER2:       "generator2",
-    MazeObjIds.GEN_SORC2:         "generator2",
-    MazeObjIds.GEN_AUX_GRUNT2:    "generator2",
-    MazeObjIds.GEN_GRUNT3:        "generator3",
-    MazeObjIds.GEN_DEMON3:        "generator3",
-    MazeObjIds.GEN_LOBBER3:       "generator3",
-    MazeObjIds.GEN_SORC3:         "generator3",
-    MazeObjIds.GEN_AUX_GRUNT3:    "generator3",
+    # Non-ghost generators: all types at the same level share one stamp.
+    # Built programmatically below to avoid 15 near-identical entries.
+
     MazeObjIds.TREASURE:          "treasure",
     MazeObjIds.TREASURE_LOCKED:   "treasurelocked",
     MazeObjIds.TREASURE_BAG:      "goldbag",
@@ -79,6 +67,19 @@ _ITEM_STAMP_NAMES: dict[int, str] = {
     MazeObjIds.POT_INVULN:        "ipotion",
     MazeObjIds.TRANSPORTER:       "tport",
 }
+
+# All non-ghost generator types share a stamp by level (1/2/3), regardless of
+# which monster type they spawn.  Build the 15 entries rather than listing them.
+_NON_GHOST_GEN_GROUPS = [
+    (MazeObjIds.GEN_GRUNT1,     MazeObjIds.GEN_GRUNT2,     MazeObjIds.GEN_GRUNT3),
+    (MazeObjIds.GEN_DEMON1,     MazeObjIds.GEN_DEMON2,     MazeObjIds.GEN_DEMON3),
+    (MazeObjIds.GEN_LOBBER1,    MazeObjIds.GEN_LOBBER2,    MazeObjIds.GEN_LOBBER3),
+    (MazeObjIds.GEN_SORC1,      MazeObjIds.GEN_SORC2,      MazeObjIds.GEN_SORC3),
+    (MazeObjIds.GEN_AUX_GRUNT1, MazeObjIds.GEN_AUX_GRUNT2, MazeObjIds.GEN_AUX_GRUNT3),
+]
+for _group in _NON_GHOST_GEN_GROUPS:
+    for _level, _gen_id in enumerate(_group, 1):
+        _ITEM_STAMP_NAMES[_gen_id] = f"generator{_level}"
 
 # Floor-tile objects that use a palette override: obj → (ptype, dots)
 _FLOOR_TILE_INFO: dict[int, tuple[str, int]] = {

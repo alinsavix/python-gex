@@ -2,31 +2,28 @@
 
 from __future__ import annotations
 
+import json
+import re
+from pathlib import Path
+
 from .render import Stamp, gen_stamp_from_array
 from .roms import GexError
+
+_DATA_DIR = Path(__file__).parent / "data"
 
 DOOR_HORIZ = 0
 DOOR_VERT = 1
 
-# First tile numbers; next three are sequential for all door types
-DOOR_STAMPS = [
-    0x0000,  # nothing adjacent
-    0x0000,  # only adjacent up
-    0x0000,  # only adjacent right
-    0x1D34,  # up right
-    0x0000,  # only adjacent down
-    0x0000,  # only adjacent down and up
-    0x1D2C,  # down right
-    0x1D1C,  # up-right-down
-    0x0000,  # only adjacent left
-    0x1D38,  # left-up
-    0x0000,  # only adjacent left and right
-    0x1D24,  # up-left-right
-    0x1D30,  # left-down
-    0x1D18,  # up-down-left
-    0x1D20,  # right left down
-    0x1D28,  # up down left right
-]
+
+def _load_jsonc(path: Path):
+    """Load a JSON-with-comments (.jsonc) file, stripping // and /* */ comments."""
+    text = path.read_text()
+    text = re.sub(r"//[^\n]*", "", text)
+    text = re.sub(r"/\*.*?\*/", "", text, flags=re.DOTALL)
+    return json.loads(text)
+
+
+DOOR_STAMPS: list[int] = _load_jsonc(_DATA_DIR / "door_stamps.jsonc")["door_stamps"]
 
 
 def door_get_tiles(door_dir: int, door_adj: int) -> list[int]:

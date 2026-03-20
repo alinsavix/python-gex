@@ -1,0 +1,992 @@
+// Item stamp tile data.
+// Each entry defines a named sprite with rendering parameters:
+//   width    — stamp width in tiles (height = ceil(numbers.length / width))
+//   numbers  — absolute ROM tile indices, row-major order
+//   ptype    — palette type key
+//   pnum     — palette number within that type
+//   trans0   — treat tile 0 as transparent
+//   nudgex/y — pixel offset applied when rendering onto the maze image
+{
+  // Internal placeholder — used wherever a no-op stamp is needed
+  "blank": {
+      "width": 2,
+      "numbers": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "ptype": "base",
+      "pnum": 0,
+      "trans0": false,
+      "nudgex": 0,
+      "nudgey": 0
+    },
+
+  // Pickups: keys and locks
+  "key": {
+      "width": 2,
+      "numbers": [
+        2812,
+        2813,
+        2814,
+        2815
+      ],
+      "ptype": "base",
+      "pnum": 1,
+      "trans0": true,
+      "nudgex": 0,
+      "nudgey": 0
+    },
+  "keyring": {
+      "width": 3,
+      "numbers": [
+        7542,
+        7543,
+        7544,
+        7545,
+        7546,
+        7547
+      ],
+      "ptype": "base",
+      "pnum": 1,
+      "trans0": true,
+      "nudgex": 0,
+      "nudgey": 0
+    },
+
+  // Food: base destructible, three invulnerable variants, multiplayer/puzzle variants
+  "food": {
+      "width": 3,
+      "numbers": [
+        2403,
+        2404,
+        2405,
+        2406,
+        2407,
+        2408,
+        2409,
+        2410,
+        2411
+      ],
+      "ptype": "base",
+      "pnum": 1,
+      "trans0": true,
+      "nudgex": -4,
+      "nudgey": -4
+    },
+  "ifood1": {
+      "width": 3,
+      "numbers": [
+        2412,
+        2413,
+        2414,
+        2415,
+        2416,
+        2417,
+        2418,
+        2419,
+        2420
+      ],
+      "ptype": "base",
+      "pnum": 1,
+      "trans0": true,
+      "nudgex": -4,
+      "nudgey": -4
+    },
+  "ifood2": {
+      "width": 3,
+      "numbers": [
+        2421,
+        2422,
+        2423,
+        2424,
+        2425,
+        2426,
+        2427,
+        2428,
+        2429
+      ],
+      "ptype": "base",
+      "pnum": 1,
+      "trans0": true,
+      "nudgex": -4,
+      "nudgey": -4
+    },
+  "ifood3": {
+      "width": 3,
+      "numbers": [
+        2430,
+        2431,
+        2432,
+        2433,
+        2434,
+        2435,
+        2436,
+        2437,
+        2438
+      ],
+      "ptype": "base",
+      "pnum": 1,
+      "trans0": true,
+      "nudgex": -4,
+      "nudgey": -4
+    },
+  "mfood": {
+      "width": 3,
+      "numbers": [
+        10107,
+        10108,
+        10109,
+        10110,
+        10111,
+        10112,
+        10113,
+        10114,
+        10115
+      ],
+      "ptype": "base",
+      "pnum": 1,
+      "trans0": true,
+      "nudgex": -4,
+      "nudgey": -4
+    },
+  "pfood": {
+      "width": 3,
+      "numbers": [
+        9709,
+        9710,
+        9711,
+        9712,
+        9713,
+        9714,
+        9715,
+        9716,
+        9717
+      ],
+      "ptype": "base",
+      "pnum": 1,
+      "trans0": true,
+      "nudgex": -4,
+      "nudgey": -4
+    },
+
+  // Potions: base destructible, invulnerable, and named power variants
+  "potion": {
+      "width": 2,
+      "numbers": [
+        2300,
+        2301,
+        2302,
+        2303
+      ],
+      "ptype": "base",
+      "pnum": 1,
+      "trans0": true,
+      "nudgex": 0,
+      "nudgey": 0
+    },
+  "ipotion": {
+      "width": 2,
+      "numbers": [
+        2556,
+        2557,
+        2558,
+        2559
+      ],
+      "ptype": "base",
+      "pnum": 1,
+      "trans0": true,
+      "nudgex": 0,
+      "nudgey": 0
+    },
+  "ppotion": {
+      "width": 2,
+      "numbers": [
+        8444,
+        8445,
+        8446,
+        8447
+      ],
+      "ptype": "base",
+      "pnum": 1,
+      "trans0": true,
+      "nudgex": 0,
+      "nudgey": 0
+    },
+  "shieldpotion": {
+      "width": 2,
+      "numbers": [
+        4604,
+        4605,
+        4606,
+        4607
+      ],
+      "ptype": "base",
+      "pnum": 1,
+      "trans0": true,
+      "nudgex": 0,
+      "nudgey": 0
+    },
+  "speedpotion": {
+      "width": 2,
+      "numbers": [
+        4860,
+        4861,
+        4862,
+        4863
+      ],
+      "ptype": "base",
+      "pnum": 1,
+      "trans0": true,
+      "nudgex": 0,
+      "nudgey": 0
+    },
+  "magicpotion": {
+      "width": 2,
+      "numbers": [
+        5116,
+        5117,
+        5118,
+        5119
+      ],
+      "ptype": "base",
+      "pnum": 1,
+      "trans0": true,
+      "nudgex": 0,
+      "nudgey": 0
+    },
+  "shotpowerpotion": {
+      "width": 2,
+      "numbers": [
+        5372,
+        5373,
+        5374,
+        5375
+      ],
+      "ptype": "base",
+      "pnum": 1,
+      "trans0": true,
+      "nudgex": 0,
+      "nudgey": 0
+    },
+  "shotspeedpotion": {
+      "width": 2,
+      "numbers": [
+        5628,
+        5629,
+        5630,
+        5631
+      ],
+      "ptype": "base",
+      "pnum": 1,
+      "trans0": true,
+      "nudgex": 0,
+      "nudgey": 0
+    },
+  "fightpotion": {
+      "width": 2,
+      "numbers": [
+        5884,
+        5885,
+        5886,
+        5887
+      ],
+      "ptype": "base",
+      "pnum": 1,
+      "trans0": true,
+      "nudgex": 0,
+      "nudgey": 0
+    },
+
+  // Power-up items (large 3×3 sprites)
+  "invis": {
+      "width": 3,
+      "numbers": [
+        5888,
+        5889,
+        5890,
+        5891,
+        5892,
+        5893,
+        5894,
+        5895,
+        5896
+      ],
+      "ptype": "base",
+      "pnum": 1,
+      "trans0": true,
+      "nudgex": -4,
+      "nudgey": -4
+    },
+  "transportability": {
+      "width": 2,
+      "numbers": [
+        9212,
+        9213,
+        9214,
+        9215
+      ],
+      "ptype": "base",
+      "pnum": 1,
+      "trans0": true,
+      "nudgex": 0,
+      "nudgey": 0
+    },
+  "reflect": {
+      "width": 2,
+      "numbers": [
+        9468,
+        9469,
+        9470,
+        9471
+      ],
+      "ptype": "base",
+      "pnum": 1,
+      "trans0": true,
+      "nudgex": 0,
+      "nudgey": 0
+    },
+  "repulse": {
+      "width": 2,
+      "numbers": [
+        9980,
+        9981,
+        9982,
+        9983
+      ],
+      "ptype": "base",
+      "pnum": 1,
+      "trans0": true,
+      "nudgex": 0,
+      "nudgey": 0
+    },
+  "invuln": {
+      "width": 2,
+      "numbers": [
+        10116,
+        10117,
+        10118,
+        10119
+      ],
+      "ptype": "base",
+      "pnum": 1,
+      "trans0": true,
+      "nudgex": 0,
+      "nudgey": 0
+    },
+  "supershot": {
+      "width": 2,
+      "numbers": [
+        10120,
+        10121,
+        10122,
+        10123
+      ],
+      "ptype": "base",
+      "pnum": 1,
+      "trans0": true,
+      "nudgex": 0,
+      "nudgey": 0
+    },
+
+  // Maze objects
+  "pushwall": {
+      "width": 3,
+      "numbers": [
+        8438,
+        8439,
+        8440,
+        8441,
+        8442,
+        8443
+      ],
+      "ptype": "base",
+      "pnum": 1,
+      "trans0": true,
+      "nudgex": -4,
+      "nudgey": -4
+    },
+  "treasure": {
+      "width": 3,
+      "numbers": [
+        2439,
+        2440,
+        2441,
+        2442,
+        2443,
+        2444,
+        2445,
+        2446,
+        2447
+      ],
+      "ptype": "base",
+      "pnum": 1,
+      "trans0": true,
+      "nudgex": -4,
+      "nudgey": -4
+    },
+  "treasurelocked": {
+      "width": 3,
+      "numbers": [
+        9700,
+        9701,
+        9702,
+        9703,
+        9704,
+        9705,
+        9706,
+        9707,
+        9708
+      ],
+      "ptype": "base",
+      "pnum": 1,
+      "trans0": true,
+      "nudgex": -4,
+      "nudgey": -4
+    },
+  "goldbag": {
+      "width": 3,
+      "numbers": [
+        2466,
+        2467,
+        2468,
+        2469,
+        2470,
+        2471,
+        2472,
+        2473,
+        2474
+      ],
+      "ptype": "base",
+      "pnum": 1,
+      "trans0": true,
+      "nudgex": -4,
+      "nudgey": -4
+    },
+  "tport": {
+      "width": 2,
+      "numbers": [
+        1182,
+        1183,
+        1184,
+        1185
+      ],
+      "ptype": "teleff",
+      "pnum": 0,
+      "trans0": true,
+      "nudgex": 0,
+      "nudgey": 0
+    },
+  "ff": {
+      "width": 2,
+      "numbers": [
+        1186,
+        1187,
+        1188,
+        1189
+      ],
+      "ptype": "teleff",
+      "pnum": 0,
+      "trans0": true,
+      "nudgex": 0,
+      "nudgey": 0
+    },
+
+  // Exits: base, named alternates for specific level sets
+  "exit": {
+      "width": 2,
+      "numbers": [
+        926,
+        927,
+        6,
+        6
+      ],
+      "ptype": "floor",
+      "pnum": 0,
+      "trans0": false,
+      "nudgex": 0,
+      "nudgey": 0
+    },
+  "exit4": {
+      "width": 2,
+      "numbers": [
+        3324,
+        3325,
+        3326,
+        3327
+      ],
+      "ptype": "floor",
+      "pnum": 0,
+      "trans0": false,
+      "nudgex": 0,
+      "nudgey": 0
+    },
+  "exit6": {
+      "width": 2,
+      "numbers": [
+        926,
+        927,
+        928,
+        929
+      ],
+      "ptype": "floor",
+      "pnum": 0,
+      "trans0": false,
+      "nudgex": 0,
+      "nudgey": 0
+    },
+  "exit8": {
+      "width": 2,
+      "numbers": [
+        3580,
+        3581,
+        3582,
+        3583
+      ],
+      "ptype": "floor",
+      "pnum": 0,
+      "trans0": false,
+      "nudgex": 0,
+      "nudgey": 0
+    },
+
+  // Door fallback sprites (used when no adjacency stamp exists)
+  "vdoor": {
+      "width": 2,
+      "numbers": [
+        7552,
+        7553,
+        7554,
+        7555
+      ],
+      "ptype": "base",
+      "pnum": 0,
+      "trans0": true,
+      "nudgex": 0,
+      "nudgey": 0
+    },
+  "hdoor": {
+      "width": 2,
+      "numbers": [
+        7496,
+        7497,
+        7498,
+        7499
+      ],
+      "ptype": "base",
+      "pnum": 0,
+      "trans0": true,
+      "nudgex": 0,
+      "nudgey": 0
+    },
+
+  // Player start marker
+  "plus": {
+      "width": 2,
+      "numbers": [
+        3068,
+        3069,
+        3070,
+        3071
+      ],
+      "ptype": "base",
+      "pnum": 1,
+      "trans0": true,
+      "nudgex": 0,
+      "nudgey": 0
+    },
+
+  // Monsters (map overview sprites — not animation frames)
+  "dragon": {
+      "width": 4,
+      "numbers": [
+        8448,
+        8449,
+        8450,
+        8451,
+        8452,
+        8453,
+        8454,
+        8455,
+        8456,
+        8457,
+        8458,
+        8459,
+        8460,
+        8461,
+        8462,
+        8463
+      ],
+      "ptype": "base",
+      "pnum": 8,
+      "trans0": true,
+      "nudgex": 0,
+      "nudgey": -16
+    },
+
+  // Generators: level 1/2/3 (all non-ghost monster types share these sprites)
+  "generator1": {
+      "width": 3,
+      "numbers": [
+        2502,
+        2503,
+        2504,
+        2505,
+        2506,
+        2507,
+        2508,
+        2509,
+        2510
+      ],
+      "ptype": "base",
+      "pnum": 5,
+      "trans0": true,
+      "nudgex": -4,
+      "nudgey": -4
+    },
+  "generator2": {
+      "width": 3,
+      "numbers": [
+        2511,
+        2512,
+        2513,
+        2514,
+        2515,
+        2516,
+        2517,
+        2518,
+        2519
+      ],
+      "ptype": "base",
+      "pnum": 5,
+      "trans0": true,
+      "nudgex": -4,
+      "nudgey": -4
+    },
+  "generator3": {
+      "width": 3,
+      "numbers": [
+        2520,
+        2521,
+        2522,
+        2523,
+        2524,
+        2525,
+        2526,
+        2527,
+        2528
+      ],
+      "ptype": "base",
+      "pnum": 5,
+      "trans0": true,
+      "nudgex": -4,
+      "nudgey": -4
+    },
+
+  // Ghost generators: separate sprites per level
+  "ghostgen1": {
+      "width": 3,
+      "numbers": [
+        2475,
+        2476,
+        2477,
+        2478,
+        2479,
+        2480,
+        2481,
+        2482,
+        2483
+      ],
+      "ptype": "base",
+      "pnum": 5,
+      "trans0": true,
+      "nudgex": -4,
+      "nudgey": -4
+    },
+  "ghostgen2": {
+      "width": 3,
+      "numbers": [
+        2484,
+        2485,
+        2486,
+        2487,
+        2488,
+        2489,
+        2490,
+        2491,
+        2492
+      ],
+      "ptype": "base",
+      "pnum": 5,
+      "trans0": true,
+      "nudgex": -4,
+      "nudgey": -4
+    },
+  "ghostgen3": {
+      "width": 3,
+      "numbers": [
+        2493,
+        2494,
+        2495,
+        2496,
+        2497,
+        2498,
+        2499,
+        2500,
+        2501
+      ],
+      "ptype": "base",
+      "pnum": 5,
+      "trans0": true,
+      "nudgex": -4,
+      "nudgey": -4
+    },
+
+  // Individual monster overview sprites
+  "ghost": {
+      "width": 3,
+      "numbers": [
+        2048,
+        2049,
+        2050,
+        2051,
+        2052,
+        2053,
+        2054,
+        2055,
+        2056
+      ],
+      "ptype": "base",
+      "pnum": 4,
+      "trans0": true,
+      "nudgex": -4,
+      "nudgey": -4
+    },
+  "grunt": {
+      "width": 3,
+      "numbers": [
+        2529,
+        2530,
+        2531,
+        2532,
+        2533,
+        2534,
+        2535,
+        2536,
+        2537
+      ],
+      "ptype": "base",
+      "pnum": 4,
+      "trans0": true,
+      "nudgex": -4,
+      "nudgey": -4
+    },
+  "demon": {
+      "width": 3,
+      "numbers": [
+        6207,
+        6208,
+        6209,
+        6210,
+        6211,
+        6212,
+        6213,
+        6214,
+        6215
+      ],
+      "ptype": "base",
+      "pnum": 8,
+      "trans0": true,
+      "nudgex": -4,
+      "nudgey": -4
+    },
+  "lobber": {
+      "width": 3,
+      "numbers": [
+        6999,
+        7000,
+        7001,
+        7002,
+        7003,
+        7004
+      ],
+      "ptype": "base",
+      "pnum": 11,
+      "trans0": true,
+      "nudgex": -4,
+      "nudgey": -4
+    },
+  "sorcerer": {
+      "width": 3,
+      "numbers": [
+        5026,
+        5027,
+        5028,
+        5029,
+        5030,
+        5031,
+        5032,
+        5033,
+        5034
+      ],
+      "ptype": "base",
+      "pnum": 11,
+      "trans0": true,
+      "nudgex": -4,
+      "nudgey": -4
+    },
+  "auxgrunt": {
+      "width": 3,
+      "numbers": [
+        2529,
+        2530,
+        2531,
+        2532,
+        2533,
+        2534,
+        2535,
+        2536,
+        2537
+      ],
+      "ptype": "base",
+      "pnum": 4,
+      "trans0": true,
+      "nudgex": -4,
+      "nudgey": -4
+    },
+  "death": {
+      "width": 3,
+      "numbers": [
+        6773,
+        6774,
+        6775,
+        6776,
+        6777,
+        6778,
+        6779,
+        6780,
+        6781
+      ],
+      "ptype": "base",
+      "pnum": 0,
+      "trans0": true,
+      "nudgex": -4,
+      "nudgey": -4
+    },
+  "acid": {
+      "width": 3,
+      "numbers": [
+        8960,
+        8961,
+        8962,
+        8963,
+        8964,
+        8965,
+        8966,
+        8967,
+        8968
+      ],
+      "ptype": "base",
+      "pnum": 1,
+      "trans0": true,
+      "nudgex": -4,
+      "nudgey": -4
+    },
+  "supersorc": {
+      "width": 3,
+      "numbers": [
+        5026,
+        5027,
+        5028,
+        5029,
+        5030,
+        5031,
+        5032,
+        5033,
+        5034
+      ],
+      "ptype": "base",
+      "pnum": 11,
+      "trans0": true,
+      "nudgex": -4,
+      "nudgey": -4
+    },
+  "it": {
+      "width": 3,
+      "numbers": [
+        9728,
+        9729,
+        9730,
+        9731,
+        9732,
+        9733,
+        9734,
+        9735,
+        9736
+      ],
+      "ptype": "base",
+      "pnum": 8,
+      "trans0": true,
+      "nudgex": -4,
+      "nudgey": -4
+    },
+
+  // Wrap-around border arrows (drawn at the image edge for wrapping mazes)
+  "arrowleft": {
+      "width": 2,
+      "numbers": [
+        0,
+        7311,
+        0,
+        7313
+      ],
+      "ptype": "elf",
+      "pnum": 1,
+      "trans0": true,
+      "nudgex": 0,
+      "nudgey": 0
+    },
+  "arrowright": {
+      "width": 2,
+      "numbers": [
+        7293,
+        0,
+        7295,
+        0
+      ],
+      "ptype": "elf",
+      "pnum": 1,
+      "trans0": true,
+      "nudgex": 0,
+      "nudgey": 0
+    },
+  "arrowup": {
+      "width": 2,
+      "numbers": [
+        0,
+        0,
+        7284,
+        7285
+      ],
+      "ptype": "elf",
+      "pnum": 1,
+      "trans0": true,
+      "nudgex": 0,
+      "nudgey": 0
+    },
+  "arrowdown": {
+      "width": 2,
+      "numbers": [
+        7302,
+        7303,
+        0,
+        0
+      ],
+      "ptype": "elf",
+      "pnum": 1,
+      "trans0": true,
+      "nudgex": 0,
+      "nudgey": 0
+    }
+}

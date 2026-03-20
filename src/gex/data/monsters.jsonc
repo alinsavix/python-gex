@@ -1,0 +1,27 @@
+// Monster animation data.
+// Each entry defines a named monster with rendering parameters:
+//   xsize  — sprite width in tiles
+//   ysize  — sprite height in tiles
+//   ptype  — palette type key
+//   pnum   — palette number within that type
+//   anims  — animation sets keyed by action (e.g. "walk"), then direction
+{
+  "ghost": {
+    "xsize": 3,
+    "ysize": 3,
+    "ptype": "base",
+    "pnum": 0,
+    "anims": {
+      "walk": {
+        "up":        [2192, 2201, 2210, 2219],
+        "upright":   [2156, 2165, 2174, 2183],
+        "right":     [2120, 2129, 2138, 2147],
+        "downright": [2084, 2093, 2102, 2111],
+        "down":      [2048, 2057, 2066, 2075],
+        "downleft":  [2304, 2313, 2322, 2331],
+        "left":      [2264, 2273, 2282, 2291],
+        "upleft":    [2228, 2237, 2246, 2255]
+      }
+    }
+  }
+}

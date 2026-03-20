@@ -8,6 +8,25 @@ from dataclasses import dataclass, field
 from .constants import MazeObjIds
 from .rand import SeededRandom
 
+# Bit masks for compressed token bytes
+_TOP2_MASK   = 0xC0  # top 2 bits identify the token class
+_OBJ_MASK    = 0x3F  # bottom 6 bits: literal object ID
+_COUNT4_MASK = 0x0F  # bottom 4 bits: repeat count (minus 1)
+_COUNT5_MASK = 0x1F  # bottom 5 bits: long repeat count (minus 1)
+_SUB_MASK    = 0x30  # bits 4-5: sub-type selector within TOK_REPEAT
+
+# Token classes (top 2 bits of each token byte)
+_TOK_LITERAL      = 0x00  # place one literal object
+_TOK_REPEAT       = 0x40  # repeat a special typed object
+_TOK_WALL_OR_PREV = 0x80  # place walls or repeat prev object
+_TOK_FLOOR        = 0xC0  # place a run of floor tiles
+
+# Sub-types for TOK_REPEAT: bits 4-5 select which "prev context" to use
+_SUB_HTYPE1 = 0x00
+_SUB_VTYPE1 = 0x10
+_SUB_HTYPE2 = 0x20
+_SUB_VTYPE2 = 0x30
+
 
 @dataclass
 class Maze:
@@ -67,35 +86,46 @@ def vexpand(maze: Maze, location: int, t: int, count: int) -> int:
 
 
 def _token_literal(maze: Maze, location: int, token: int) -> tuple[int, int]:
-    """top2 == 0x00: place one literal object; new prev = token."""
-    location = expand(maze, location, token & 0x3F, 1)
+    """TOK_LITERAL: place one literal object; new prev = token."""
+    location = expand(maze, location, token & _OBJ_MASK, 1)
     return location, token
+
+
+_SUB_TO_CTX = {_SUB_HTYPE1: 0, _SUB_VTYPE1: 1, _SUB_HTYPE2: 2, _SUB_VTYPE2: 3}
 
 
 def _token_repeat(
     maze: Maze, location: int, token: int, prev: int,
     htype1: int, htype2: int, vtype1: int, vtype2: int,
 ) -> tuple[int, int]:
-    """top2 == 0x40: repeat a special typed object."""
-    count = (token & 0x0F) + 1
-    sub = token & 0x30
-    prev = {0x00: htype1, 0x10: vtype1, 0x20: htype2, 0x30: vtype2}[sub]
+    """TOK_REPEAT: repeat a special typed object.
 
-    previtem = prev & 0x3F
-    prevtop = prev & 0xC0
+    Bits 4-5 of the token select which context type (htype1/vtype1/htype2/vtype2)
+    becomes the new prev.  The top 2 bits of *prev* then determine the repeat mode.
+    """
+    count = (token & _COUNT4_MASK) + 1
+    ctx_types = [htype1, vtype1, htype2, vtype2]
+    prev = ctx_types[_SUB_TO_CTX[token & _SUB_MASK]]
 
-    if prevtop == 0x00:
-        if token & 0x10:
+    previtem = prev & _OBJ_MASK
+    prevtop  = prev & _TOP2_MASK
+
+    if prevtop == _TOK_LITERAL:
+        # prev was a literal: repeat it horizontally or vertically
+        if token & _SUB_VTYPE1:
             location = vexpand(maze, location, previtem, count)
         else:
             location = expand(maze, location, previtem, count)
-    elif prevtop == 0x40:
+    elif prevtop == _TOK_REPEAT:
+        # prev was a repeat: floor run, then one previtem
         location = expand(maze, location, MazeObjIds.TILE_FLOOR, count)
         location = expand(maze, location, previtem, 1)
-    elif prevtop == 0x80:
+    elif prevtop == _TOK_WALL_OR_PREV:
+        # prev was wall-or-prev: one previtem, then floor run
         location = expand(maze, location, previtem, 1)
         location = expand(maze, location, MazeObjIds.TILE_FLOOR, count)
-    elif prevtop == 0xC0:
+    elif prevtop == _TOK_FLOOR:
+        # prev was floor: wall run, then one previtem
         location = expand(maze, location, MazeObjIds.WALL_REGULAR, count)
         location = expand(maze, location, previtem, 1)
 
@@ -103,22 +133,26 @@ def _token_repeat(
 
 
 def _token_wall_or_prev(maze: Maze, location: int, token: int, prev: int) -> int:
-    """top2 == 0x80: place walls or repeat prev object."""
-    count = (token & 0x0F) + 1
-    longcount = (token & 0x1F) + 1
+    """TOK_WALL_OR_PREV: place walls or repeat prev object.
+
+    Bit 5 set → wall run; bit 4 set within that → vertical.
+    Bit 5 clear → repeat prev object (5-bit count).
+    """
+    count     = (token & _COUNT4_MASK) + 1
+    longcount = (token & _COUNT5_MASK) + 1
     if token & 0x20:
         if token & 0x10:
             location = vexpand(maze, location, MazeObjIds.WALL_REGULAR, count)
         else:
             location = expand(maze, location, MazeObjIds.WALL_REGULAR, count)
     else:
-        location = expand(maze, location, prev & 0x3F, longcount)
+        location = expand(maze, location, prev & _OBJ_MASK, longcount)
     return location
 
 
 def _token_floor(maze: Maze, location: int, token: int) -> int:
-    """top2 == 0xC0: place a run of floor tiles, optionally capped with a wall."""
-    longcount = (token & 0x1F) + 1
+    """TOK_FLOOR: place a run of floor tiles, optionally capped with a wall."""
+    longcount = (token & _COUNT5_MASK) + 1
     location = expand(maze, location, MazeObjIds.TILE_FLOOR, longcount)
     if token & 0x20:
         location = expand(maze, location, MazeObjIds.WALL_REGULAR, 1)
@@ -161,14 +195,14 @@ def maze_decompress(compressed: list[int], metaonly: bool = False) -> Maze:
         token = compressed[pos]
         pos += 1
 
-        top2 = token & 0xC0
-        if top2 == 0x00:
+        top2 = token & _TOP2_MASK
+        if top2 == _TOK_LITERAL:
             location, prev = _token_literal(maze, location, token)
-        elif top2 == 0x40:
+        elif top2 == _TOK_REPEAT:
             location, prev = _token_repeat(maze, location, token, prev, htype1, htype2, vtype1, vtype2)
-        elif top2 == 0x80:
+        elif top2 == _TOK_WALL_OR_PREV:
             location = _token_wall_or_prev(maze, location, token, prev)
-        elif top2 == 0xC0:
+        elif top2 == _TOK_FLOOR:
             location = _token_floor(maze, location, token)
 
     remaining = end - pos

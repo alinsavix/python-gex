@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import re
 from functools import lru_cache
 from pathlib import Path
 
@@ -17,9 +18,16 @@ def _tr(start: int, count: int) -> list[int]:
     return list(range(start, start + count))
 
 
+def _load_jsonc(path: Path):
+    """Load a JSON-with-comments (.jsonc) file, stripping // and /* */ comments."""
+    text = path.read_text()
+    text = re.sub(r"//[^\n]*", "", text)
+    text = re.sub(r"/\*.*?\*/", "", text, flags=re.DOTALL)
+    return json.loads(text)
+
+
 def _load_item_stamps() -> dict[str, dict]:
-    with open(_DATA_DIR / "item_stamps.json") as f:
-        return json.load(f)
+    return _load_jsonc(_DATA_DIR / "item_stamps.jsonc")
 
 
 # Item sprite definitions.  Each entry maps an item name to its rendering

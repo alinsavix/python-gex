@@ -1,0 +1,278 @@
+{
+  // ---------------------------------------------------------------------------
+  // WALL_MAP
+  // 256-entry lookup table: 8-bit adjacency bitmask → WALL_STAMPS variant index
+  // (values 0–67, 68 variants per pattern).
+  //
+  // The bitmask encodes the 8 surrounding cells:
+  //   bit 0 = NW   bit 1 = N    bit 2 = NE
+  //   bit 3 = W                 bit 4 = E
+  //   bit 5 = SW   bit 6 = S    bit 7 = SE
+  //
+  // Diagonal bits (NW, NE, SW, SE) only matter when both flanking cardinals
+  // are set — e.g., the NW corner variant is only used when both N and W are
+  // walls.  As a result the upper 128 entries (SE bit set) are mostly identical
+  // to the lower 128, differing only in a handful of all-cardinal cases.
+  //
+  // Formatted as 32 rows of 8, one row per 8 consecutive bitmask values.
+  // ---------------------------------------------------------------------------
+  "wall_map": [
+    // 0x00–0x07
+    18, 18, 19, 19, 18, 18, 19, 19,
+    // 0x08–0x0F
+     4,  4, 23, 17,  4,  4, 23, 17,
+    // 0x10–0x17
+     0,  0, 22, 22,  0,  0, 15, 15,
+    // 0x18–0x1F
+     1,  1,  2, 35,  1,  1, 33, 16,
+    // 0x20–0x27
+    54, 54, 52, 52, 54, 54, 52, 52,
+    // 0x28–0x2F
+    55, 55, 38, 56, 55, 55, 38, 56,
+    // 0x30–0x37
+    51, 51, 57, 57, 51, 51, 58, 58,
+    // 0x38–0x3F
+    31, 31, 59, 60, 31, 31, 61, 53,
+    // 0x40–0x47
+     5,  5,  3,  3,  5,  5,  3,  3,
+    // 0x48–0x4F
+    21, 21,  8, 34, 21, 21,  8, 34,
+    // 0x50–0x57
+    20, 20,  7,  7, 20, 20, 36, 36,
+    // 0x58–0x5F
+     6,  6, 40, 41,  6,  6, 42, 45,
+    // 0x60–0x67
+    30, 30, 29, 29, 30, 30, 29, 29,
+    // 0x68–0x6F
+    11, 11, 62, 14, 11, 11, 62, 14,
+    // 0x70–0x77
+    39, 39, 28, 28, 39, 39, 63, 63,
+    // 0x78–0x7F
+    64, 64, 43, 47, 64, 64, 50, 24,
+    // 0x80–0x87  (SE bit set; same as 0x00 row — SE alone has no visible effect)
+    18, 18, 19, 19, 18, 18, 19, 19,
+    // 0x88–0x8F
+     4,  4, 23, 17,  4,  4, 23, 17,
+    // 0x90–0x97
+     0,  0, 22, 22,  0,  0, 15, 15,
+    // 0x98–0x9F
+     1,  1,  2, 35,  1,  1, 33, 16,
+    // 0xA0–0xA7
+    54, 54, 52, 52, 54, 54, 52, 52,
+    // 0xA8–0xAF
+    55, 55, 38, 56, 55, 55, 38, 56,
+    // 0xB0–0xB7
+    51, 51, 57, 57, 51, 51, 58, 58,
+    // 0xB8–0xBF
+    31, 31, 59, 60, 31, 31, 61, 53,
+    // 0xC0–0xC7
+     5,  5,  3,  3,  5,  5,  3,  3,
+    // 0xC8–0xCF
+    21, 21,  8, 34, 21, 21,  8, 34,
+    // 0xD0–0xD7  (differs from 0x50 row: W+E case uses extra corner variants)
+     9,  9, 65, 65,  9,  9, 12, 12,
+    // 0xD8–0xDF
+    66, 66, 44, 49, 66, 66, 48, 25,
+    // 0xE0–0xE7
+    30, 30, 29, 29, 30, 30, 29, 29,
+    // 0xE8–0xEF
+    11, 11, 62, 14, 11, 11, 62, 14,
+    // 0xF0–0xF7  (differs from 0x70 row: all-cardinal + SE corner variants)
+    32, 32, 67, 67, 32, 32, 37, 37,
+    // 0xF8–0xFF
+    10, 10, 46, 26, 10, 10, 27, 13
+  ],
+
+  // ---------------------------------------------------------------------------
+  // SHRUB_WALL_MAP
+  // 256-entry lookup table: 8-bit adjacency bitmask → SHRUB_STAMPS index (0–15).
+  // Same bitmask encoding as WALL_MAP.
+  //
+  // Shrub walls use only 16 variants vs. 68 for regular walls, so diagonals are
+  // fully ignored: the pattern repeats every 32 entries within each 64-entry
+  // cardinal-combination block.
+  // ---------------------------------------------------------------------------
+  "shrub_wall_map": [
+    // 0x00–0x07
+     9,  9, 10, 10,  9,  9, 10, 10,
+    // 0x08–0x0F
+     4,  4, 14, 14,  4,  4, 14, 14,
+    // 0x10–0x17
+     0,  0, 13, 13,  0,  0, 13, 13,
+    // 0x18–0x1F
+     1,  1,  2,  2,  1,  1,  2,  2,
+    // 0x20–0x27  (SW bit set; same as 0x00 row — diagonal ignored)
+     9,  9, 10, 10,  9,  9, 10, 10,
+    // 0x28–0x2F
+     4,  4, 14, 14,  4,  4, 14, 14,
+    // 0x30–0x37
+     0,  0, 13, 13,  0,  0, 13, 13,
+    // 0x38–0x3F
+     1,  1,  2,  2,  1,  1,  2,  2,
+    // 0x40–0x47  (S bit set)
+     5,  5,  3,  3,  5,  5,  3,  3,
+    // 0x48–0x4F
+    12, 12,  8,  8, 12, 12,  8,  8,
+    // 0x50–0x57
+    11, 11,  7,  7, 11, 11,  7,  7,
+    // 0x58–0x5F
+     6,  6, 15, 15,  6,  6, 15, 15,
+    // 0x60–0x67  (S+SW bits set; same as 0x40)
+     5,  5,  3,  3,  5,  5,  3,  3,
+    // 0x68–0x6F
+    12, 12,  8,  8, 12, 12,  8,  8,
+    // 0x70–0x77
+    11, 11,  7,  7, 11, 11,  7,  7,
+    // 0x78–0x7F
+     6,  6, 15, 15,  6,  6, 15, 15,
+    // 0x80–0xFF: SE bit set — fully identical to 0x00–0x7F for shrubs
+    // 0x80–0x87
+     9,  9, 10, 10,  9,  9, 10, 10,
+    // 0x88–0x8F
+     4,  4, 14, 14,  4,  4, 14, 14,
+    // 0x90–0x97
+     0,  0, 13, 13,  0,  0, 13, 13,
+    // 0x98–0x9F
+     1,  1,  2,  2,  1,  1,  2,  2,
+    // 0xA0–0xA7
+     9,  9, 10, 10,  9,  9, 10, 10,
+    // 0xA8–0xAF
+     4,  4, 14, 14,  4,  4, 14, 14,
+    // 0xB0–0xB7
+     0,  0, 13, 13,  0,  0, 13, 13,
+    // 0xB8–0xBF
+     1,  1,  2,  2,  1,  1,  2,  2,
+    // 0xC0–0xC7
+     5,  5,  3,  3,  5,  5,  3,  3,
+    // 0xC8–0xCF
+    12, 12,  8,  8, 12, 12,  8,  8,
+    // 0xD0–0xD7
+    11, 11,  7,  7, 11, 11,  7,  7,
+    // 0xD8–0xDF
+     6,  6, 15, 15,  6,  6, 15, 15,
+    // 0xE0–0xE7
+     5,  5,  3,  3,  5,  5,  3,  3,
+    // 0xE8–0xEF
+    12, 12,  8,  8, 12, 12,  8,  8,
+    // 0xF0–0xF7
+    11, 11,  7,  7, 11, 11,  7,  7,
+    // 0xF8–0xFF
+     6,  6, 15, 15,  6,  6, 15, 15
+  ],
+
+  // ---------------------------------------------------------------------------
+  // SHRUB_STAMPS
+  // 16 shrub tile variants (wall levels 6 and 11), each a 4-tile 2×2 stamp.
+  // Tile numbers are absolute ROM indices; each row is four sequential tiles.
+  // Indexed by SHRUB_WALL_MAP output (0–15).
+  // ---------------------------------------------------------------------------
+  "shrub_stamps": [
+    [1851, 1852, 1853, 1854],
+    [1855, 1856, 1857, 1858],
+    [1859, 1860, 1861, 1862],
+    [1863, 1864, 1865, 1866],
+    [1867, 1868, 1869, 1870],
+    [1871, 1872, 1873, 1874],
+    [1875, 1876, 1877, 1878],
+    [1879, 1880, 1881, 1882],
+    [1883, 1884, 1885, 1886],
+    [1887, 1888, 1889, 1890],
+    [1891, 1892, 1893, 1894],
+    [1895, 1896, 1897, 1898],
+    [1899, 1900, 1901, 1902],
+    [1903, 1904, 1905, 1906],
+    [1907, 1908, 1909, 1910],
+    [1911, 1912, 1913, 1914]
+  ],
+
+  // ---------------------------------------------------------------------------
+  // SHRUB_DESTRUCT_STAMPS
+  // 3 destructible-shrub tile variants, each a 4-tile 2×2 stamp.
+  // Only the first entry is used for rendering; the others represent
+  // progressive destruction states (not yet animated in the extractor).
+  // ---------------------------------------------------------------------------
+  "shrub_destruct_stamps": [
+    [1959, 1960, 1961, 1962],
+    [1963, 1964, 1965, 1966],
+    [1967, 1968, 1969, 1970]
+  ],
+
+  // ---------------------------------------------------------------------------
+  // SHRUB_OTHER_STAMPS
+  // 11 "other shrub" tile variants used for wall levels 7–12 (excluding 11).
+  // These are drawn randomly rather than based on adjacency.
+  // ---------------------------------------------------------------------------
+  "shrub_other_stamps": [
+    [1915, 1916, 1917, 1918],
+    [1919, 1920, 1921, 1922],
+    [1923, 1924, 1925, 1926],
+    [1927, 1928, 1929, 1930],
+    [1931, 1932, 1933, 1934],
+    [1935, 1936, 1937, 1938],
+    [1939, 1940, 1941, 1942],
+    [1943, 1944, 1945, 1946],
+    [1947, 1948, 1949, 1950],
+    [1951, 1952, 1953, 1954],
+    [1955, 1956, 1957, 1958]
+  ],
+
+  // ---------------------------------------------------------------------------
+  // SHRUB_OTHER_ORDER_STAMPS
+  // 12-entry reordering of shrub_other_stamps used for levels 7 and 12
+  // (adder=6 path in wall_get_tiles).
+  //
+  // Differences from shrub_other_stamps:
+  //   - entries 6 and 7 are swapped
+  //   - entry 11 repeats entry 6 (of shrub_other_stamps)
+  // wall_get_tiles picks rand(6) + adder, so at most 6 consecutive entries
+  // are reachable per call; the repeat at index 11 pads the level-7/12 pool.
+  // ---------------------------------------------------------------------------
+  "shrub_other_order_stamps": [
+    [1915, 1916, 1917, 1918],   // 0  (= other[0])
+    [1919, 1920, 1921, 1922],   // 1  (= other[1])
+    [1923, 1924, 1925, 1926],   // 2  (= other[2])
+    [1927, 1928, 1929, 1930],   // 3  (= other[3])
+    [1931, 1932, 1933, 1934],   // 4  (= other[4])
+    [1935, 1936, 1937, 1938],   // 5  (= other[5])
+    [1943, 1944, 1945, 1946],   // 6  (= other[7], swapped)
+    [1939, 1940, 1941, 1942],   // 7  (= other[6], swapped)
+    [1947, 1948, 1949, 1950],   // 8  (= other[8])
+    [1951, 1952, 1953, 1954],   // 9  (= other[9])
+    [1955, 1956, 1957, 1958],   // 10 (= other[10])
+    [1939, 1940, 1941, 1942]    // 11 (= other[6] again, padding for adder=6)
+  ],
+
+  // ---------------------------------------------------------------------------
+  // FF_MAP
+  // 16 forcefield-hub tile variants, indexed by a 4-bit adjacency value
+  // produced by checkffadj4():
+  //   bit 0 = connected up    bit 1 = connected right
+  //   bit 2 = connected down  bit 3 = connected left
+  //
+  // "Connected" means a line-of-sight ray finds another hub before hitting a
+  // wall (see adjacency.py checkffadj4 for the exact algorithm).
+  //
+  // The disconnected hub (index 0 and 15) uses tile 4014 (0xFAE) — a special
+  // "floating" sprite that differs from all the edge-connected variants.
+  // Index 15 (all four directions connected) maps to the same sprite as
+  // index 0, suggesting a fully enclosed hub renders as disconnected.
+  // ---------------------------------------------------------------------------
+  "ff_map": [
+    [4014, 1199, 1200, 1201],  // 0b0000 — no connections (disconnected hub)
+    [1190, 1191, 1192, 1189],  // 0b0001 — up
+    [1193, 1194, 1192, 1195],  // 0b0010 — right
+    [1190, 1199, 1192, 1195],  // 0b0011 — up + right
+    [1193, 1187, 1196, 1197],  // 0b0100 — down
+    [1190, 1191, 1196, 1197],  // 0b0101 — up + down
+    [1193, 1194, 1196, 1201],  // 0b0110 — right + down
+    [1190, 1199, 1196, 1201],  // 0b0111 — up + right + down
+    [1186, 1187, 1188, 1189],  // 0b1000 — left
+    [1198, 1191, 1188, 1189],  // 0b1001 — up + left
+    [1186, 1194, 1188, 1195],  // 0b1010 — right + left
+    [1198, 1199, 1188, 1195],  // 0b1011 — up + right + left
+    [1186, 1187, 1200, 1197],  // 0b1100 — down + left
+    [1198, 1191, 1200, 1197],  // 0b1101 — up + down + left
+    [1186, 1194, 1200, 1201],  // 0b1110 — right + down + left
+    [4014, 1199, 1200, 1201]   // 0b1111 — all directions (same as disconnected)
+  ]
+}
