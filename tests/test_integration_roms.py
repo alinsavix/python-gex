@@ -561,7 +561,7 @@ class TestSlapsticIntegration:
             _slapstic_pointer_get_real_addr,
             slapstic_maze_get_real_addr,
         )
-        catalog_path = Path(__file__).resolve().parents[2] / "doc" / "maze_catalog.csv"
+        catalog_path = Path(__file__).resolve().parent / "data" / "maze_catalog.csv"
         with catalog_path.open(newline="") as stream:
             catalog = list(csv.DictReader(stream))
         assert len(catalog) == 117

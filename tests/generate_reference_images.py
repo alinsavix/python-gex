@@ -47,7 +47,7 @@ from gex.roms import (
 )
 
 REF_DIR = Path(__file__).resolve().parent / "reference_images"
-MAZE_CATALOG = Path(__file__).resolve().parents[2] / "doc" / "maze_catalog.csv"
+MAZE_CATALOG = Path(__file__).resolve().parent / "data" / "maze_catalog.csv"
 
 
 def _pixel_sha256(img: Image.Image) -> str:

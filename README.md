@@ -63,6 +63,10 @@ Maze numbers 0 through 116 are valid. Mazes 115 and 116 are the two live
 secret-room layouts: challenge tasks 0x50–0x56 select 115, while tasks
 0x57–0x5D select 116.
 
+The integration tests and reference-image generator use a private, manually
+maintained catalog snapshot at `tests/data/maze_catalog.csv`; the runtime
+package has no CSV dependency.
+
 ## Tested ROMs
 
 | File | Size | sha1sum |
