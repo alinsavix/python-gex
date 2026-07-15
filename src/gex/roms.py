@@ -188,8 +188,17 @@ def slapstic_read_bytes(offset: int, count: int, exact: bool = True) -> bytes:
 def slapstic_maze_get_bank(mazenum: int) -> int:
     if mazenum < 0 or mazenum > MAX_MAZE_NUM:
         raise ROMError(f"Invalid maze number requested (must be 0 <= x <= {MAX_MAZE_NUM})")
-    bank_byte = SLAPSTIC_BANK_INFO[mazenum // 4]
-    shift = (mazenum % 4) * 2
+    return _slapstic_pointer_get_bank(mazenum)
+
+
+def _slapstic_pointer_get_bank(pointer_index: int) -> int:
+    """Return the bank encoded for a maze pointer-table entry."""
+    if pointer_index < 0 or pointer_index > MAX_MAZE_NUM:
+        raise ROMError(
+            f"Invalid maze pointer index (must be 0 <= x <= {MAX_MAZE_NUM})"
+        )
+    bank_byte = SLAPSTIC_BANK_INFO[pointer_index // 4]
+    shift = (pointer_index % 4) * 2
     return (bank_byte >> shift) & 0x3
 
 
@@ -199,14 +208,26 @@ def slapstic_read_maze_offset(mazenum: int) -> int:
 
 
 def slapstic_maze_get_real_addr(mazenum: int) -> int:
+    # The raw split chips store an address in the Slapstic's 0x38000-0x39fff
+    # bank aperture. Normalize it to an offset in the interleaved 32 KiB image.
     bank = slapstic_maze_get_bank(mazenum)
-    return slapstic_read_maze_offset(mazenum) + (0x2000 * bank)
+    return slapstic_read_maze_offset(mazenum) + (bank * 0x2000)
+
+
+def _slapstic_pointer_get_real_addr(pointer_index: int) -> int:
+    """Normalize a raw maze pointer-table entry into the 32 KiB image."""
+    bank = _slapstic_pointer_get_bank(pointer_index)
+    return slapstic_read_maze_offset(pointer_index) + (bank * 0x2000)
 
 
 def slapstic_read_maze(mazenum: int) -> list[int]:
     addr = slapstic_maze_get_real_addr(mazenum)
-    b = slapstic_read_bytes(addr, 512, exact=False)
-    for i, byte in enumerate(b):
-        if i >= 11 and byte == 0:
-            return list(b[:i + 1])
-    return list(b)
+    # Use pointer boundaries because zero is also a valid literal floor token.
+    # Maze 116 is the final table entry; its stream runs into the bank table and
+    # is bounded by the end of the 32 KiB Slapstic image rather than a delimiter.
+    next_addr = (
+        SLAPSTIC_START + 0x8000
+        if mazenum == MAX_MAZE_NUM
+        else _slapstic_pointer_get_real_addr(mazenum + 1)
+    )
+    return list(slapstic_read_bytes(addr, next_addr - addr))

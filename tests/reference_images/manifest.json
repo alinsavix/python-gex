@@ -588,6 +588,16 @@
     ]
   },
   "maze_0": {
+    "maze_header": {
+      "htype1": 110,
+      "htype2": 84,
+      "level_flags": 0,
+      "playfield_colors": 29,
+      "playfield_patterns": 97,
+      "secret_trick": 0,
+      "vtype1": 14,
+      "vtype2": 9
+    },
     "pixel_sha256": "fc1b05990331e01a50e80026fade5c9eca7f8a1a0de9b1a51d6e0753f34f8d28",
     "size": [
       560,
@@ -595,6 +605,16 @@
     ]
   },
   "maze_1": {
+    "maze_header": {
+      "htype1": 65,
+      "htype2": 255,
+      "level_flags": 0,
+      "playfield_colors": 209,
+      "playfield_patterns": 36,
+      "secret_trick": 0,
+      "vtype1": 85,
+      "vtype2": 174
+    },
     "pixel_sha256": "771ec851198d980f98d63eb61719fd76c5e871fa3c7dd7a4e612318ebee0691b",
     "size": [
       560,
@@ -602,6 +622,16 @@
     ]
   },
   "maze_10": {
+    "maze_header": {
+      "htype1": 13,
+      "htype2": 93,
+      "level_flags": 16944128,
+      "playfield_colors": 77,
+      "playfield_patterns": 2,
+      "secret_trick": 3,
+      "vtype1": 14,
+      "vtype2": 110
+    },
     "pixel_sha256": "b9fd02ba5237e3e057d884f50d405c3ddf9c5a796883213fe9f2814738354f6f",
     "size": [
       560,
@@ -609,6 +639,16 @@
     ]
   },
   "maze_100": {
+    "maze_header": {
+      "htype1": 13,
+      "htype2": 71,
+      "level_flags": 2155872256,
+      "playfield_colors": 0,
+      "playfield_patterns": 0,
+      "secret_trick": 5,
+      "vtype1": 14,
+      "vtype2": 53
+    },
     "pixel_sha256": "12d88a0296634a815b1bffe29d0ca79cb16a85ea5f4051d02958f5cfa44aa05c",
     "size": [
       560,
@@ -616,6 +656,16 @@
     ]
   },
   "maze_101": {
+    "maze_header": {
+      "htype1": 6,
+      "htype2": 18,
+      "level_flags": 33792,
+      "playfield_colors": 206,
+      "playfield_patterns": 99,
+      "secret_trick": 4,
+      "vtype1": 157,
+      "vtype2": 67
+    },
     "pixel_sha256": "9f1348fdf8d4acbc2fbead0ae6bfb579d20a64112f73fb2222e8c8b6a006c196",
     "size": [
       560,
@@ -623,6 +673,16 @@
     ]
   },
   "maze_102": {
+    "maze_header": {
+      "htype1": 6,
+      "htype2": 89,
+      "level_flags": 572522496,
+      "playfield_colors": 109,
+      "playfield_patterns": 18,
+      "secret_trick": 0,
+      "vtype1": 14,
+      "vtype2": 110
+    },
     "pixel_sha256": "5513728dbe2e5ac0dcfbdb226d5b2be24feca9cb41a378ad8347efd6525084a1",
     "size": [
       560,
@@ -630,6 +690,16 @@
     ]
   },
   "maze_103": {
+    "maze_header": {
+      "htype1": 46,
+      "htype2": 117,
+      "level_flags": 0,
+      "playfield_colors": 210,
+      "playfield_patterns": 33,
+      "secret_trick": 0,
+      "vtype1": 127,
+      "vtype2": 65
+    },
     "pixel_sha256": "b63de65544e15f1cbd6278002d1fa89bd02c170fd5c02e5e8ef6c3081b651798",
     "size": [
       560,
@@ -637,6 +707,16 @@
     ]
   },
   "maze_104": {
+    "maze_header": {
+      "htype1": 110,
+      "htype2": 144,
+      "level_flags": 34848,
+      "playfield_colors": 149,
+      "playfield_patterns": 97,
+      "secret_trick": 14,
+      "vtype1": 72,
+      "vtype2": 73
+    },
     "pixel_sha256": "189a64b72ac8ae03baeb33864c46b14de166f41b3743263559498446246534ea",
     "size": [
       544,
@@ -644,6 +724,16 @@
     ]
   },
   "maze_105": {
+    "maze_header": {
+      "htype1": 110,
+      "htype2": 71,
+      "level_flags": 34816,
+      "playfield_colors": 149,
+      "playfield_patterns": 97,
+      "secret_trick": 15,
+      "vtype1": 8,
+      "vtype2": 9
+    },
     "pixel_sha256": "0b948ecadca3b067bc2b969c3298f51e828d1d70b2f4f48e1686a8fd7edcbd56",
     "size": [
       560,
@@ -651,6 +741,16 @@
     ]
   },
   "maze_106": {
+    "maze_header": {
+      "htype1": 110,
+      "htype2": 144,
+      "level_flags": 16384,
+      "playfield_colors": 149,
+      "playfield_patterns": 97,
+      "secret_trick": 6,
+      "vtype1": 68,
+      "vtype2": 79
+    },
     "pixel_sha256": "6ba0aa05e68cde45671bd4cfa0a308ee0077de17e0f2d813a956cd29ffe3b506",
     "size": [
       560,
@@ -658,6 +758,16 @@
     ]
   },
   "maze_107": {
+    "maze_header": {
+      "htype1": 7,
+      "htype2": 174,
+      "level_flags": 36864,
+      "playfield_colors": 149,
+      "playfield_patterns": 97,
+      "secret_trick": 14,
+      "vtype1": 72,
+      "vtype2": 73
+    },
     "pixel_sha256": "a6095b01f10a1c7e8b38c90b85b797bfec3d995d122016f13a28de34829dd685",
     "size": [
       560,
@@ -665,6 +775,16 @@
     ]
   },
   "maze_108": {
+    "maze_header": {
+      "htype1": 238,
+      "htype2": 133,
+      "level_flags": 33060,
+      "playfield_colors": 149,
+      "playfield_patterns": 97,
+      "secret_trick": 15,
+      "vtype1": 135,
+      "vtype2": 76
+    },
     "pixel_sha256": "c57d4b5bd5a534353048738bb0836352b47995631480e317400c6f3f6603b52c",
     "size": [
       544,
@@ -672,6 +792,16 @@
     ]
   },
   "maze_109": {
+    "maze_header": {
+      "htype1": 238,
+      "htype2": 80,
+      "level_flags": 40960,
+      "playfield_colors": 149,
+      "playfield_patterns": 97,
+      "secret_trick": 14,
+      "vtype1": 136,
+      "vtype2": 137
+    },
     "pixel_sha256": "d3a3d41dc877ef2272206eab31eebc1e0f2c2939a646993725a649d1d44890f4",
     "size": [
       560,
@@ -679,6 +809,16 @@
     ]
   },
   "maze_11": {
+    "maze_header": {
+      "htype1": 92,
+      "htype2": 157,
+      "level_flags": 32768,
+      "playfield_colors": 110,
+      "playfield_patterns": 113,
+      "secret_trick": 5,
+      "vtype1": 14,
+      "vtype2": 174
+    },
     "pixel_sha256": "1f7682b62fdb6637bf02166823d5f5932cc45050f6173b74d016c50d87dc908b",
     "size": [
       560,
@@ -686,6 +826,16 @@
     ]
   },
   "maze_110": {
+    "maze_header": {
+      "htype1": 65,
+      "htype2": 174,
+      "level_flags": 32800,
+      "playfield_colors": 149,
+      "playfield_patterns": 97,
+      "secret_trick": 6,
+      "vtype1": 133,
+      "vtype2": 144
+    },
     "pixel_sha256": "91d1d60e983deee7ce57db79c9c9efa3f315879774e944114140ad85f70695d8",
     "size": [
       544,
@@ -693,6 +843,16 @@
     ]
   },
   "maze_111": {
+    "maze_header": {
+      "htype1": 174,
+      "htype2": 69,
+      "level_flags": 32800,
+      "playfield_colors": 149,
+      "playfield_patterns": 97,
+      "secret_trick": 15,
+      "vtype1": 126,
+      "vtype2": 79
+    },
     "pixel_sha256": "e0bc47f4d47274c39ee6be92cc1e7317af89194e1ab0ff7925a53310a8a69797",
     "size": [
       544,
@@ -700,6 +860,16 @@
     ]
   },
   "maze_112": {
+    "maze_header": {
+      "htype1": 110,
+      "htype2": 144,
+      "level_flags": 34816,
+      "playfield_colors": 149,
+      "playfield_patterns": 97,
+      "secret_trick": 6,
+      "vtype1": 6,
+      "vtype2": 73
+    },
     "pixel_sha256": "c53edeae2e71aaa99c073eaf068165c438b4c6375e105ea426aca1acd5781c69",
     "size": [
       560,
@@ -707,6 +877,16 @@
     ]
   },
   "maze_113": {
+    "maze_header": {
+      "htype1": 110,
+      "htype2": 69,
+      "level_flags": 32768,
+      "playfield_colors": 149,
+      "playfield_patterns": 97,
+      "secret_trick": 6,
+      "vtype1": 144,
+      "vtype2": 135
+    },
     "pixel_sha256": "d5f79c90213c52ee84346807a722a189b3f5c132dbb11507e61c1c550e16d60c",
     "size": [
       560,
@@ -714,6 +894,16 @@
     ]
   },
   "maze_114": {
+    "maze_header": {
+      "htype1": 110,
+      "htype2": 69,
+      "level_flags": 2147516420,
+      "playfield_colors": 149,
+      "playfield_patterns": 97,
+      "secret_trick": 14,
+      "vtype1": 9,
+      "vtype2": 72
+    },
     "pixel_sha256": "66c0a0dd0b20a52159ed7beb166f8c760f62120c108bd0d9628e4a2708ad3ffb",
     "size": [
       560,
@@ -721,6 +911,16 @@
     ]
   },
   "maze_115": {
+    "maze_header": {
+      "htype1": 67,
+      "htype2": 77,
+      "level_flags": 0,
+      "playfield_colors": 218,
+      "playfield_patterns": 49,
+      "secret_trick": 0,
+      "vtype1": 14,
+      "vtype2": 65
+    },
     "pixel_sha256": "b17bc53ed88e418fb66c2cb56429e61ec6820511c70bf80f505bcfde0e216358",
     "size": [
       560,
@@ -728,13 +928,33 @@
     ]
   },
   "maze_116": {
-    "pixel_sha256": "f9e8020ce4cfa98ea8cf87aab213385fdd5e2b2766ec9e979a72627ecfb3b225",
+    "maze_header": {
+      "htype1": 71,
+      "htype2": 78,
+      "level_flags": 2048,
+      "playfield_colors": 218,
+      "playfield_patterns": 49,
+      "secret_trick": 0,
+      "vtype1": 5,
+      "vtype2": 72
+    },
+    "pixel_sha256": "57486c570fd5dbedc64742d252fb053707f63bb9bd8d73b00a6f9376fd7c7e84",
     "size": [
       560,
       560
     ]
   },
   "maze_12": {
+    "maze_header": {
+      "htype1": 174,
+      "htype2": 93,
+      "level_flags": 4359680,
+      "playfield_colors": 10,
+      "playfield_patterns": 81,
+      "secret_trick": 8,
+      "vtype1": 14,
+      "vtype2": 144
+    },
     "pixel_sha256": "816fe43a1db52c239550315c005f0769fb53ffd93d518d474a8b3d95de37118c",
     "size": [
       560,
@@ -742,6 +962,16 @@
     ]
   },
   "maze_13": {
+    "maze_header": {
+      "htype1": 65,
+      "htype2": 83,
+      "level_flags": 0,
+      "playfield_colors": 64,
+      "playfield_patterns": 43,
+      "secret_trick": 9,
+      "vtype1": 16,
+      "vtype2": 46
+    },
     "pixel_sha256": "21bd2bfd25e6afdf2f6cd91495064731b6145172d2c718a6002af80c518cbb30",
     "size": [
       560,
@@ -749,6 +979,16 @@
     ]
   },
   "maze_14": {
+    "maze_header": {
+      "htype1": 93,
+      "htype2": 110,
+      "level_flags": 570558976,
+      "playfield_colors": 216,
+      "playfield_patterns": 96,
+      "secret_trick": 8,
+      "vtype1": 127,
+      "vtype2": 98
+    },
     "pixel_sha256": "2348775d0946daf07be54497d10fc2b46cce76d683587303acd1973bea17d3d9",
     "size": [
       560,
@@ -756,6 +996,16 @@
     ]
   },
   "maze_15": {
+    "maze_header": {
+      "htype1": 71,
+      "htype2": 110,
+      "level_flags": 16941156,
+      "playfield_colors": 17,
+      "playfield_patterns": 47,
+      "secret_trick": 11,
+      "vtype1": 156,
+      "vtype2": 113
+    },
     "pixel_sha256": "caaee4d3f81484aebf7640a4ccacd839df0ad64f8ea3f1e0c35f7d3c038dd5b0",
     "size": [
       544,
@@ -763,6 +1013,16 @@
     ]
   },
   "maze_16": {
+    "maze_header": {
+      "htype1": 69,
+      "htype2": 160,
+      "level_flags": 16933,
+      "playfield_colors": 116,
+      "playfield_patterns": 81,
+      "secret_trick": 2,
+      "vtype1": 126,
+      "vtype2": 222
+    },
     "pixel_sha256": "6566b8e63d2c21deacb6d165ea5c22d3cc046df5436ddfe8fbbaccc42e0fcf76",
     "size": [
       544,
@@ -770,6 +1030,16 @@
     ]
   },
   "maze_17": {
+    "maze_header": {
+      "htype1": 96,
+      "htype2": 154,
+      "level_flags": 800,
+      "playfield_colors": 47,
+      "playfield_patterns": 51,
+      "secret_trick": 4,
+      "vtype1": 14,
+      "vtype2": 174
+    },
     "pixel_sha256": "8ea0ad5346de75f9221041ed7448a33f883001890b5daf5966c0fe28309d1c02",
     "size": [
       544,
@@ -777,6 +1047,16 @@
     ]
   },
   "maze_18": {
+    "maze_header": {
+      "htype1": 110,
+      "htype2": 89,
+      "level_flags": 19968,
+      "playfield_colors": 5,
+      "playfield_patterns": 67,
+      "secret_trick": 12,
+      "vtype1": 14,
+      "vtype2": 157
+    },
     "pixel_sha256": "0953b36adfabc1043c5d54f96b49866d227492c99649aa466c8766fb1cc87b53",
     "size": [
       560,
@@ -784,6 +1064,16 @@
     ]
   },
   "maze_19": {
+    "maze_header": {
+      "htype1": 73,
+      "htype2": 110,
+      "level_flags": 0,
+      "playfield_colors": 247,
+      "playfield_patterns": 16,
+      "secret_trick": 14,
+      "vtype1": 69,
+      "vtype2": 94
+    },
     "pixel_sha256": "5dc19f481aeb6367681d65e6ceab77b07c6e955920d45ceca7e3a0541d3e2084",
     "size": [
       560,
@@ -791,6 +1081,16 @@
     ]
   },
   "maze_2": {
+    "maze_header": {
+      "htype1": 92,
+      "htype2": 110,
+      "level_flags": 512,
+      "playfield_colors": 18,
+      "playfield_patterns": 32,
+      "secret_trick": 0,
+      "vtype1": 89,
+      "vtype2": 95
+    },
     "pixel_sha256": "713439dc7d45c1e4fc8113eb5107afb263856570b9178e2f423099968470a5c9",
     "size": [
       560,
@@ -798,6 +1098,16 @@
     ]
   },
   "maze_20": {
+    "maze_header": {
+      "htype1": 92,
+      "htype2": 174,
+      "level_flags": 3328,
+      "playfield_colors": 64,
+      "playfield_patterns": 17,
+      "secret_trick": 7,
+      "vtype1": 93,
+      "vtype2": 72
+    },
     "pixel_sha256": "c5af9835fe74623f628d4cb04d3e8fc8e75bc64770313e647c9c6f3c0889cf4b",
     "size": [
       560,
@@ -805,6 +1115,16 @@
     ]
   },
   "maze_21": {
+    "maze_header": {
+      "htype1": 13,
+      "htype2": 181,
+      "level_flags": 33280,
+      "playfield_colors": 140,
+      "playfield_patterns": 64,
+      "secret_trick": 17,
+      "vtype1": 14,
+      "vtype2": 110
+    },
     "pixel_sha256": "f662051e2a8863ce47c95336d57141db6258dd316b2d05f46b6918999c3eabbb",
     "size": [
       560,
@@ -812,6 +1132,16 @@
     ]
   },
   "maze_22": {
+    "maze_header": {
+      "htype1": 5,
+      "htype2": 110,
+      "level_flags": 8421632,
+      "playfield_colors": 102,
+      "playfield_patterns": 17,
+      "secret_trick": 2,
+      "vtype1": 95,
+      "vtype2": 104
+    },
     "pixel_sha256": "f75e66a66c905ce0dc924b7791fc08434a7a12d6d141b237d812b699331ff335",
     "size": [
       560,
@@ -819,6 +1149,16 @@
     ]
   },
   "maze_23": {
+    "maze_header": {
+      "htype1": 69,
+      "htype2": 110,
+      "level_flags": 2080,
+      "playfield_colors": 235,
+      "playfield_patterns": 66,
+      "secret_trick": 3,
+      "vtype1": 1,
+      "vtype2": 14
+    },
     "pixel_sha256": "ee03b320dfc7abb85898e1d9952c70c3e13f17dc944226c597773115f6244fff",
     "size": [
       544,
@@ -826,6 +1166,16 @@
     ]
   },
   "maze_24": {
+    "maze_header": {
+      "htype1": 110,
+      "htype2": 93,
+      "level_flags": 4864,
+      "playfield_colors": 193,
+      "playfield_patterns": 80,
+      "secret_trick": 5,
+      "vtype1": 73,
+      "vtype2": 99
+    },
     "pixel_sha256": "6c9fa3126f599054af3d14902c69e3ac2c1b298067a22127b26392c51828b263",
     "size": [
       560,
@@ -833,6 +1183,16 @@
     ]
   },
   "maze_25": {
+    "maze_header": {
+      "htype1": 174,
+      "htype2": 92,
+      "level_flags": 16416,
+      "playfield_colors": 185,
+      "playfield_patterns": 116,
+      "secret_trick": 12,
+      "vtype1": 53,
+      "vtype2": 65
+    },
     "pixel_sha256": "22ec9113056c02555d5f972b10fa9cae32238d9ab732d9f910c6fc72a7b84bc1",
     "size": [
       544,
@@ -840,6 +1200,16 @@
     ]
   },
   "maze_26": {
+    "maze_header": {
+      "htype1": 20,
+      "htype2": 174,
+      "level_flags": 37376,
+      "playfield_colors": 117,
+      "playfield_patterns": 34,
+      "secret_trick": 5,
+      "vtype1": 157,
+      "vtype2": 73
+    },
     "pixel_sha256": "a0ed8c365f6c1bb44c2bb95ffb9f46e152c6af9fddaf3123f82893fda5a6cb83",
     "size": [
       560,
@@ -847,6 +1217,16 @@
     ]
   },
   "maze_27": {
+    "maze_header": {
+      "htype1": 157,
+      "htype2": 156,
+      "level_flags": 32,
+      "playfield_colors": 192,
+      "playfield_patterns": 128,
+      "secret_trick": 7,
+      "vtype1": 9,
+      "vtype2": 98
+    },
     "pixel_sha256": "6e560c6b0ff4d439b847ce6b9a38840c2f37c5ac3ef754a4746bc75749dec898",
     "size": [
       544,
@@ -854,6 +1234,16 @@
     ]
   },
   "maze_28": {
+    "maze_header": {
+      "htype1": 96,
+      "htype2": 92,
+      "level_flags": 769,
+      "playfield_colors": 21,
+      "playfield_patterns": 64,
+      "secret_trick": 8,
+      "vtype1": 93,
+      "vtype2": 89
+    },
     "pixel_sha256": "720508b884ca0061fafdf2ce057464d18ee3f476ba7a60adf080657f558c444a",
     "size": [
       560,
@@ -861,6 +1251,16 @@
     ]
   },
   "maze_29": {
+    "maze_header": {
+      "htype1": 110,
+      "htype2": 152,
+      "level_flags": 32,
+      "playfield_colors": 175,
+      "playfield_patterns": 97,
+      "secret_trick": 2,
+      "vtype1": 92,
+      "vtype2": 158
+    },
     "pixel_sha256": "4a355839cee4624165f0100e6413bfe74ff063beb28f010387db6c0fb254b32f",
     "size": [
       544,
@@ -868,6 +1268,16 @@
     ]
   },
   "maze_3": {
+    "maze_header": {
+      "htype1": 13,
+      "htype2": 181,
+      "level_flags": 4276736,
+      "playfield_colors": 13,
+      "playfield_patterns": 50,
+      "secret_trick": 0,
+      "vtype1": 67,
+      "vtype2": 93
+    },
     "pixel_sha256": "9616120952b21cfd0ad238e79b83d989b65cd25d3d02087bf95cce539180881d",
     "size": [
       560,
@@ -875,6 +1285,16 @@
     ]
   },
   "maze_30": {
+    "maze_header": {
+      "htype1": 110,
+      "htype2": 97,
+      "level_flags": 512,
+      "playfield_colors": 40,
+      "playfield_patterns": 33,
+      "secret_trick": 15,
+      "vtype1": 14,
+      "vtype2": 8
+    },
     "pixel_sha256": "6438fa60441923467257f3114fb5f3f719809e1bc0b1b720905ef5acd3fe7f9a",
     "size": [
       560,
@@ -882,6 +1302,16 @@
     ]
   },
   "maze_31": {
+    "maze_header": {
+      "htype1": 140,
+      "htype2": 75,
+      "level_flags": 4,
+      "playfield_colors": 145,
+      "playfield_patterns": 116,
+      "secret_trick": 17,
+      "vtype1": 9,
+      "vtype2": 95
+    },
     "pixel_sha256": "9fec78ea6437f1685ff2221d7d87e1f5c7ffb15aec986b6c4ffa237ccbf40abf",
     "size": [
       560,
@@ -889,6 +1319,16 @@
     ]
   },
   "maze_32": {
+    "maze_header": {
+      "htype1": 174,
+      "htype2": 97,
+      "level_flags": 32,
+      "playfield_colors": 62,
+      "playfield_patterns": 35,
+      "secret_trick": 3,
+      "vtype1": 14,
+      "vtype2": 117
+    },
     "pixel_sha256": "622e9ac03ba8c0b46fb7268d10b3f888099ea2481225d0b379cbca2f84bcbd28",
     "size": [
       544,
@@ -896,6 +1336,16 @@
     ]
   },
   "maze_33": {
+    "maze_header": {
+      "htype1": 110,
+      "htype2": 80,
+      "level_flags": 33346,
+      "playfield_colors": 200,
+      "playfield_patterns": 113,
+      "secret_trick": 11,
+      "vtype1": 14,
+      "vtype2": 92
+    },
     "pixel_sha256": "069586b4f0f576310799c4aa953ffe24f238df724d7c51bba7efadafca370f66",
     "size": [
       560,
@@ -903,6 +1353,16 @@
     ]
   },
   "maze_34": {
+    "maze_header": {
+      "htype1": 110,
+      "htype2": 69,
+      "level_flags": 0,
+      "playfield_colors": 6,
+      "playfield_patterns": 51,
+      "secret_trick": 5,
+      "vtype1": 9,
+      "vtype2": 94
+    },
     "pixel_sha256": "064bba7be72dfacae627921f733ea799a694a42a039dd57dfef115d206ae8761",
     "size": [
       560,
@@ -910,6 +1370,16 @@
     ]
   },
   "maze_35": {
+    "maze_header": {
+      "htype1": 19,
+      "htype2": 161,
+      "level_flags": 0,
+      "playfield_colors": 247,
+      "playfield_patterns": 16,
+      "secret_trick": 16,
+      "vtype1": 110,
+      "vtype2": 113
+    },
     "pixel_sha256": "75495fb215cddebf279ed651b0ae3306118b25f426dfa17a81a8da96bca8304a",
     "size": [
       560,
@@ -917,6 +1387,16 @@
     ]
   },
   "maze_36": {
+    "maze_header": {
+      "htype1": 137,
+      "htype2": 98,
+      "level_flags": 32,
+      "playfield_colors": 99,
+      "playfield_patterns": 128,
+      "secret_trick": 17,
+      "vtype1": 93,
+      "vtype2": 110
+    },
     "pixel_sha256": "45ad948063d0e10fe3b4744bd4ce3e37df720fb16733c6eb6c5662b4f9994f4d",
     "size": [
       544,
@@ -924,6 +1404,16 @@
     ]
   },
   "maze_37": {
+    "maze_header": {
+      "htype1": 13,
+      "htype2": 157,
+      "level_flags": 34048,
+      "playfield_colors": 111,
+      "playfield_patterns": 82,
+      "secret_trick": 16,
+      "vtype1": 14,
+      "vtype2": 110
+    },
     "pixel_sha256": "fae0acf4ae5a92daad53d64e3f0724b6c57490daa48c9ff58b284bfe27fc5ae4",
     "size": [
       560,
@@ -931,6 +1421,16 @@
     ]
   },
   "maze_38": {
+    "maze_header": {
+      "htype1": 6,
+      "htype2": 69,
+      "level_flags": 0,
+      "playfield_colors": 22,
+      "playfield_patterns": 97,
+      "secret_trick": 10,
+      "vtype1": 14,
+      "vtype2": 152
+    },
     "pixel_sha256": "008a8f73fbf5c2666833d1cda2c2a0e644302fe63579cf8cfe35766848ca7df1",
     "size": [
       560,
@@ -938,6 +1438,16 @@
     ]
   },
   "maze_39": {
+    "maze_header": {
+      "htype1": 13,
+      "htype2": 93,
+      "level_flags": 296002,
+      "playfield_colors": 240,
+      "playfield_patterns": 100,
+      "secret_trick": 11,
+      "vtype1": 14,
+      "vtype2": 110
+    },
     "pixel_sha256": "ddbe719ef5348594ef003f6bf4012c574ba59c2be12561f45847da13152b029d",
     "size": [
       560,
@@ -945,6 +1455,16 @@
     ]
   },
   "maze_4": {
+    "maze_header": {
+      "htype1": 71,
+      "htype2": 89,
+      "level_flags": 2048,
+      "playfield_colors": 100,
+      "playfield_patterns": 51,
+      "secret_trick": 0,
+      "vtype1": 9,
+      "vtype2": 8
+    },
     "pixel_sha256": "77a7c3448232f3d2ea1e2c8999cd751a13714d8602e28cf02a45ccd4fab3a517",
     "size": [
       560,
@@ -952,6 +1472,16 @@
     ]
   },
   "maze_40": {
+    "maze_header": {
+      "htype1": 13,
+      "htype2": 5,
+      "level_flags": 32800,
+      "playfield_colors": 243,
+      "playfield_patterns": 2,
+      "secret_trick": 10,
+      "vtype1": 14,
+      "vtype2": 159
+    },
     "pixel_sha256": "1bb845ac50cf2a3eef99bdfb799e641c18a52dfa4941194b2ab4aaadebfbec06",
     "size": [
       544,
@@ -959,6 +1489,16 @@
     ]
   },
   "maze_41": {
+    "maze_header": {
+      "htype1": 174,
+      "htype2": 96,
+      "level_flags": 1024,
+      "playfield_colors": 110,
+      "playfield_patterns": 64,
+      "secret_trick": 9,
+      "vtype1": 93,
+      "vtype2": 97
+    },
     "pixel_sha256": "b2f03c92aa1fecc106e88bdc75867c17f901e01e6b901ad7307ddc08317b34b1",
     "size": [
       560,
@@ -966,6 +1506,16 @@
     ]
   },
   "maze_42": {
+    "maze_header": {
+      "htype1": 72,
+      "htype2": 71,
+      "level_flags": 36912,
+      "playfield_colors": 40,
+      "playfield_patterns": 68,
+      "secret_trick": 17,
+      "vtype1": 9,
+      "vtype2": 78
+    },
     "pixel_sha256": "e89663e32a1fb5f7ab0d2e017daf32c98a8193ce246f791142dca5b704e89160",
     "size": [
       544,
@@ -973,6 +1523,16 @@
     ]
   },
   "maze_43": {
+    "maze_header": {
+      "htype1": 7,
+      "htype2": 117,
+      "level_flags": 536870944,
+      "playfield_colors": 190,
+      "playfield_patterns": 46,
+      "secret_trick": 4,
+      "vtype1": 132,
+      "vtype2": 144
+    },
     "pixel_sha256": "560e8d7c4dce4d6f3514eb2fdf97e8c2ccc758ecfecab1d8b5a442d1ba00fa3b",
     "size": [
       544,
@@ -980,6 +1540,16 @@
     ]
   },
   "maze_44": {
+    "maze_header": {
+      "htype1": 157,
+      "htype2": 110,
+      "level_flags": 32,
+      "playfield_colors": 125,
+      "playfield_patterns": 82,
+      "secret_trick": 13,
+      "vtype1": 5,
+      "vtype2": 181
+    },
     "pixel_sha256": "35cd4a1fba66192b811c44a588b80c18c5f6f161272c979ac7bf45fc43ead9ab",
     "size": [
       544,
@@ -987,6 +1557,16 @@
     ]
   },
   "maze_45": {
+    "maze_header": {
+      "htype1": 110,
+      "htype2": 82,
+      "level_flags": 546,
+      "playfield_colors": 154,
+      "playfield_patterns": 17,
+      "secret_trick": 14,
+      "vtype1": 14,
+      "vtype2": 93
+    },
     "pixel_sha256": "450ae7b513b540f7a53f6937615e8d0eee19b24ab13667fcaadf058cd434f52a",
     "size": [
       544,
@@ -994,6 +1574,16 @@
     ]
   },
   "maze_46": {
+    "maze_header": {
+      "htype1": 174,
+      "htype2": 255,
+      "level_flags": 1125187584,
+      "playfield_colors": 217,
+      "playfield_patterns": 52,
+      "secret_trick": 16,
+      "vtype1": 126,
+      "vtype2": 65
+    },
     "pixel_sha256": "c3f45059f00b0b56744eaf3887e7b593e42e48d6efdde44e808f5e2381cc7cd0",
     "size": [
       560,
@@ -1001,6 +1591,16 @@
     ]
   },
   "maze_47": {
+    "maze_header": {
+      "htype1": 69,
+      "htype2": 93,
+      "level_flags": 536908032,
+      "playfield_colors": 244,
+      "playfield_patterns": 51,
+      "secret_trick": 17,
+      "vtype1": 174,
+      "vtype2": 220
+    },
     "pixel_sha256": "b4e0fba450c062d7e62831702285a02fe17b45c0d53d44e77f92f607a1f587ac",
     "size": [
       560,
@@ -1008,6 +1608,16 @@
     ]
   },
   "maze_48": {
+    "maze_header": {
+      "htype1": 69,
+      "htype2": 129,
+      "level_flags": 0,
+      "playfield_colors": 192,
+      "playfield_patterns": 97,
+      "secret_trick": 5,
+      "vtype1": 67,
+      "vtype2": 111
+    },
     "pixel_sha256": "2eae89f9684459cfc9d69f7c4dde48f9b1e5bdd0c1249f29c2729c25c0ac791e",
     "size": [
       560,
@@ -1015,6 +1625,16 @@
     ]
   },
   "maze_49": {
+    "maze_header": {
+      "htype1": 110,
+      "htype2": 159,
+      "level_flags": 570458113,
+      "playfield_colors": 254,
+      "playfield_patterns": 32,
+      "secret_trick": 7,
+      "vtype1": 80,
+      "vtype2": 172
+    },
     "pixel_sha256": "c30afce1b9197cd4d8006dd5e5492fb93ec39152edc9c9d039128f8aebefa5bb",
     "size": [
       560,
@@ -1022,6 +1642,16 @@
     ]
   },
   "maze_5": {
+    "maze_header": {
+      "htype1": 25,
+      "htype2": 110,
+      "level_flags": 8388608,
+      "playfield_colors": 80,
+      "playfield_patterns": 64,
+      "secret_trick": 6,
+      "vtype1": 199,
+      "vtype2": 148
+    },
     "pixel_sha256": "2f27bcd6c3ebef56a20c073b59ba6f95f7445c926dea21e6a8b487167dd691dd",
     "size": [
       560,
@@ -1029,6 +1659,16 @@
     ]
   },
   "maze_50": {
+    "maze_header": {
+      "htype1": 6,
+      "htype2": 67,
+      "level_flags": 32,
+      "playfield_colors": 105,
+      "playfield_patterns": 100,
+      "secret_trick": 16,
+      "vtype1": 63,
+      "vtype2": 153
+    },
     "pixel_sha256": "35fd114358311ee12150f68f9bf5afbb1801f0b0d3d4ee2f18a9d4e746c23b2c",
     "size": [
       544,
@@ -1036,6 +1676,16 @@
     ]
   },
   "maze_51": {
+    "maze_header": {
+      "htype1": 78,
+      "htype2": 67,
+      "level_flags": 229376,
+      "playfield_colors": 190,
+      "playfield_patterns": 20,
+      "secret_trick": 10,
+      "vtype1": 19,
+      "vtype2": 18
+    },
     "pixel_sha256": "a678ef6179c76610d7b218731917c592117a8a1dd91d7e62fafa7773e77d159c",
     "size": [
       560,
@@ -1043,6 +1693,16 @@
     ]
   },
   "maze_52": {
+    "maze_header": {
+      "htype1": 1,
+      "htype2": 110,
+      "level_flags": 32864,
+      "playfield_colors": 25,
+      "playfield_patterns": 82,
+      "secret_trick": 14,
+      "vtype1": 16,
+      "vtype2": 156
+    },
     "pixel_sha256": "84761afd2a6a4dde7b1c5762221a50eea2d9363c1f19c22f35a1e81be4f317cb",
     "size": [
       544,
@@ -1050,6 +1710,16 @@
     ]
   },
   "maze_53": {
+    "maze_header": {
+      "htype1": 174,
+      "htype2": 92,
+      "level_flags": 536870912,
+      "playfield_colors": 171,
+      "playfield_patterns": 66,
+      "secret_trick": 17,
+      "vtype1": 14,
+      "vtype2": 95
+    },
     "pixel_sha256": "c80f2f8e1f5654c3572a561f55c952774dd574bc7d3324ba0294d0978ae2c888",
     "size": [
       560,
@@ -1057,6 +1727,16 @@
     ]
   },
   "maze_54": {
+    "maze_header": {
+      "htype1": 69,
+      "htype2": 73,
+      "level_flags": 1280,
+      "playfield_colors": 221,
+      "playfield_patterns": 96,
+      "secret_trick": 8,
+      "vtype1": 8,
+      "vtype2": 7
+    },
     "pixel_sha256": "4dcfdef0d2bd978f71390725cc91f8d06fdf8334025e526e9fd1b0f89e773e84",
     "size": [
       560,
@@ -1064,6 +1744,16 @@
     ]
   },
   "maze_55": {
+    "maze_header": {
+      "htype1": 13,
+      "htype2": 110,
+      "level_flags": 393472,
+      "playfield_colors": 56,
+      "playfield_patterns": 114,
+      "secret_trick": 15,
+      "vtype1": 93,
+      "vtype2": 137
+    },
     "pixel_sha256": "6449d51c98b3f869d9bb1764ba9a4537f45cfa98453c41e151360c03a0921720",
     "size": [
       560,
@@ -1071,6 +1761,16 @@
     ]
   },
   "maze_56": {
+    "maze_header": {
+      "htype1": 13,
+      "htype2": 174,
+      "level_flags": 0,
+      "playfield_colors": 1,
+      "playfield_patterns": 114,
+      "secret_trick": 1,
+      "vtype1": 92,
+      "vtype2": 93
+    },
     "pixel_sha256": "dc60250f15002e9cb741f509718f6382482af68297bc8d5ebfeb36eaee7ee913",
     "size": [
       560,
@@ -1078,6 +1778,16 @@
     ]
   },
   "maze_57": {
+    "maze_header": {
+      "htype1": 13,
+      "htype2": 65,
+      "level_flags": 32770,
+      "playfield_colors": 72,
+      "playfield_patterns": 67,
+      "secret_trick": 17,
+      "vtype1": 14,
+      "vtype2": 174
+    },
     "pixel_sha256": "b6a6cefe982c9afa44d109826437475a4b468c95be24acbf2c5a88ced294a617",
     "size": [
       560,
@@ -1085,6 +1795,16 @@
     ]
   },
   "maze_58": {
+    "maze_header": {
+      "htype1": 82,
+      "htype2": 93,
+      "level_flags": 4096,
+      "playfield_colors": 63,
+      "playfield_patterns": 129,
+      "secret_trick": 1,
+      "vtype1": 90,
+      "vtype2": 65
+    },
     "pixel_sha256": "7f7a9d9348cb2a5da725ec97df5615c3ca5058640abd49d3fed156275a98ec83",
     "size": [
       560,
@@ -1092,6 +1812,16 @@
     ]
   },
   "maze_59": {
+    "maze_header": {
+      "htype1": 6,
+      "htype2": 157,
+      "level_flags": 33554432,
+      "playfield_colors": 0,
+      "playfield_patterns": 44,
+      "secret_trick": 1,
+      "vtype1": 65,
+      "vtype2": 110
+    },
     "pixel_sha256": "29c50546e7ccbfedd870cf644fa5b59835f7f7f3047908bac2153780727579b3",
     "size": [
       560,
@@ -1099,6 +1829,16 @@
     ]
   },
   "maze_6": {
+    "maze_header": {
+      "htype1": 110,
+      "htype2": 96,
+      "level_flags": 32,
+      "playfield_colors": 160,
+      "playfield_patterns": 24,
+      "secret_trick": 13,
+      "vtype1": 163,
+      "vtype2": 73
+    },
     "pixel_sha256": "921425211ffd9d61aafcd4281754fedea4430ca7e16b300fdcbfb9a35fbf5009",
     "size": [
       544,
@@ -1106,6 +1846,16 @@
     ]
   },
   "maze_60": {
+    "maze_header": {
+      "htype1": 93,
+      "htype2": 133,
+      "level_flags": 1081408,
+      "playfield_colors": 44,
+      "playfield_patterns": 113,
+      "secret_trick": 11,
+      "vtype1": 14,
+      "vtype2": 129
+    },
     "pixel_sha256": "dd23f9d2e0993050b8d00d8b7dffa302765ccff001887fd1d9dc9fa3b40c37e8",
     "size": [
       560,
@@ -1113,6 +1863,16 @@
     ]
   },
   "maze_61": {
+    "maze_header": {
+      "htype1": 13,
+      "htype2": 69,
+      "level_flags": 32800,
+      "playfield_colors": 15,
+      "playfield_patterns": 0,
+      "secret_trick": 12,
+      "vtype1": 14,
+      "vtype2": 93
+    },
     "pixel_sha256": "636ce25ea07cc0fbc15701965bcf385abe9d6d2dc7f3b7ec608f30b9e73ec7f7",
     "size": [
       544,
@@ -1120,6 +1880,16 @@
     ]
   },
   "maze_62": {
+    "maze_header": {
+      "htype1": 157,
+      "htype2": 133,
+      "level_flags": 32,
+      "playfield_colors": 93,
+      "playfield_patterns": 0,
+      "secret_trick": 10,
+      "vtype1": 46,
+      "vtype2": 94
+    },
     "pixel_sha256": "b230c1a79b95695cc0334b0fcb14f055ac80abb77bc89306c74888caba84ed08",
     "size": [
       544,
@@ -1127,6 +1897,16 @@
     ]
   },
   "maze_63": {
+    "maze_header": {
+      "htype1": 13,
+      "htype2": 156,
+      "level_flags": 0,
+      "playfield_colors": 191,
+      "playfield_patterns": 49,
+      "secret_trick": 12,
+      "vtype1": 14,
+      "vtype2": 133
+    },
     "pixel_sha256": "e18e7285589ab3e7f11480a5c916c7f4520acdc81bfd48e5c51a4def8981b73e",
     "size": [
       560,
@@ -1134,6 +1914,16 @@
     ]
   },
   "maze_64": {
+    "maze_header": {
+      "htype1": 72,
+      "htype2": 73,
+      "level_flags": 6326272,
+      "playfield_colors": 14,
+      "playfield_patterns": 114,
+      "secret_trick": 4,
+      "vtype1": 7,
+      "vtype2": 18
+    },
     "pixel_sha256": "427ba4b3a47df320aecf61dea806a8fca3b568d2b874ec967b600e0e6e3deb91",
     "size": [
       560,
@@ -1141,6 +1931,16 @@
     ]
   },
   "maze_65": {
+    "maze_header": {
+      "htype1": 18,
+      "htype2": 110,
+      "level_flags": 0,
+      "playfield_colors": 112,
+      "playfield_patterns": 68,
+      "secret_trick": 2,
+      "vtype1": 94,
+      "vtype2": 164
+    },
     "pixel_sha256": "04fea11ff6e773a2ca7b9c9d84b794b261ba32ae3cefbab7fed8d2f13bfceb0f",
     "size": [
       560,
@@ -1148,6 +1948,16 @@
     ]
   },
   "maze_66": {
+    "maze_header": {
+      "htype1": 69,
+      "htype2": 105,
+      "level_flags": 6,
+      "playfield_colors": 213,
+      "playfield_patterns": 116,
+      "secret_trick": 13,
+      "vtype1": 7,
+      "vtype2": 110
+    },
     "pixel_sha256": "5d47cae9fa1546fa5b600fae8b7ef59b3bba2364e8767f4cc068c1c2bd424b0d",
     "size": [
       560,
@@ -1155,6 +1965,16 @@
     ]
   },
   "maze_67": {
+    "maze_header": {
+      "htype1": 117,
+      "htype2": 110,
+      "level_flags": 2097152,
+      "playfield_colors": 240,
+      "playfield_patterns": 24,
+      "secret_trick": 9,
+      "vtype1": 28,
+      "vtype2": 14
+    },
     "pixel_sha256": "7cb2ceeaf4ec94e0e21a0923073fb649080bc1fba825af4fe6b9e9a566b4b9f6",
     "size": [
       560,
@@ -1162,6 +1982,16 @@
     ]
   },
   "maze_68": {
+    "maze_header": {
+      "htype1": 110,
+      "htype2": 93,
+      "level_flags": 32,
+      "playfield_colors": 164,
+      "playfield_patterns": 2,
+      "secret_trick": 3,
+      "vtype1": 7,
+      "vtype2": 137
+    },
     "pixel_sha256": "72e896a5ff2007b302bcf3393de3d40ed01ae29858b4e97a9133fe18ee571dc6",
     "size": [
       544,
@@ -1169,6 +1999,16 @@
     ]
   },
   "maze_69": {
+    "maze_header": {
+      "htype1": 93,
+      "htype2": 96,
+      "level_flags": 32888,
+      "playfield_colors": 0,
+      "playfield_patterns": 1,
+      "secret_trick": 11,
+      "vtype1": 153,
+      "vtype2": 110
+    },
     "pixel_sha256": "59cc73e190fee5c8e336c91c189f928b2f79d12e30c7bc95ba2fbd5d2c92a2e0",
     "size": [
       544,
@@ -1176,6 +2016,16 @@
     ]
   },
   "maze_7": {
+    "maze_header": {
+      "htype1": 13,
+      "htype2": 157,
+      "level_flags": 33796,
+      "playfield_colors": 56,
+      "playfield_patterns": 32,
+      "secret_trick": 13,
+      "vtype1": 14,
+      "vtype2": 9
+    },
     "pixel_sha256": "89144183e7d985f987e02bf27b8b889db7a9f83584749e74300e59b71efda259",
     "size": [
       560,
@@ -1183,6 +2033,16 @@
     ]
   },
   "maze_70": {
+    "maze_header": {
+      "htype1": 110,
+      "htype2": 157,
+      "level_flags": 32,
+      "playfield_colors": 158,
+      "playfield_patterns": 80,
+      "secret_trick": 6,
+      "vtype1": 92,
+      "vtype2": 168
+    },
     "pixel_sha256": "3f383c7e49db4feb9a4adbb49ebc5193ab298130ecb96b22f931410ee6a36f77",
     "size": [
       544,
@@ -1190,6 +2050,16 @@
     ]
   },
   "maze_71": {
+    "maze_header": {
+      "htype1": 131,
+      "htype2": 65,
+      "level_flags": 32832,
+      "playfield_colors": 52,
+      "playfield_patterns": 2,
+      "secret_trick": 6,
+      "vtype1": 133,
+      "vtype2": 90
+    },
     "pixel_sha256": "3105ebaf5391741395ba06fa7e6b1102f09c21f96b615db7262d8c76a123ac53",
     "size": [
       560,
@@ -1197,6 +2067,16 @@
     ]
   },
   "maze_72": {
+    "maze_header": {
+      "htype1": 129,
+      "htype2": 190,
+      "level_flags": 2097152,
+      "playfield_colors": 236,
+      "playfield_patterns": 68,
+      "secret_trick": 1,
+      "vtype1": 14,
+      "vtype2": 93
+    },
     "pixel_sha256": "be9fd3dd2a39f18e884f14bd468a605106be552a35fd2795b46043a9829e3575",
     "size": [
       560,
@@ -1204,6 +2084,16 @@
     ]
   },
   "maze_73": {
+    "maze_header": {
+      "htype1": 69,
+      "htype2": 126,
+      "level_flags": 4,
+      "playfield_colors": 240,
+      "playfield_patterns": 43,
+      "secret_trick": 4,
+      "vtype1": 9,
+      "vtype2": 152
+    },
     "pixel_sha256": "f7deaed1a946e379d9f319573f7b1f66bfae589c7453297631f557b146cba5e2",
     "size": [
       560,
@@ -1211,6 +2101,16 @@
     ]
   },
   "maze_74": {
+    "maze_header": {
+      "htype1": 13,
+      "htype2": 69,
+      "level_flags": 16432,
+      "playfield_colors": 159,
+      "playfield_patterns": 49,
+      "secret_trick": 7,
+      "vtype1": 72,
+      "vtype2": 65
+    },
     "pixel_sha256": "e36a0d851014c4225ed48558d615c7bf87ffc8ca8091932cc25cd57592120e7d",
     "size": [
       544,
@@ -1218,6 +2118,16 @@
     ]
   },
   "maze_75": {
+    "maze_header": {
+      "htype1": 89,
+      "htype2": 110,
+      "level_flags": 48,
+      "playfield_colors": 140,
+      "playfield_patterns": 96,
+      "secret_trick": 1,
+      "vtype1": 126,
+      "vtype2": 76
+    },
     "pixel_sha256": "aeb12ed0897e17041473fcb117ede19c997faa49e1eb685f1e4df1bbb24d80e5",
     "size": [
       544,
@@ -1225,6 +2135,16 @@
     ]
   },
   "maze_76": {
+    "maze_header": {
+      "htype1": 72,
+      "htype2": 89,
+      "level_flags": 40,
+      "playfield_colors": 58,
+      "playfield_patterns": 81,
+      "secret_trick": 13,
+      "vtype1": 14,
+      "vtype2": 157
+    },
     "pixel_sha256": "1187529f6b73a0fba057483f100377732c4ea6e4946dfd227e35856418b4ee4c",
     "size": [
       544,
@@ -1232,6 +2152,16 @@
     ]
   },
   "maze_77": {
+    "maze_header": {
+      "htype1": 69,
+      "htype2": 89,
+      "level_flags": 8358720,
+      "playfield_colors": 216,
+      "playfield_patterns": 32,
+      "secret_trick": 11,
+      "vtype1": 92,
+      "vtype2": 157
+    },
     "pixel_sha256": "2307db2932fcb0a4caa63902b269eb5c4fd06381f402dd3689491c215c937dbc",
     "size": [
       560,
@@ -1239,6 +2169,16 @@
     ]
   },
   "maze_78": {
+    "maze_header": {
+      "htype1": 73,
+      "htype2": 139,
+      "level_flags": 18481156,
+      "playfield_colors": 17,
+      "playfield_patterns": 132,
+      "secret_trick": 9,
+      "vtype1": 8,
+      "vtype2": 7
+    },
     "pixel_sha256": "8b5d1ec5c7509664e21ca4e6d5c86c20f8bdca3c00df5dc622039621c0869f0a",
     "size": [
       560,
@@ -1246,6 +2186,16 @@
     ]
   },
   "maze_79": {
+    "maze_header": {
+      "htype1": 92,
+      "htype2": 67,
+      "level_flags": 40,
+      "playfield_colors": 0,
+      "playfield_patterns": 86,
+      "secret_trick": 10,
+      "vtype1": 110,
+      "vtype2": 95
+    },
     "pixel_sha256": "61055160146f9551d3948a4df36c4b80977cde0a7f4312d337e89c9f1b57eeb0",
     "size": [
       544,
@@ -1253,6 +2203,16 @@
     ]
   },
   "maze_8": {
+    "maze_header": {
+      "htype1": 156,
+      "htype2": 71,
+      "level_flags": 4096,
+      "playfield_colors": 72,
+      "playfield_patterns": 130,
+      "secret_trick": 15,
+      "vtype1": 72,
+      "vtype2": 110
+    },
     "pixel_sha256": "8bbe5b0ae7fb1927b2a5e997181b7dfe3e3c911ce2e165090a9beea694dc3c30",
     "size": [
       560,
@@ -1260,6 +2220,16 @@
     ]
   },
   "maze_80": {
+    "maze_header": {
+      "htype1": 73,
+      "htype2": 133,
+      "level_flags": 38,
+      "playfield_colors": 50,
+      "playfield_patterns": 98,
+      "secret_trick": 2,
+      "vtype1": 127,
+      "vtype2": 71
+    },
     "pixel_sha256": "9ae09ead90fbac102e09e326f91d75207b8f672c6c577a427a959a8b755c09e0",
     "size": [
       544,
@@ -1267,6 +2237,16 @@
     ]
   },
   "maze_81": {
+    "maze_header": {
+      "htype1": 13,
+      "htype2": 65,
+      "level_flags": 32,
+      "playfield_colors": 163,
+      "playfield_patterns": 65,
+      "secret_trick": 12,
+      "vtype1": 14,
+      "vtype2": 245
+    },
     "pixel_sha256": "43b528b66bba8628d56f911462395f1806c084ef278acbb71ed43fc0849c76aa",
     "size": [
       544,
@@ -1274,6 +2254,16 @@
     ]
   },
   "maze_82": {
+    "maze_header": {
+      "htype1": 156,
+      "htype2": 110,
+      "level_flags": 32,
+      "playfield_colors": 126,
+      "playfield_patterns": 51,
+      "secret_trick": 7,
+      "vtype1": 9,
+      "vtype2": 14
+    },
     "pixel_sha256": "e4d012dce0228e94c56dabf2cd9f43614308d3cbc1eaaad797c75b6b3b2cbd8e",
     "size": [
       544,
@@ -1281,6 +2271,16 @@
     ]
   },
   "maze_83": {
+    "maze_header": {
+      "htype1": 126,
+      "htype2": 127,
+      "level_flags": 1179648,
+      "playfield_colors": 7,
+      "playfield_patterns": 96,
+      "secret_trick": 1,
+      "vtype1": 85,
+      "vtype2": 154
+    },
     "pixel_sha256": "9ab2493479950427113238096e1b1a0c59b0f05c82cf7e56b67cb2210605fdb0",
     "size": [
       560,
@@ -1288,6 +2288,16 @@
     ]
   },
   "maze_84": {
+    "maze_header": {
+      "htype1": 65,
+      "htype2": 85,
+      "level_flags": 65544,
+      "playfield_colors": 143,
+      "playfield_patterns": 129,
+      "secret_trick": 8,
+      "vtype1": 7,
+      "vtype2": 153
+    },
     "pixel_sha256": "5dfdcf5110fcb7700d25da529e6e62ece2eb11676101c59a39561ff264db9799",
     "size": [
       560,
@@ -1295,6 +2305,16 @@
     ]
   },
   "maze_85": {
+    "maze_header": {
+      "htype1": 13,
+      "htype2": 174,
+      "level_flags": 131072,
+      "playfield_colors": 160,
+      "playfield_patterns": 46,
+      "secret_trick": 7,
+      "vtype1": 65,
+      "vtype2": 93
+    },
     "pixel_sha256": "5674659f99cdaa57e27a3d7dac4eff8af331eea5b0e1569ea01a9fbe6a1545d4",
     "size": [
       560,
@@ -1302,6 +2322,16 @@
     ]
   },
   "maze_86": {
+    "maze_header": {
+      "htype1": 174,
+      "htype2": 72,
+      "level_flags": 0,
+      "playfield_colors": 4,
+      "playfield_patterns": 81,
+      "secret_trick": 3,
+      "vtype1": 14,
+      "vtype2": 156
+    },
     "pixel_sha256": "ba2473f312d9abf22a60523d2a1f5880fbd729ac3e13d6e78ecb23cabde11ad0",
     "size": [
       560,
@@ -1309,6 +2339,16 @@
     ]
   },
   "maze_87": {
+    "maze_header": {
+      "htype1": 181,
+      "htype2": 110,
+      "level_flags": 32,
+      "playfield_colors": 198,
+      "playfield_patterns": 44,
+      "secret_trick": 16,
+      "vtype1": 14,
+      "vtype2": 153
+    },
     "pixel_sha256": "55182e9ed1f66f582c759390c11785640300dd26c46b7726c9dd0594caa39468",
     "size": [
       544,
@@ -1316,6 +2356,16 @@
     ]
   },
   "maze_88": {
+    "maze_header": {
+      "htype1": 95,
+      "htype2": 191,
+      "level_flags": 4352,
+      "playfield_colors": 206,
+      "playfield_patterns": 80,
+      "secret_trick": 8,
+      "vtype1": 181,
+      "vtype2": 67
+    },
     "pixel_sha256": "e5c18b2567787f6bfd3910efcf139806231ea0f1658f73b741946b4b458c4457",
     "size": [
       560,
@@ -1323,6 +2373,16 @@
     ]
   },
   "maze_89": {
+    "maze_header": {
+      "htype1": 13,
+      "htype2": 65,
+      "level_flags": 0,
+      "playfield_colors": 16,
+      "playfield_patterns": 22,
+      "secret_trick": 15,
+      "vtype1": 14,
+      "vtype2": 174
+    },
     "pixel_sha256": "78dc90f8090e2078ca3e96a022029889338d2741e2955b0e4586e7d844a406c9",
     "size": [
       560,
@@ -1330,6 +2390,16 @@
     ]
   },
   "maze_9": {
+    "maze_header": {
+      "htype1": 174,
+      "htype2": 96,
+      "level_flags": 0,
+      "playfield_colors": 114,
+      "playfield_patterns": 80,
+      "secret_trick": 3,
+      "vtype1": 105,
+      "vtype2": 95
+    },
     "pixel_sha256": "bdf9f88d136130f8156878633fbae3d62ee1ce89eb3ecd938a5a406a0cbfdf98",
     "size": [
       560,
@@ -1337,6 +2407,16 @@
     ]
   },
   "maze_90": {
+    "maze_header": {
+      "htype1": 71,
+      "htype2": 117,
+      "level_flags": 8192,
+      "playfield_colors": 122,
+      "playfield_patterns": 65,
+      "secret_trick": 9,
+      "vtype1": 14,
+      "vtype2": 136
+    },
     "pixel_sha256": "1e98130015fa951b95ae19cdd4901960977d6ea76288005536556dc7144e14d9",
     "size": [
       560,
@@ -1344,6 +2424,16 @@
     ]
   },
   "maze_91": {
+    "maze_header": {
+      "htype1": 174,
+      "htype2": 131,
+      "level_flags": 2099200,
+      "playfield_colors": 210,
+      "playfield_patterns": 34,
+      "secret_trick": 10,
+      "vtype1": 93,
+      "vtype2": 111
+    },
     "pixel_sha256": "c34a8a67ae5b752bb62d3daa8954cb63058309dd0fa642c70a439ead01fdae8d",
     "size": [
       560,
@@ -1351,6 +2441,16 @@
     ]
   },
   "maze_92": {
+    "maze_header": {
+      "htype1": 13,
+      "htype2": 110,
+      "level_flags": 543203330,
+      "playfield_colors": 25,
+      "playfield_patterns": 49,
+      "secret_trick": 12,
+      "vtype1": 14,
+      "vtype2": 71
+    },
     "pixel_sha256": "0d692e4c6252f80cda6076a4f008fc20a4e4ae0f7389cd41acab3125c4f9c747",
     "size": [
       560,
@@ -1358,6 +2458,16 @@
     ]
   },
   "maze_93": {
+    "maze_header": {
+      "htype1": 13,
+      "htype2": 67,
+      "level_flags": 2147483696,
+      "playfield_colors": 30,
+      "playfield_patterns": 18,
+      "secret_trick": 10,
+      "vtype1": 14,
+      "vtype2": 158
+    },
     "pixel_sha256": "224c32c51f8ab4f96e2da0c1113762659870c0689734b26527fc34f0b4506bdc",
     "size": [
       544,
@@ -1365,6 +2475,16 @@
     ]
   },
   "maze_94": {
+    "maze_header": {
+      "htype1": 157,
+      "htype2": 71,
+      "level_flags": 21504,
+      "playfield_colors": 83,
+      "playfield_patterns": 113,
+      "secret_trick": 16,
+      "vtype1": 14,
+      "vtype2": 94
+    },
     "pixel_sha256": "8cc84c7c768ccbe9436a0510bafad4bd82055fa760ac5fc0212ece5e5134f965",
     "size": [
       560,
@@ -1372,6 +2492,16 @@
     ]
   },
   "maze_95": {
+    "maze_header": {
+      "htype1": 110,
+      "htype2": 93,
+      "level_flags": 41,
+      "playfield_colors": 192,
+      "playfield_patterns": 44,
+      "secret_trick": 2,
+      "vtype1": 92,
+      "vtype2": 129
+    },
     "pixel_sha256": "68c077b4b42bac5f8d95ce9fffdc3f572d03d0fd3b4a3dd12b1374fbd25d1b80",
     "size": [
       544,
@@ -1379,6 +2509,16 @@
     ]
   },
   "maze_96": {
+    "maze_header": {
+      "htype1": 7,
+      "htype2": 9,
+      "level_flags": 2147484677,
+      "playfield_colors": 206,
+      "playfield_patterns": 33,
+      "secret_trick": 13,
+      "vtype1": 14,
+      "vtype2": 8
+    },
     "pixel_sha256": "530c2857ce333083f4ab2e289b6a68462d542a8ad95fe1f1ca1dde3f089eefc3",
     "size": [
       560,
@@ -1386,6 +2526,16 @@
     ]
   },
   "maze_97": {
+    "maze_header": {
+      "htype1": 174,
+      "htype2": 181,
+      "level_flags": 2,
+      "playfield_colors": 225,
+      "playfield_patterns": 0,
+      "secret_trick": 12,
+      "vtype1": 14,
+      "vtype2": 77
+    },
     "pixel_sha256": "30c99486d4647109ee4c4b5161ce5ec35dd638111c37cffd0401271cfa0864be",
     "size": [
       560,
@@ -1393,6 +2543,16 @@
     ]
   },
   "maze_98": {
+    "maze_header": {
+      "htype1": 6,
+      "htype2": 156,
+      "level_flags": 32,
+      "playfield_colors": 124,
+      "playfield_patterns": 4,
+      "secret_trick": 14,
+      "vtype1": 14,
+      "vtype2": 174
+    },
     "pixel_sha256": "2404c189ec385862386db6c9c1dee3db8f86b938b994204ff00c266f0045b41e",
     "size": [
       544,
@@ -1400,6 +2560,16 @@
     ]
   },
   "maze_99": {
+    "maze_header": {
+      "htype1": 154,
+      "htype2": 191,
+      "level_flags": 16777248,
+      "playfield_colors": 76,
+      "playfield_patterns": 84,
+      "secret_trick": 9,
+      "vtype1": 117,
+      "vtype2": 93
+    },
     "pixel_sha256": "8b3ede7de63c1e19817620b3abb026a14ebaf4c6016358ccce2be27a4d4cdfc8",
     "size": [
       544,

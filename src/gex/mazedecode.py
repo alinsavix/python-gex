@@ -159,7 +159,14 @@ def _token_floor(maze: Maze, location: int, token: int) -> int:
     return location
 
 
-def maze_decompress(compressed: list[int], metaonly: bool = False) -> Maze:
+def maze_decompress(
+    compressed: list[int], metaonly: bool = False, allow_missing_delimiter: bool = False
+) -> Maze:
+    """Decode one maze record.
+
+    ``allow_missing_delimiter`` is used for maze 116, whose live stream reaches
+    the output limit while overlapping the bank table and has no trailing zero.
+    """
     maze = Maze()
     maze.encodedbytes = len(compressed)
     maze.secret = compressed[0] & 0x1F
@@ -188,7 +195,7 @@ def maze_decompress(compressed: list[int], metaonly: bool = False) -> Maze:
     end = len(compressed)
 
     while location < 1024:
-        if pos >= end or compressed[pos] == 0:
+        if pos >= end:
             print("WARNING: Read end of maze datastream before maze full.")
             break
 
@@ -206,7 +213,11 @@ def maze_decompress(compressed: list[int], metaonly: bool = False) -> Maze:
             location = _token_floor(maze, location, token)
 
     remaining = end - pos
-    if remaining != 1 or compressed[pos] != 0:
-        print(f"WARNING: Incomplete maze decode? ({remaining} bytes remaining)")
+    if (
+        not allow_missing_delimiter
+        and location >= 1024
+        and (remaining < 1 or compressed[pos] != 0)
+    ):
+        print(f"WARNING: Missing maze record delimiter? ({remaining} bytes remaining)")
 
     return maze

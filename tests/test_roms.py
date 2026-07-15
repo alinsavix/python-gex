@@ -10,8 +10,10 @@ from gex.roms import (
     Romset,
     coderom_get_by_addr,
     slapstic_maze_get_bank,
+    slapstic_maze_get_real_addr,
     CODE_ROM_START,
     SLAPSTIC_BANK_INFO,
+    MAX_MAZE_NUM,
 )
 
 
@@ -68,7 +70,7 @@ class TestCoderomGetByAddr:
 
 class TestSlapsticMazeGetBank:
     def test_valid_maze_range(self):
-        for i in range(117):
+        for i in range(MAX_MAZE_NUM + 1):
             bank = slapstic_maze_get_bank(i)
             assert 0 <= bank <= 3
 
@@ -84,6 +86,11 @@ class TestSlapsticMazeGetBank:
     def test_invalid_too_high(self):
         with pytest.raises(GexError):
             slapstic_maze_get_bank(117)
+
+    def test_raw_aperture_pointer_is_normalized_by_bank(self, monkeypatch):
+        import gex.roms as roms
+        monkeypatch.setattr(roms, "slapstic_read_maze_offset", lambda _n: 0x38000)
+        assert slapstic_maze_get_real_addr(33) == 0x3A000
 
 
 class TestGexError:

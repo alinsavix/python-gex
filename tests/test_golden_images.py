@@ -249,7 +249,7 @@ class TestMonsterGolden:
 
 import os as _os
 _ALL_MAZES = list(range(117))
-_DEFAULT_MAZES = [0, 10, 25, 50, 100, 116]
+_DEFAULT_MAZES = [0, 10, 25, 50, 100, 115]
 _MAZE_PARAMS = _ALL_MAZES if _os.environ.get("GEX_TEST_ALL_MAZES") else _DEFAULT_MAZES
 
 

@@ -197,6 +197,17 @@ class TestMazeDecompress:
         maze = maze_decompress(data)
         assert maze.encodedbytes == len(data)
 
+    def test_zero_literal_inside_stream_is_not_a_terminator(self, capsys):
+        body = [0]  # literal floor token
+        remaining = 991
+        while remaining > 0:
+            chunk = min(remaining, 32)
+            body.append(0xC0 | (chunk - 1))
+            remaining -= chunk
+        body.append(0)  # storage delimiter after the decoder reaches 0x400
+        maze_decompress(self._minimal_compressed(body=body))
+        assert "before maze full" not in capsys.readouterr().out
+
 
 class TestMazeDataclass:
     def test_defaults(self):

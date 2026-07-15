@@ -35,7 +35,11 @@ def domaze(arg: str, output: str, verbose: bool) -> None:
             maze_meta = True
 
     print(f"Maze number: {maze_num}")
-    maze = maze_decompress(slapstic_read_maze(maze_num), maze_meta)
+    maze = maze_decompress(
+        slapstic_read_maze(maze_num),
+        maze_meta,
+        allow_missing_delimiter=maze_num == MAX_MAZE_NUM,
+    )
 
     if verbose or maze_meta:
         maze_meta_print(maze)

@@ -158,6 +158,7 @@ TRICK_BEPUSHY = 0x0F
 TRICK_IT = 0x10
 TRICK_NOHURTFRIENDS = 0x11
 
+# Pointer-table entry 116 starts the second secret-room layout at 0x3FE48.
 MAX_MAZE_NUM = 116
 
 MAZE_SECRET_STRINGS: dict[int, str] = {

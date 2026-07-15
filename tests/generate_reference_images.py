@@ -13,6 +13,7 @@ tests/reference_images/.
 from __future__ import annotations
 
 import hashlib
+import csv
 import json
 import os
 import sys
@@ -37,9 +38,16 @@ from gex.items import item_get_stamp
 from gex.door import door_get_stamp, DOOR_HORIZ, DOOR_VERT
 from gex.monsters import domonster
 from gex.maze import domaze
-from gex.roms import _rom_dir, TILE_ROMS
+from gex.roms import (
+    CODE_ROMS,
+    SLAPSTIC_ROMS,
+    TILE_ROMS,
+    _rom_dir,
+    slapstic_read_maze,
+)
 
 REF_DIR = Path(__file__).resolve().parent / "reference_images"
+MAZE_CATALOG = Path(__file__).resolve().parents[2] / "doc" / "maze_catalog.csv"
 
 
 def _pixel_sha256(img: Image.Image) -> str:
@@ -54,14 +62,66 @@ def _stamp_to_image(stamp) -> Image:
     return img
 
 
+def _required_rom_names() -> list[str]:
+    groups = TILE_ROMS + CODE_ROMS + [SLAPSTIC_ROMS]
+    return sorted({name for group in groups for name in group})
+
+
+def _maze_catalog_metadata() -> dict[int, dict[str, int]]:
+    """Validate all raw maze headers against the canonical generated catalog."""
+    with MAZE_CATALOG.open(newline="") as stream:
+        catalog = {int(row["maze"]): row for row in csv.DictReader(stream)}
+    if set(catalog) != set(range(117)):
+        raise RuntimeError(f"{MAZE_CATALOG} does not contain exactly mazes 0 through 116")
+
+    result: dict[int, dict[str, int]] = {}
+    for maze_num in range(117):
+        row = catalog[maze_num]
+        raw = slapstic_read_maze(maze_num)
+        metadata = {
+            "secret_trick": raw[0],
+            "level_flags": int.from_bytes(raw[1:5], "big"),
+            "playfield_patterns": raw[5],
+            "playfield_colors": raw[6],
+            "htype1": raw[7],
+            "htype2": raw[8],
+            "vtype1": raw[9],
+            "vtype2": raw[10],
+        }
+        expected = {
+            key: int(row[key], 16)
+            for key in metadata
+        }
+        if metadata != expected:
+            raise RuntimeError(
+                f"maze {maze_num} header differs from {MAZE_CATALOG}: "
+                f"ROM={metadata}, catalog={expected}"
+            )
+        expected_span = int(row["record_size"]) + int(
+            row["bytes_after_record_to_boundary"]
+        )
+        if len(raw) != expected_span:
+            raise RuntimeError(
+                f"maze {maze_num} pointer span {len(raw)} != catalog span {expected_span}"
+            )
+        result[maze_num] = metadata
+    return result
+
+
 def main() -> None:
     rom_dir = _rom_dir()
-    if not rom_dir.is_dir() or not (rom_dir / TILE_ROMS[0][0]).is_file():
-        print(f"ERROR: ROM files not found at {rom_dir}", file=sys.stderr)
+    missing = [name for name in _required_rom_names() if not (rom_dir / name).is_file()]
+    if missing:
+        print(
+            f"ERROR: {len(missing)} required ROM files not found at {rom_dir}: "
+            + ", ".join(missing),
+            file=sys.stderr,
+        )
         sys.exit(1)
 
     REF_DIR.mkdir(parents=True, exist_ok=True)
     manifest: dict[str, dict] = {}
+    maze_metadata = _maze_catalog_metadata()
 
     # --- Single tiles ---
     for tilenum in [0x11, 0x100, 0x1C1]:
@@ -172,13 +232,24 @@ def main() -> None:
         img = Image.open(path)
         manifest[name] = {"pixel_sha256": _pixel_sha256(img), "size": list(img.size)}
 
-    # --- Mazes (full render, all 117 levels) ---
+    # --- Mazes (all 117 records, numbered 0 through 116) ---
     for maze_num in range(117):
         name = f"maze_{maze_num}"
         path = str(REF_DIR / f"{name}.png")
         domaze(f"maze{maze_num}", path, False)
         img = Image.open(path)
-        manifest[name] = {"pixel_sha256": _pixel_sha256(img), "size": list(img.size)}
+        manifest[name] = {
+            "pixel_sha256": _pixel_sha256(img),
+            "size": list(img.size),
+            "maze_header": maze_metadata[maze_num],
+        }
+
+    # A successful complete render owns the maze_N.png namespace. Remove old
+    # stale out-of-range artifacts.
+    expected_maze_files = {f"maze_{maze_num}.png" for maze_num in range(117)}
+    for path in REF_DIR.glob("maze_*.png"):
+        if path.name not in expected_maze_files:
+            path.unlink()
 
     # --- Write manifest ---
     manifest_path = REF_DIR / "manifest.json"

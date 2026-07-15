@@ -10,6 +10,7 @@ All tests are skipped automatically if the ROMs directory is not found.
 
 from __future__ import annotations
 
+import csv
 import os
 import tempfile
 from pathlib import Path
@@ -381,7 +382,11 @@ class TestMazeFromRom:
         for i in range(117):
             data = slapstic_read_maze(i)
             assert len(data) > 11
-            assert data[-1] == 0
+            if i < 116:
+                assert data[-1] == 0
+            else:
+                assert len(data) == 0x1B8
+                assert data[-1] == 0x0E
 
     def test_decompress_maze_0(self):
         from gex.roms import slapstic_read_maze
@@ -409,9 +414,9 @@ class TestMazeFromRom:
     def test_decompress_various_mazes(self):
         from gex.roms import slapstic_read_maze
         from gex.mazedecode import maze_decompress
-        for maze_num in [0, 10, 50, 100, 116]:
+        for maze_num in [0, 10, 50, 100, 115, 116]:
             data = slapstic_read_maze(maze_num)
-            maze = maze_decompress(data)
+            maze = maze_decompress(data, allow_missing_delimiter=maze_num == 116)
             # Every decompressed maze should have the first row as walls
             for x in range(32):
                 assert maze.data[(x, 0)] == 2  # WALL_REGULAR
@@ -537,10 +542,37 @@ class TestCLI:
 
 class TestSlapsticIntegration:
     def test_maze_addr_resolution(self):
-        from gex.roms import slapstic_maze_get_real_addr
+        from gex.roms import slapstic_maze_get_bank, slapstic_maze_get_real_addr
         for i in range(117):
             addr = slapstic_maze_get_real_addr(i)
-            assert addr >= 0
+            bank = slapstic_maze_get_bank(i)
+            assert 0x38000 + bank * 0x2000 <= addr < 0x3A000 + bank * 0x2000
+
+    def test_bank_boundary_addresses_are_monotonic(self):
+        from gex.roms import slapstic_maze_get_real_addr
+        addresses = [slapstic_maze_get_real_addr(i) for i in range(117)]
+        assert addresses == sorted(addresses)
+        assert addresses[33] >= 0x3A000
+        assert addresses[63] >= 0x3C000
+        assert addresses[89] >= 0x3E000
+
+    def test_split_chip_pointers_match_canonical_catalog(self):
+        from gex.roms import (
+            _slapstic_pointer_get_real_addr,
+            slapstic_maze_get_real_addr,
+        )
+        catalog_path = Path(__file__).resolve().parents[2] / "doc" / "maze_catalog.csv"
+        with catalog_path.open(newline="") as stream:
+            catalog = list(csv.DictReader(stream))
+        assert len(catalog) == 117
+        assert [slapstic_maze_get_real_addr(i) for i in range(117)] == [
+            int(row["pointer"], 16) for row in catalog
+        ]
+        last = catalog[-1]
+        assert _slapstic_pointer_get_real_addr(116) == 0x3FE48
+        assert int(last["record_size"]) == 0x1A7
+        assert int(last["bytes_after_record_to_boundary"]) == 0x11
+        assert int(last["bank_table_overlap_bytes"]) == 0x0F
 
     def test_maze_offset_readable(self):
         from gex.roms import slapstic_read_maze_offset
